@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aiops.api.mapper.ServiceInfoMapper">
+
+    <select id="selectList" resultType="com.aiops.api.entity.ServiceInfo"
+            parameterType="com.aiops.api.entity.dto.ServiceInfoSearchDto">
+        select * from service_info
+        <where>
+            <if test="serviceId">
+                and service_id=#{serviceId}
+            </if>
+            <if test="name">
+                and name=#{name}
+            </if>
+            <if test="serviceContainerId">
+                and service_container_id=#{serviceContainerId}
+            </if>
+            <if test="addTimeFrom">
+                and add_timestamp <![CDATA[ >= ]]> #{addTimeFrom}
+            </if>
+            <if test="addTimeTo">
+                and add_timestamp <![CDATA[ <= ]]> #{addTimeTo}
+            </if>
+        </where>
+    </select>
+</mapper>
