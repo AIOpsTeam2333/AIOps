@@ -10,7 +10,7 @@
                 and service_id=#{serviceId}
             </if>
             <if test="name">
-                and name=#{name}
+                and name like "%"#{name}"%"
             </if>
             <if test="serviceContainerId">
                 and service_container_id=#{serviceContainerId}
@@ -22,5 +22,13 @@
                 and add_timestamp <![CDATA[ <= ]]> #{addTimeTo}
             </if>
         </where>
+    </select>
+
+    <select id="selectTotalServiceCount" resultType="java.lang.Integer">
+        SELECT COUNT(*)
+        FROM service_container_info sci
+        LEFT JOIN service_info si
+        ON sci.service_container_id=si.service_container_id
+        WHERE sci.is_in_use=TRUE
     </select>
 </mapper>

@@ -4,13 +4,16 @@ import com.aiops.api.dao.ServiceContainerInfoDao;
 import com.aiops.api.dao.ServiceInfoDao;
 import com.aiops.api.entity.ServiceContainerInfo;
 import com.aiops.api.entity.ServiceInfo;
+import com.aiops.api.entity.dto.ServiceBasicInfoDto;
 import com.aiops.api.entity.dto.ServiceContainerInfoSearchDto;
 import com.aiops.api.entity.dto.ServiceInfoSearchDto;
+import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,6 +30,8 @@ import java.util.List;
 @Controller
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @RequestMapping("/service")
+@ResponseBody
+@Api(tags = {"Service查询"})
 public class ServiceController {
 
     private final ServiceContainerInfoDao serviceContainerInfoDao;
@@ -39,7 +44,26 @@ public class ServiceController {
         binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, false));
     }
 
+    @Transactional
+    @ApiOperation(value = "获取Service相关的概览")
+    @GetMapping("/info")
+    public ServiceBasicInfoDto getBasicInfo() {
+        ServiceBasicInfoDto result = new ServiceBasicInfoDto();
+        result.setCurrentRunningServiceContainerCount(serviceContainerInfoDao.selectCurrentRunningContainerCount());
+        result.setTotalServiceCount(serviceInfoDao.selectTotalServiceCount());
+        return result;
+    }
 
+    @Transactional
+    @ApiOperation(value = "获取Service信息")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "service_id", value = "Service的Id", dataType = "integer", paramType = "query", example = "1"),
+            @ApiImplicitParam(name = "name", value = "Service名称, 按名称查询, 部分匹配", paramType = "query", dataType = "string"),
+            @ApiImplicitParam(name = "service_container_id", value = "Service所属的Container的Id", paramType = "query", dataType = "string"),
+            @ApiImplicitParam(name = "add_time_from", value = "添加时间筛选起点, 格式为yyyy-MM-dd HH:mm:ss", paramType = "query", dataType = "date", format = "yyyy-MM-dd HH:mm:ss"),
+            @ApiImplicitParam(name = "add_time_to", value = "添加时间筛选终点, 格式为yyyy-MM-dd HH:mm:ss", paramType = "query", dataType = "date", format = "yyyy-MM-dd HH:mm:ss")
+    })
+    @GetMapping("/service")
     public List<ServiceInfo> getServiceInfos(
             @RequestParam(name = "service_id", required = false) Integer serviceId,
             @RequestParam(name = "name", required = false) String name,
@@ -56,8 +80,19 @@ public class ServiceController {
         return serviceInfoDao.selectServiceInfo(dto);
     }
 
+    @Transactional
+    @ApiOperation(value = "获取ServiceContainer信息")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "service_container_id", value = "Container的Id", paramType = "query", dataType = "string"),
+            @ApiImplicitParam(name = "os", value = "Container的操作系统,可输入系统名前缀和版本号,不区分大小写", paramType = "query", dataType = "string"),
+            @ApiImplicitParam(name = "ip", value = "ip地址", paramType = "query", dataType = "string"),
+            @ApiImplicitParam(name = "add_time_from", value = "添加时间筛选起点, 格式为yyyy-MM-dd HH:mm:ss", paramType = "query", dataType = "date", format = "yyyy-MM-dd HH:mm:ss"),
+            @ApiImplicitParam(name = "add_time_to", value = "添加时间筛选终点, 格式为yyyy-MM-dd HH:mm:ss", paramType = "query", dataType = "date", format = "yyyy-MM-dd HH:mm:ss"),
+            @ApiImplicitParam(name = "is_in_use", value = "是否还在使用", paramType = "query", dataType = "boolean"),
+            @ApiImplicitParam(name = "deprecated_time_from", value = "弃用时间筛选起点, 格式为yyyy-MM-dd HH:mm:ss", paramType = "query", dataType = "date", format = "yyyy-MM-dd HH:mm:ss"),
+            @ApiImplicitParam(name = "deprecated_time_to", value = "弃用时间筛选终点, 格式为yyyy-MM-dd HH:mm:ss", paramType = "query", dataType = "date", format = "yyyy-MM-dd HH:mm:ss")
+    })
     @GetMapping("/container")
-    @ResponseBody
     public List<ServiceContainerInfo> getServiceContainerInfos(
             @RequestParam(name = "service_container_id", required = false) String id,
             @RequestParam(name = "os", required = false) String os,

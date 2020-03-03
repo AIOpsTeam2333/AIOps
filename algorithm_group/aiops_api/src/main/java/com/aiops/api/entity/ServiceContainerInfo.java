@@ -1,6 +1,7 @@
 package com.aiops.api.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -29,11 +30,15 @@ public class ServiceContainerInfo implements Serializable {
     private String ip;
 
     @Column(name = "add_timestamp")
+    @ApiModelProperty(example = "2000-01-01 00:00:00")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date addTimestamp;
 
     @Column(name = "is_in_use")
     private Boolean isInUse;
 
+    @ApiModelProperty(example = "2000-01-01 00:00:00")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @Column(name = "deprecated_timestamp")
     private Date deprecatedTimestamp;
 }

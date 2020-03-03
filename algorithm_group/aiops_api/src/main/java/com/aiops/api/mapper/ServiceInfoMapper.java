@@ -15,4 +15,6 @@ import java.util.List;
 public interface ServiceInfoMapper extends MyMapper<ServiceInfo> {
 
     List<ServiceInfo> selectList(ServiceInfoSearchDto serviceInfoSearchDto);
+
+    Integer selectTotalServiceCount();
 }

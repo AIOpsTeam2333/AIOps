@@ -21,7 +21,7 @@
             <if test="addTimeTo">
                 and add_timestamp <![CDATA[ <= ]]> #{addTimeTo}
             </if>
-            <if test="isInUse">
+            <if test="isInUse!=null">
                 and is_in_use = #{isInUse}
             </if>
             <if test="deprecatedTimeFrom">

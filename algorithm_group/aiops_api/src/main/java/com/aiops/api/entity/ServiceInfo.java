@@ -1,5 +1,7 @@
 package com.aiops.api.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import javax.persistence.Column;
@@ -28,7 +30,9 @@ public class ServiceInfo {
     @Column(name = "service_container_id")
     private String serviceContainerId;
 
+    @ApiModelProperty(example = "2000-01-01 00:00:00")
     @Column(name = "add_timestamp")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date addTimestamp;
 
 }

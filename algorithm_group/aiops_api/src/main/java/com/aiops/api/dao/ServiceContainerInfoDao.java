@@ -43,4 +43,11 @@ public class ServiceContainerInfoDao {
             return new ArrayList<>();
         }
     }
+
+    public Integer selectCurrentRunningContainerCount() {
+        ServiceContainerInfo serviceContainerInfo = new ServiceContainerInfo();
+        serviceContainerInfo.setIsInUse(true);
+
+        return serviceContainerInfoMapper.selectCount(serviceContainerInfo);
+    }
 }
