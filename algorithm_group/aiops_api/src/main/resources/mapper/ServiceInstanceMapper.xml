@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aiops.api.mapper.ServiceInstanceMapper">
+
+    <resultMap id="serviceInstance" type="com.aiops.api.entity.ServiceInstance">
+        <id column="service_instance_id" property="serviceInstanceId"/>
+        <result column="service_id" property="serviceId"/>
+        <result column="i_name" property="name"/>
+        <result column="language" property="language"/>
+        <collection property="attributes" ofType="com.aiops.api.entity.ServiceInstanceAttribute">
+            <result column="a_name" property="name"/>
+            <result column="value" property="value"/>
+        </collection>
+    </resultMap>
+
+    <select id="selectList" resultMap="serviceInstance"
+            parameterType="com.aiops.api.entity.dto.ServiceInstanceSearchDto">
+        select si.service_instance_id service_instance_id, si.service_id service_id, si.name i_name, si.language
+        `language`
+        , sia.name a_name, sia.value `value`
+        from service_instance si
+        left join service_instance_attribute sia
+        on si.service_instance_id=sia.service_instance_id
+        <where>
+            <if test="serviceInstanceId">
+                and si.service_instance_id = #{serviceInstanceId}
+            </if>
+            <if test="serviceId">
+                and si.service_id = #{serviceId}
+            </if>
+            <if test="name">
+                and si.name like "%"#{name}"%"
+            </if>
+            <if test="language">
+                and si.language = #{language}
+            </if>
+            <if test="uuid">
+                and si.instance_uuid = #{uuid}
+            </if>
+        </where>
+    </select>
+</mapper>

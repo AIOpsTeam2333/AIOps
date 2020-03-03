@@ -1,8 +1,8 @@
 package com.aiops.api.dao;
 
-import com.aiops.api.entity.ServiceInfo;
-import com.aiops.api.entity.dto.ServiceInfoSearchDto;
-import com.aiops.api.mapper.ServiceInfoMapper;
+import com.aiops.api.entity.Service;
+import com.aiops.api.entity.dto.ServiceSearchDto;
+import com.aiops.api.mapper.ServiceMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,20 +18,16 @@ import java.util.List;
 @Slf4j
 @Repository
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
-public class ServiceInfoDao {
+public class ServiceDao {
 
-    private final ServiceInfoMapper serviceInfoMapper;
+    private final ServiceMapper serviceMapper;
 
-    public List<ServiceInfo> selectServiceInfo(ServiceInfoSearchDto dto) {
+    public List<Service> selectServiceInfo(ServiceSearchDto dto) {
         try {
-            return serviceInfoMapper.selectList(dto);
+            return serviceMapper.selectList(dto);
         } catch (Exception e) {
             log.error(e.getMessage());
             return new ArrayList<>();
         }
-    }
-
-    public Integer selectTotalServiceCount() {
-        return serviceInfoMapper.selectTotalServiceCount();
     }
 }

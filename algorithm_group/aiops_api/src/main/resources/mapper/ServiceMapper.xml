@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aiops.api.mapper.ServiceMapper">
+
+    <select id="selectList" resultType="com.aiops.api.entity.Service"
+            parameterType="com.aiops.api.entity.dto.ServiceSearchDto">
+        select * from service
+        <where>
+            <if test="serviceId">
+                and service_id=#{serviceId}
+            </if>
+            <if test="name">
+                and name like "%"#{name}"%"
+            </if>
+        </where>
+    </select>
+</mapper>
