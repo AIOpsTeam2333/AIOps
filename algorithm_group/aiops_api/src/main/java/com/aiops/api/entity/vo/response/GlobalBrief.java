@@ -1,4 +1,4 @@
-package com.aiops.api.entity.dto;
+package com.aiops.api.entity.vo.response;
 
 import lombok.Data;
 

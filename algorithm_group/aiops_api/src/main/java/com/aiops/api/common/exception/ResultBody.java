@@ -1,7 +1,5 @@
-package com.aiops.api.common;
+package com.aiops.api.common.exception;
 
-import com.aiops.api.common.exception.BaseErrorInfoInterface;
-import com.aiops.api.common.exception.CommonEnum;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
