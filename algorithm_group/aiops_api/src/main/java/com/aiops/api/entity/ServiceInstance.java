@@ -14,7 +14,7 @@ import java.util.List;
  * @create 2020-03-04 0:11
  **/
 @Data
-@Table(name = "service_instance")
+@Table(name = "metadata_service_instance")
 @ApiModel(description = "服务实例")
 public class ServiceInstance {
 

@@ -11,7 +11,7 @@ import javax.persistence.Table;
  * @create 2020-03-04 0:13
  **/
 @Data
-@Table(name = "service_instance_attribute")
+@Table(name = "metadata_service_instance_attribute")
 @ApiModel(description = "服务实例属性")
 public class ServiceInstanceAttribute {
 

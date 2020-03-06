@@ -12,7 +12,7 @@ import javax.persistence.Table;
  * @create 2020-03-03 23:52
  **/
 @Data
-@Table(name = "service_endpoint")
+@Table(name = "metadata_service_endpoint")
 @ApiModel(description = "服务端点")
 public class ServiceEndpoint {
 

@@ -6,8 +6,10 @@ import lombok.Data;
  * @create 2020-03-02 19:17
  **/
 @Data
-public class ServiceSearchDto {
-    private Integer serviceId;
+public class ServiceNodeSearchDto {
+    private Integer nodeId;
 
     private String name;
+
+    private String nodeType;
 }

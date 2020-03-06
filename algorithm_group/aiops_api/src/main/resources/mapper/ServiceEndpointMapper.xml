@@ -4,7 +4,7 @@
 
     <select id="selectList" resultType="com.aiops.api.entity.ServiceEndpoint"
             parameterType="com.aiops.api.entity.dto.ServiceEndpointSearchDto">
-        select * from service_endpoint
+        select * from metadata_service_endpoint
         <where>
             <if test="serviceEndpointId">
                 and service_endpoint_id = #{serviceEndpointId}

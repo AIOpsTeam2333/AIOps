@@ -18,8 +18,8 @@
         select si.service_instance_id service_instance_id, si.service_id service_id, si.name i_name, si.language
         `language`
         , sia.name a_name, sia.value `value`
-        from service_instance si
-        left join service_instance_attribute sia
+        from metadata_service_instance si
+        left join metadata_service_instance_attribute sia
         on si.service_instance_id=sia.service_instance_id
         <where>
             <if test="serviceInstanceId">

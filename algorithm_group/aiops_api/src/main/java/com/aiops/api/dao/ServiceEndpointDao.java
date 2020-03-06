@@ -24,4 +24,9 @@ public class ServiceEndpointDao {
     public List<ServiceEndpoint> queryServiceEndpoint(ServiceEndpointSearchDto dto) {
         return serviceEndpointMapper.selectList(dto);
     }
+
+    public Integer countAll() {
+        ServiceEndpoint endpoint = new ServiceEndpoint();
+        return serviceEndpointMapper.selectCount(endpoint);
+    }
 }
