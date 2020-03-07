@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+        targetNamespace="kpidatabase"
+        elementFormDefault="qualified"
+        xmlns:kd="kpidatabase">
+
+    <element name="database">
+        <complexType>
+            <sequence>
+                <element name="class" maxOccurs="unbounded" type="kd:class"/>
+            </sequence>
+        </complexType>
+    </element>
+
+    <simpleType name="kpi">
+        <restriction>
+            <enumeration value="p50"/>
+            <enumeration value="p75"/>
+            <enumeration value="p90"/>
+            <enumeration value="p95"/>
+            <enumeration value="p99"/>
+            <enumeration value="heatmap"/>
+            <enumeration value="response_time"/>
+            <enumeration value="throughput"/>
+            <enumeration value="sla"/>
+            <enumeration value="apdex_score"/>
+            <enumeration value="heap"/>
+            <enumeration value="max_heap"/>
+            <enumeration value="non_heap"/>
+            <enumeration value="max_non_heap"/>
+            <enumeration value="young_gc_time"/>
+            <enumeration value="old_gc_time"/>
+            <enumeration value="young_gc_count"/>
+            <enumeration value="old_gc_count"/>
+            <enumeration value="cpu"/>
+            <enumeration value="clr_cpu"/>
+            <enumeration value="clr_gc_gen0"/>
+            <enumeration value="clr_gc_gen1"/>
+            <enumeration value="clr_gc_gen2"/>
+            <enumeration value="clr_heap"/>
+        </restriction>
+    </simpleType>
+
+    <simpleType name="class_name">
+        <restriction>
+            <enumeration value="all"/>
+            <enumeration value="service"/>
+            <enumeration value="endpoint"/>
+            <enumeration value="instance"/>
+            <enumeration value="database"/>
+        </restriction>
+    </simpleType>
+
+    <simpleType name="data_type">
+        <restriction>
+            <enumeration value="int"/>
+            <enumeration value="varchar(255)"/>
+            <enumeration value="timestamp"/>
+            <enumeration value="boolean"/>
+            <enumeration value="double"/>
+        </restriction>
+    </simpleType>
+    
+    <complexType name="class">
+        <sequence>
+            <element name="table" minOccurs="0" maxOccurs="unbounded" type="kd:table"/>
+        </sequence>
+        <attribute name="name" use="required" type="kd:class_name"/>
+    </complexType>
+
+    <complexType name="table">
+        <sequence>
+            <element name="kpi" type="kd:kpi" maxOccurs="unbounded"/>
+            <element name="column" maxOccurs="unbounded" type="kd:column"/>
+        </sequence>
+    </complexType>
+
+    <complexType name="column">
+        <sequence>
+            <element name="name" type="string"/>
+            <element name="type" type="kd:data_type"/>
+            <element name="primary" type="boolean" minOccurs="0"/>
+        </sequence>
+    </complexType>
+</schema>
