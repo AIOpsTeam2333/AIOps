@@ -12,7 +12,7 @@ import java.util.List;
 public class DatabaseKpiAll {
 
     private GlobalBrief globalBrief;
-
+    private PercentileGraph globalPercentile;
     private List<CrossAxisGraphPoint> databaseResponseTime;
     private List<CrossAxisGraphPoint> databaseThroughput;
     private List<CrossAxisGraphPoint> databaseSLA;

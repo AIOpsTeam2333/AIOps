@@ -18,4 +18,5 @@ public class CrossAxisGraphPoint {
 
     private Double value;
 
+    private Double predict;
 }

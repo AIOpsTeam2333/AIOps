@@ -6,6 +6,7 @@ import com.aiops.api.dao.ServiceEndpointDao;
 import com.aiops.api.entity.vo.request.CommonRequestBody;
 import com.aiops.api.entity.vo.request.Duration;
 import com.aiops.api.entity.vo.response.*;
+import com.aiops.api.service.kpi.GlobalKpiService;
 import com.aiops.api.service.kpi.KpiHelper;
 import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
@@ -32,6 +33,7 @@ public class GlobalKpiController {
     private final ServiceEndpointDao serviceEndpointDao;
     private final ServiceNodeDao serviceNodeDao;
     private final KpiHelper kpiHelper;
+    private final GlobalKpiService globalKpiService;
 
     @ApiOperation(value = "全局指标数据")
     @ApiImplicitParam
@@ -46,10 +48,10 @@ public class GlobalKpiController {
         Set<KpiType> kpis = kpiHelper.splitKpi(commonRequestBody.getBusiness());
 
         GlobalKpiAll result = new GlobalKpiAll();
-        if (kpis.contains(KpiType.PERCENTILE) || kpis.contains(KpiType.P50) || kpis.contains(KpiType.P75) || kpis.contains(KpiType.P90) || kpis.contains(KpiType.P95) || kpis.contains(KpiType.P99)) {
+        if (kpis.isEmpty() || kpis.contains(KpiType.PERCENTILE) || kpis.contains(KpiType.P50) || kpis.contains(KpiType.P75) || kpis.contains(KpiType.P90) || kpis.contains(KpiType.P95) || kpis.contains(KpiType.P99)) {
             result.setPercentileGraph(globalPercentile(commonRequestBody.getDuration(), bindingResult));
         }
-        if (kpis.contains(KpiType.HEATMAP)) {
+        if (kpis.isEmpty() || kpis.contains(KpiType.HEATMAP)) {
             result.setHeatmapGraph(globalHeatmap(commonRequestBody.getDuration(), bindingResult));
         }
         return result;
@@ -75,7 +77,7 @@ public class GlobalKpiController {
             throw new BindException(bindingResult);
         }
 
-        return null;
+        return globalKpiService.getGlobalPercentileGraph(duration);
     }
 
     @ApiOperation(value = "全局热量图")
@@ -88,6 +90,6 @@ public class GlobalKpiController {
             throw new BindException(bindingResult);
         }
 
-        return null;
+        return globalKpiService.getGlobalHeatmapGraph(duration);
     }
 }

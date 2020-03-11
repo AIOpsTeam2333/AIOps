@@ -23,4 +23,7 @@ public class GlobalKpiAll {
 
     //全局最慢Endpoint
     private List<SimpleOrderNode> globalSlow;
+
+    //全局概览
+    private GlobalBrief globalBrief;
 }

@@ -14,4 +14,6 @@ public class HeatmapPoint {
     private Integer y;
 
     private Integer value;
+
+    private Double predict;
 }

@@ -62,6 +62,7 @@ public class GlobalExceptionHandler {
     @ResponseBody
     public ResultBody exceptionHandler(HttpMessageNotReadableException e) {
         log.error("传参错误:" + e.getLocalizedMessage());
+        e.printStackTrace();
         return ResultBody.error(e.getLocalizedMessage());
     }
 

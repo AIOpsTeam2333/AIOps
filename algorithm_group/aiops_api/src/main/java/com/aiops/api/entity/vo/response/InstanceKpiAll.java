@@ -16,12 +16,9 @@ public class InstanceKpiAll {
     private List<CrossAxisGraphPoint> instanceSLA;
     private List<CrossAxisGraphPoint> instanceCPU;
     private List<CrossAxisGraphPoint> clrCPU;
-    private List<CrossAxisGraphPoint> clrGCGen0;
-    private List<CrossAxisGraphPoint> clrGCGen1;
-    private List<CrossAxisGraphPoint> clrGCGen2;
+    private CrlGC crlGC;
     private List<CrossAxisGraphPoint> clrHeap;
-    private List<CrossAxisGraphPoint> youngGCTime;
-    private List<CrossAxisGraphPoint> oldGCTime;
+    private GcTime gcTime;
 
     private List<MemoryPoint> heap;
     private List<MemoryPoint> nonHeap;

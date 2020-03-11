@@ -13,4 +13,5 @@ public class MemoryPoint {
 
     private Double free;
 
+    private Double predict;
 }

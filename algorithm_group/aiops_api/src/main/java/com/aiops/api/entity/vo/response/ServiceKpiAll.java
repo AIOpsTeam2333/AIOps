@@ -13,6 +13,7 @@ import java.util.List;
 @ApiModel("Service接口返回值")
 public class ServiceKpiAll {
 
+    private PercentileGraph globalPercentile;
     private List<CrossAxisGraphPoint> serviceApdexScore;
     private List<CrossAxisGraphPoint> serviceResponseTime;
     private List<CrossAxisGraphPoint> serviceThroughput;

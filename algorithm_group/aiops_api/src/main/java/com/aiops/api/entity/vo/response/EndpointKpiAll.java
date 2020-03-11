@@ -11,6 +11,8 @@ import java.util.List;
 @Data
 public class EndpointKpiAll {
 
+    private GlobalBrief globalBrief;
+    private PercentileGraph globalPercentile;
     private List<CrossAxisGraphPoint> endpointResponseTime;
     private List<CrossAxisGraphPoint> endpointThroughput;
     private List<CrossAxisGraphPoint> endpointSLA;

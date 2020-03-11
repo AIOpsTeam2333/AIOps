@@ -20,7 +20,7 @@ public class CommonRequestBody {
     @NotNull
     private Duration duration;
 
-    @ApiModelProperty(value = "查询业务名称, 按逗号隔开, 无则为全部查询")
+    @ApiModelProperty(value = "查询业务名称, 按逗号隔开, 无则为全部查询", example = "", name = "business")
     private String business;
 
     @NotNull(groups = NeedIdGroup.class)
