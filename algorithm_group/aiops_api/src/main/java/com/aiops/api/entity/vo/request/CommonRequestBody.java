@@ -17,13 +17,13 @@ import javax.validation.constraints.NotNull;
 public class CommonRequestBody {
 
     @Valid
-    @NotNull
+    @NotNull(message = "duration不能为空")
     private Duration duration;
 
-    @ApiModelProperty(value = "查询业务名称, 按逗号隔开, 无则为全部查询", example = "", name = "business")
+    @ApiModelProperty(value = "查询业务名称, 按逗号隔开, 无则为全部查询", name = "business")
     private String business;
 
-    @NotNull(groups = NeedIdGroup.class)
+    @NotNull(groups = NeedIdGroup.class, message = "id不能为空")
     @ApiModelProperty("查询的数据的id")
     private Integer id;
 }

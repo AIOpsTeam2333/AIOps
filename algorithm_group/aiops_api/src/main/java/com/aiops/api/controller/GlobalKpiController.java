@@ -39,20 +39,16 @@ public class GlobalKpiController {
     @ApiImplicitParam
     @PostMapping("/")
     public GlobalKpiAll globalAllData(
-            @RequestBody @Valid CommonRequestBody commonRequestBody,
-            BindingResult bindingResult
-    ) throws BindException {
-        if (bindingResult.hasErrors()) {
-            throw new BindException(bindingResult);
-        }
+            @RequestBody @Valid CommonRequestBody commonRequestBody
+    ) {
         Set<KpiType> kpis = kpiHelper.splitKpi(commonRequestBody.getBusiness());
 
         GlobalKpiAll result = new GlobalKpiAll();
         if (kpis.isEmpty() || kpis.contains(KpiType.PERCENTILE) || kpis.contains(KpiType.P50) || kpis.contains(KpiType.P75) || kpis.contains(KpiType.P90) || kpis.contains(KpiType.P95) || kpis.contains(KpiType.P99)) {
-            result.setPercentileGraph(globalPercentile(commonRequestBody.getDuration(), bindingResult));
+            result.setPercentileGraph(globalPercentile(commonRequestBody.getDuration()));
         }
         if (kpis.isEmpty() || kpis.contains(KpiType.HEATMAP)) {
-            result.setHeatmapGraph(globalHeatmap(commonRequestBody.getDuration(), bindingResult));
+            result.setHeatmapGraph(globalHeatmap(commonRequestBody.getDuration()));
         }
         return result;
     }
@@ -70,12 +66,8 @@ public class GlobalKpiController {
     @ApiOperation(value = "全局百分位数, 包括p50-p99")
     @PostMapping("/globalPercentile")
     public PercentileGraph globalPercentile(
-            @RequestBody @Valid Duration duration,
-            BindingResult bindingResult
-    ) throws BindException {
-        if (bindingResult.hasErrors()) {
-            throw new BindException(bindingResult);
-        }
+            @RequestBody @Valid Duration duration
+    ) {
 
         return globalKpiService.getGlobalPercentileGraph(duration);
     }
@@ -83,13 +75,8 @@ public class GlobalKpiController {
     @ApiOperation(value = "全局热量图")
     @PostMapping("/globalHeatmap")
     public HeatmapGraph globalHeatmap(
-            @RequestBody @Valid Duration duration,
-            BindingResult bindingResult
-    ) throws BindException {
-        if (bindingResult.hasErrors()) {
-            throw new BindException(bindingResult);
-        }
-
+            @RequestBody @Valid Duration duration
+    ) {
         return globalKpiService.getGlobalHeatmapGraph(duration);
     }
 }
