@@ -1,12 +1,7 @@
 package com.aiops.api.controller;
 
-import com.aiops.api.dao.ServiceNodeDao;
-import com.aiops.api.dao.ServiceEndpointDao;
-import com.aiops.api.dao.ServiceInstanceDao;
 import com.aiops.api.entity.*;
-import com.aiops.api.entity.dto.ServiceEndpointSearchDto;
-import com.aiops.api.entity.dto.ServiceInstanceSearchDto;
-import com.aiops.api.entity.dto.ServiceNodeSearchDto;
+import com.aiops.api.service.metadata.MetadataService;
 import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -33,9 +28,7 @@ import java.util.List;
 @Api(tags = {"元数据查询"})
 public class MetadataController {
 
-    private final ServiceNodeDao serviceNodeDao;
-    private final ServiceEndpointDao serviceEndpointDao;
-    private final ServiceInstanceDao serviceInstanceDao;
+    private final MetadataService metadataService;
 
     @InitBinder
     protected void init(HttpServletRequest request, ServletRequestDataBinder binder) {
@@ -56,11 +49,7 @@ public class MetadataController {
             @RequestParam(name = "name", required = false) String name,
             @RequestParam(name = "node_type", required = false) String nodeType
     ) {
-        ServiceNodeSearchDto dto = new ServiceNodeSearchDto();
-        dto.setNodeId(serviceId);
-        dto.setName(name);
-        dto.setNodeType(nodeType);
-        return serviceNodeDao.selectServices(dto);
+        return metadataService.getServices(serviceId, name, nodeType);
     }
 
     @ApiOperation(value = "获取ServiceEndpoint元数据")
@@ -75,11 +64,7 @@ public class MetadataController {
             @RequestParam(name = "service_id", required = false) Integer serviceId,
             @RequestParam(name = "keyword", required = false) String name
     ) {
-        ServiceEndpointSearchDto dto = new ServiceEndpointSearchDto();
-        dto.setServiceEndpointId(serviceEndpointId);
-        dto.setServiceId(serviceId);
-        dto.setName(name);
-        return serviceEndpointDao.queryServiceEndpoint(dto);
+        return metadataService.getEndpoints(serviceEndpointId, serviceId, name);
     }
 
     @ApiOperation(value = "获取ServiceInstance元数据")
@@ -92,19 +77,13 @@ public class MetadataController {
     })
     @GetMapping("/getServiceInstances")
     public List<ServiceInstance> getServiceInstances(
-            @RequestParam(name = "service_instance_id", required = false) Integer serviceInstaceId,
+            @RequestParam(name = "service_instance_id", required = false) Integer serviceInstanceId,
             @RequestParam(name = "service_id", required = false) Integer serviceId,
             @RequestParam(name = "name", required = false) String name,
             @RequestParam(name = "language", required = false) String language,
             @RequestParam(name = "instance_uuid", required = false) String instanceUuid
     ) {
-        ServiceInstanceSearchDto dto = new ServiceInstanceSearchDto();
-        dto.setServiceInstanceId(serviceInstaceId);
-        dto.setServiceId(serviceId);
-        dto.setName(name);
-        dto.setLanguage(language);
-        dto.setUuid(instanceUuid);
-        return serviceInstanceDao.queryServiceInstance(dto);
+        return metadataService.getServiceInstances(serviceInstanceId, serviceId, name, language, instanceUuid);
     }
 
     @ApiOperation(value = "获取database数据")
@@ -119,10 +98,6 @@ public class MetadataController {
             @RequestParam(name = "name", required = false) String name,
             @RequestParam(name = "node_type", required = false) String nodeType
     ) {
-        ServiceNodeSearchDto dto = new ServiceNodeSearchDto();
-        dto.setNodeId(databaseId);
-        dto.setName(name);
-        dto.setNodeType(nodeType);
-        return serviceNodeDao.selectDatabase(dto);
+        return metadataService.getDatabases(databaseId, name, nodeType);
     }
 }

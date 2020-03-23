@@ -1,24 +1,23 @@
 package com.aiops.api.controller;
 
+import com.aiops.api.common.type.KpiType;
 import com.aiops.api.common.validation.NeedIdGroup;
 import com.aiops.api.entity.vo.request.CommonRequestBody;
+import com.aiops.api.entity.vo.request.Duration;
 import com.aiops.api.entity.vo.response.CrossAxisGraphPoint;
 import com.aiops.api.entity.vo.response.PercentileGraph;
 import com.aiops.api.entity.vo.response.ServiceKpiAll;
-import com.aiops.api.service.kpi.GlobalKpiService;
-import com.aiops.api.service.kpi.ServiceKpiService;
+import com.aiops.api.service.kpi.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.validation.BindException;
-import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author Shuaiyu Yao
@@ -33,13 +32,42 @@ public class ServiceKpiController {
 
     private final ServiceKpiService serviceKpiService;
     private final GlobalKpiService globalKpiService;
+    private final KpiHelper kpiHelper;
+    private final EndpointKpiService endpointKpiService;
+    private final InstanceKpiService instanceKpiService;
 
     @ApiOperation(value = "服务指标数据")
     @PostMapping("/")
     public ServiceKpiAll serviceKpiAllData(
             @RequestBody @Validated({NeedIdGroup.class}) CommonRequestBody commonRequestBody
     ) {
+        Set<KpiType> kpiTypes = kpiHelper.splitKpi(commonRequestBody.getBusiness());
         ServiceKpiAll serviceKpiAll = new ServiceKpiAll();
+        Duration duration = commonRequestBody.getDuration();
+        Integer id = commonRequestBody.getId();
+        if (kpiTypes.isEmpty() || kpiTypes.contains(KpiType.APDEX_SCORE)) {
+            serviceKpiAll.setServiceApdexScore(serviceKpiService.getApdexScore(duration, id));
+        }
+
+        if (kpiTypes.isEmpty() || kpiTypes.contains(KpiType.RESPONSE_TIME)) {
+            serviceKpiAll.setServiceResponseTime(serviceKpiService.getResponseTime(duration, id));
+        }
+
+        if (kpiTypes.isEmpty() || kpiTypes.contains(KpiType.THROUGHPUT)) {
+            serviceKpiAll.setServiceThroughput(serviceKpiService.getThroughput(duration, id));
+        }
+
+        if (kpiTypes.isEmpty() || kpiTypes.contains(KpiType.SLA)) {
+            serviceKpiAll.setServiceSLA(serviceKpiService.getSla(duration, id));
+        }
+
+        if (kpiTypes.isEmpty() || kpiTypes.contains(KpiType.PERCENTILE) || kpiTypes.contains(KpiType.P50) || kpiTypes.contains(KpiType.P75) || kpiTypes.contains(KpiType.P90) || kpiTypes.contains(KpiType.P95) || kpiTypes.contains(KpiType.P99)) {
+            serviceKpiAll.setGlobalPercentile(globalKpiService.getGlobalPercentileGraph(duration));
+            serviceKpiAll.setServicePercentile(serviceKpiService.getPercentileGraph(duration, id));
+        }
+
+        serviceKpiAll.setServiceSlowEndpoint(endpointKpiService.getServiceSlowEndpoint(duration, id));
+        serviceKpiAll.setServiceInstanceThroughput(instanceKpiService.getServiceInstanceThroughput(duration, id));
         return serviceKpiAll;
     }
 
@@ -67,6 +95,15 @@ public class ServiceKpiController {
     ) {
 
         return serviceKpiService.getThroughput(commonRequestBody.getDuration(), commonRequestBody.getId());
+    }
+
+    @ApiOperation(value = "服务指标数据serviceSLA")
+    @PostMapping("/serviceSLA")
+    public List<CrossAxisGraphPoint> serviceSLA(
+            @RequestBody @Validated({NeedIdGroup.class}) CommonRequestBody commonRequestBody
+    ) {
+
+        return serviceKpiService.getSla(commonRequestBody.getDuration(), commonRequestBody.getId());
     }
 
     @ApiOperation(value = "服务指标数据servicePercentile")

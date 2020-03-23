@@ -24,6 +24,6 @@ public class CommonRequestBody {
     private String business;
 
     @NotNull(groups = NeedIdGroup.class, message = "id不能为空")
-    @ApiModelProperty("查询的数据的id")
+    @ApiModelProperty(value = "查询的数据的id", example = "1")
     private Integer id;
 }

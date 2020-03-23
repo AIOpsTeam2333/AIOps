@@ -1,19 +1,16 @@
 package com.aiops.api.controller;
 
 import com.aiops.api.common.type.KpiType;
-import com.aiops.api.dao.ServiceNodeDao;
-import com.aiops.api.dao.ServiceEndpointDao;
 import com.aiops.api.entity.vo.request.CommonRequestBody;
 import com.aiops.api.entity.vo.request.Duration;
 import com.aiops.api.entity.vo.response.*;
 import com.aiops.api.service.kpi.GlobalKpiService;
 import com.aiops.api.service.kpi.KpiHelper;
+import com.aiops.api.service.metadata.MetadataService;
 import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.validation.BindException;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -30,10 +27,9 @@ import java.util.Set;
 @RestController
 public class GlobalKpiController {
 
-    private final ServiceEndpointDao serviceEndpointDao;
-    private final ServiceNodeDao serviceNodeDao;
     private final KpiHelper kpiHelper;
     private final GlobalKpiService globalKpiService;
+    private final MetadataService metadataService;
 
     @ApiOperation(value = "全局指标数据")
     @ApiImplicitParam
@@ -56,11 +52,7 @@ public class GlobalKpiController {
     @ApiOperation(value = "全局视图")
     @GetMapping("/globalBrief")
     public GlobalBrief globalBrief() {
-        GlobalBrief globalBrief = new GlobalBrief();
-        globalBrief.setNumOfEndpoint(serviceEndpointDao.countAll());
-        globalBrief.setNumOfService(serviceNodeDao.countAllService());
-        globalBrief.setNumOfDatabase(serviceNodeDao.countAllDatabase());
-        return globalBrief;
+        return metadataService.globalBrief();
     }
 
     @ApiOperation(value = "全局百分位数, 包括p50-p99")

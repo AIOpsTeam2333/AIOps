@@ -2,6 +2,7 @@ package com.aiops.api.dao;
 
 import com.aiops.api.common.type.KpiType;
 import com.aiops.api.entity.vo.response.CrossAxisGraphPoint;
+import com.aiops.api.entity.vo.response.SimpleOrderNode;
 import com.aiops.api.mapper.EndpointKpiMapper;
 import com.aiops.api.mapper.ServiceKpiMapper;
 import lombok.RequiredArgsConstructor;
@@ -93,4 +94,20 @@ public class EndpointKpiDao {
         return endpointKpiMapper.selectCrossAxisKpi(endpointId, KpiType.SLA.databaseName(), step, from, to);
     }
 
+    public List<SimpleOrderNode> selectServiceSlowEndpoint(
+            Integer serviceId,
+            String step,
+            Date from,
+            Date to
+    ) {
+        return endpointKpiMapper.selectServiceSlowEndpoint(serviceId, step, from, to);
+    }
+
+    public List<SimpleOrderNode> selectGlobalSlowEndpoint(
+            String step,
+            Date from,
+            Date to
+    ) {
+        return endpointKpiMapper.selectGlobalSlowEndpoint(step, from, to);
+    }
 }

@@ -3,14 +3,39 @@
 <mapper namespace="com.aiops.api.mapper.EndpointKpiMapper">
 
     <select id="selectCrossAxisKpi" resultType="com.aiops.api.entity.vo.response.CrossAxisGraphPoint">
-        SELECT s.`time`, IFNULL(m.`value`, 0) `value`, IFNULL(m.`predict`, 0) `predict`
+        SELECT s.`time` `time`, IFNULL(`value`, 0) `value`, IFNULL(`predict`,0) `predict`
         FROM step_${step} s
-        LEFT JOIN kpi_endpoint_${kpiName}_${step} m
-        ON s.`time` = m.`time`
-        WHERE m.`endpoint_id` = #{endpointId}
-        AND s.`time` <![CDATA[ >= ]]> #{from}
+        LEFT JOIN
+        (SELECT `time`, `value`, `predict`
+        FROM kpi_endpoint_${kpiName}_${step}
+        WHERE endpoint_id = 0) a
+        ON s.`time`= a.`time`
+        WHERE s.`time` <![CDATA[ >= ]]> #{from}
         AND s.`time` <![CDATA[ <= ]]> #{to}
         ORDER BY s.`time`;
+    </select>
+
+    <select id="selectServiceSlowEndpoint" resultType="com.aiops.api.entity.vo.response.SimpleOrderNode">
+        select mse.`service_endpoint_id` id, mse.`name` `name`, IFNULL(AVG(k.`value`),0 ) `value`
+        from metadata_service_endpoint mse
+        left join kpi_endpoint_response_time_${step} k
+        on mse.`service_endpoint_id`=k.`service_endpoint_id`
+        where mse.`service_id` = #{serviceId}
+        and k.`time` <![CDATA[ <= ]]> #{to}
+        and k.`time` <![CDATA[ >= ]]> #{from}
+        group by mse.`service_endpoint_id`
+        ORDER BY `value` DESC
+    </select>
+
+    <select id="selectGlobalSlowEndpoint" resultType="com.aiops.api.entity.vo.response.SimpleOrderNode">
+        select mse.`service_endpoint_id` id, mse.`name` `name`, IFNULL(AVG(k.`value`),0 ) `value`
+        from metadata_service_endpoint mse
+        left join kpi_endpoint_response_time_${step} k
+        on mse.`service_endpoint_id`=k.`service_endpoint_id`
+        where k.`time` <![CDATA[ <= ]]> #{to}
+        and k.`time` <![CDATA[ >= ]]> #{from}
+        group by mse.`service_endpoint_id`
+        ORDER BY `value` DESC
     </select>
 
 </mapper>

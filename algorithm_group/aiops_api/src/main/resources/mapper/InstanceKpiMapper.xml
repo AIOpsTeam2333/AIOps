@@ -3,14 +3,28 @@
 <mapper namespace="com.aiops.api.mapper.InstanceKpiMapper">
 
     <select id="selectCrossAxisKpi" resultType="com.aiops.api.entity.vo.response.CrossAxisGraphPoint">
-        SELECT s.`time`, IFNULL(m.`value`, 0) `value`, IFNULL(m.`predict`, 0) `predict`
+        SELECT s.`time` `time`, IFNULL(`value`, 0) `value`, IFNULL(`predict`,0) `predict`
         FROM step_${step} s
-        LEFT JOIN kpi_instance_${kpiName}_${step} m
-        ON s.`time` = m.`time`
-        WHERE `instance_id` = #{instanceId}
-        AND s.`time` <![CDATA[ >= ]]> #{from}
+        LEFT JOIN
+        (SELECT `time`, `value`, `predict`
+        FROM kpi_instance_${kpiName}_${step}
+        WHERE instance_id = 0) a
+        ON s.`time`= a.`time`
+        WHERE s.`time` <![CDATA[ >= ]]> #{from}
         AND s.`time` <![CDATA[ <= ]]> #{to}
         ORDER BY s.`time`;
+    </select>
+
+    <select id="serviceInstanceThroughputDesc" resultType="com.aiops.api.entity.vo.response.SimpleOrderNode">
+        select msi.`service_instance_id` id, msi.`name` `name`, IFNULL(AVG(k.`value`),0 ) `value`
+        from metadata_service_instance msi
+        left join kpi_instance_throughput_${step} k
+        on msi.`service_instance_id`=k.`service_instance_id`
+        where msi.`service_id` = #{serviceId}
+        and k.`time` <![CDATA[ <= ]]> #{to}
+        and k.`time` <![CDATA[ >= ]]> #{from}
+        group by msi.`service_instance_id`
+        ORDER BY `value` DESC
     </select>
 
 </mapper>
