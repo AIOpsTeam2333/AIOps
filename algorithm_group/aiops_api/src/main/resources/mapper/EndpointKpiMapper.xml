@@ -8,7 +8,7 @@
         LEFT JOIN
         (SELECT `time`, `value`, `predict`
         FROM kpi_endpoint_${kpiName}_${step}
-        WHERE endpoint_id = 0) a
+        WHERE service_endpoint_id = #{endpointId}) a
         ON s.`time`= a.`time`
         WHERE s.`time` <![CDATA[ >= ]]> #{from}
         AND s.`time` <![CDATA[ <= ]]> #{to}

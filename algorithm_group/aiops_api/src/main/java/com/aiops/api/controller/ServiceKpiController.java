@@ -1,8 +1,8 @@
 package com.aiops.api.controller;
 
-import com.aiops.api.common.type.KpiType;
+import com.aiops.api.common.enums.KpiType;
 import com.aiops.api.common.validation.NeedIdGroup;
-import com.aiops.api.entity.vo.request.CommonRequestBody;
+import com.aiops.api.entity.vo.request.CommonRequestBodyKpi;
 import com.aiops.api.entity.vo.request.Duration;
 import com.aiops.api.entity.vo.response.CrossAxisGraphPoint;
 import com.aiops.api.entity.vo.response.PercentileGraph;
@@ -39,12 +39,12 @@ public class ServiceKpiController {
     @ApiOperation(value = "服务指标数据")
     @PostMapping("/")
     public ServiceKpiAll serviceKpiAllData(
-            @RequestBody @Validated({NeedIdGroup.class}) CommonRequestBody commonRequestBody
+            @RequestBody @Validated({NeedIdGroup.class}) CommonRequestBodyKpi commonRequestBodyKpi
     ) {
-        Set<KpiType> kpiTypes = kpiHelper.splitKpi(commonRequestBody.getBusiness());
+        Set<KpiType> kpiTypes = kpiHelper.splitKpi(commonRequestBodyKpi.getBusiness());
         ServiceKpiAll serviceKpiAll = new ServiceKpiAll();
-        Duration duration = commonRequestBody.getDuration();
-        Integer id = commonRequestBody.getId();
+        Duration duration = commonRequestBodyKpi.getDuration();
+        Integer id = commonRequestBodyKpi.getId();
         if (kpiTypes.isEmpty() || kpiTypes.contains(KpiType.APDEX_SCORE)) {
             serviceKpiAll.setServiceApdexScore(serviceKpiService.getApdexScore(duration, id));
         }
@@ -75,43 +75,43 @@ public class ServiceKpiController {
     @ApiOperation(value = "服务指标数据serviceApdexScore")
     @PostMapping("/serviceApdexScore")
     public List<CrossAxisGraphPoint> serviceApdexScore(
-            @RequestBody @Validated({NeedIdGroup.class}) CommonRequestBody commonRequestBody
+            @RequestBody @Validated({NeedIdGroup.class}) CommonRequestBodyKpi commonRequestBodyKpi
     ) {
-        return serviceKpiService.getApdexScore(commonRequestBody.getDuration(), commonRequestBody.getId());
+        return serviceKpiService.getApdexScore(commonRequestBodyKpi.getDuration(), commonRequestBodyKpi.getId());
     }
 
     @ApiOperation(value = "服务指标数据serviceResponseTime")
     @PostMapping("/serviceResponseTime")
     public List<CrossAxisGraphPoint> serviceResponseTime(
-            @RequestBody @Validated({NeedIdGroup.class}) CommonRequestBody commonRequestBody
+            @RequestBody @Validated({NeedIdGroup.class}) CommonRequestBodyKpi commonRequestBodyKpi
     ) {
-        return serviceKpiService.getResponseTime(commonRequestBody.getDuration(), commonRequestBody.getId());
+        return serviceKpiService.getResponseTime(commonRequestBodyKpi.getDuration(), commonRequestBodyKpi.getId());
     }
 
     @ApiOperation(value = "服务指标数据serviceThroughput")
     @PostMapping("/serviceThroughput")
     public List<CrossAxisGraphPoint> serviceThroughput(
-            @RequestBody @Validated({NeedIdGroup.class}) CommonRequestBody commonRequestBody
+            @RequestBody @Validated({NeedIdGroup.class}) CommonRequestBodyKpi commonRequestBodyKpi
     ) {
 
-        return serviceKpiService.getThroughput(commonRequestBody.getDuration(), commonRequestBody.getId());
+        return serviceKpiService.getThroughput(commonRequestBodyKpi.getDuration(), commonRequestBodyKpi.getId());
     }
 
     @ApiOperation(value = "服务指标数据serviceSLA")
     @PostMapping("/serviceSLA")
     public List<CrossAxisGraphPoint> serviceSLA(
-            @RequestBody @Validated({NeedIdGroup.class}) CommonRequestBody commonRequestBody
+            @RequestBody @Validated({NeedIdGroup.class}) CommonRequestBodyKpi commonRequestBodyKpi
     ) {
 
-        return serviceKpiService.getSla(commonRequestBody.getDuration(), commonRequestBody.getId());
+        return serviceKpiService.getSla(commonRequestBodyKpi.getDuration(), commonRequestBodyKpi.getId());
     }
 
     @ApiOperation(value = "服务指标数据servicePercentile")
     @PostMapping("/servicePercentile")
     public PercentileGraph servicePercentile(
-            @RequestBody @Validated({NeedIdGroup.class}) CommonRequestBody commonRequestBody
+            @RequestBody @Validated({NeedIdGroup.class}) CommonRequestBodyKpi commonRequestBodyKpi
     ) {
 
-        return serviceKpiService.getPercentileGraph(commonRequestBody.getDuration(), commonRequestBody.getId());
+        return serviceKpiService.getPercentileGraph(commonRequestBodyKpi.getDuration(), commonRequestBodyKpi.getId());
     }
 }

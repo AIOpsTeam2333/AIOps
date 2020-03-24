@@ -1,6 +1,6 @@
 package com.aiops.api.dao;
 
-import com.aiops.api.common.type.KpiType;
+import com.aiops.api.common.enums.KpiType;
 import com.aiops.api.entity.vo.response.CrossAxisGraphPoint;
 import com.aiops.api.entity.vo.response.HeatmapPoint;
 import com.aiops.api.mapper.GlobalKpiMapper;

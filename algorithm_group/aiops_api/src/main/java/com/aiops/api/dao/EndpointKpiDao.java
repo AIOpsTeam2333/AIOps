@@ -1,10 +1,9 @@
 package com.aiops.api.dao;
 
-import com.aiops.api.common.type.KpiType;
+import com.aiops.api.common.enums.KpiType;
 import com.aiops.api.entity.vo.response.CrossAxisGraphPoint;
 import com.aiops.api.entity.vo.response.SimpleOrderNode;
 import com.aiops.api.mapper.EndpointKpiMapper;
-import com.aiops.api.mapper.ServiceKpiMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;

@@ -1,4 +1,4 @@
-package com.aiops.api.entity;
+package com.aiops.api.entity.po;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;

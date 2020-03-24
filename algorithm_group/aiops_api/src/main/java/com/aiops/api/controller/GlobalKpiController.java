@@ -1,7 +1,7 @@
 package com.aiops.api.controller;
 
-import com.aiops.api.common.type.KpiType;
-import com.aiops.api.entity.vo.request.CommonRequestBody;
+import com.aiops.api.common.enums.KpiType;
+import com.aiops.api.entity.vo.request.CommonRequestBodyKpi;
 import com.aiops.api.entity.vo.request.Duration;
 import com.aiops.api.entity.vo.response.*;
 import com.aiops.api.service.kpi.GlobalKpiService;
@@ -35,16 +35,16 @@ public class GlobalKpiController {
     @ApiImplicitParam
     @PostMapping("/")
     public GlobalKpiAll globalAllData(
-            @RequestBody @Valid CommonRequestBody commonRequestBody
+            @RequestBody @Valid CommonRequestBodyKpi commonRequestBodyKpi
     ) {
-        Set<KpiType> kpis = kpiHelper.splitKpi(commonRequestBody.getBusiness());
+        Set<KpiType> kpis = kpiHelper.splitKpi(commonRequestBodyKpi.getBusiness());
 
         GlobalKpiAll result = new GlobalKpiAll();
         if (kpis.isEmpty() || kpis.contains(KpiType.PERCENTILE) || kpis.contains(KpiType.P50) || kpis.contains(KpiType.P75) || kpis.contains(KpiType.P90) || kpis.contains(KpiType.P95) || kpis.contains(KpiType.P99)) {
-            result.setPercentileGraph(globalPercentile(commonRequestBody.getDuration()));
+            result.setPercentileGraph(globalPercentile(commonRequestBodyKpi.getDuration()));
         }
         if (kpis.isEmpty() || kpis.contains(KpiType.HEATMAP)) {
-            result.setHeatmapGraph(globalHeatmap(commonRequestBody.getDuration()));
+            result.setHeatmapGraph(globalHeatmap(commonRequestBodyKpi.getDuration()));
         }
         return result;
     }

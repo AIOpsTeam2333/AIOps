@@ -4,7 +4,7 @@ import com.aiops.api.common.init.kpidatabase.xmlmodel.ClassXml;
 import com.aiops.api.common.init.kpidatabase.xmlmodel.DatabaseXml;
 import com.aiops.api.common.init.kpidatabase.xmlmodel.TableColumnXml;
 import com.aiops.api.common.init.kpidatabase.xmlmodel.TableXml;
-import com.aiops.api.common.type.StatisticsStep;
+import com.aiops.api.common.enums.StatisticsStep;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

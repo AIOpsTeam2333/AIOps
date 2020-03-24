@@ -1,8 +1,8 @@
 package com.aiops.api.dao;
 
-import com.aiops.api.entity.Database;
-import com.aiops.api.entity.Service;
-import com.aiops.api.entity.dto.ServiceNodeSearchDto;
+import com.aiops.api.entity.po.Database;
+import com.aiops.api.entity.po.Service;
+import com.aiops.api.service.metadata.dto.ServiceNodeSearchDto;
 import com.aiops.api.mapper.ServiceNodeMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

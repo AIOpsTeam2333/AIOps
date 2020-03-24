@@ -1,13 +1,12 @@
 package com.aiops.api.entity.vo.request;
 
 
-import com.aiops.api.common.type.StatisticsStep;
+import com.aiops.api.common.enums.StatisticsStep;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 

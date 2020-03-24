@@ -9,10 +9,10 @@ import java.util.List;
  * @create 2020-03-06 17:45
  **/
 @Data
-public class Topology {
+public class EndpointTopology {
 
-    List<TopologyNode> nodes;
+    List<EndpointTopologyNode> nodes;
 
-    List<TopologyCall> calls;
+    List<EndpointTopologyCall> calls;
 
 }

@@ -1,6 +1,6 @@
 package com.aiops.api.common.step;
 
-import com.aiops.api.common.type.StatisticsStep;
+import com.aiops.api.common.enums.StatisticsStep;
 import com.aiops.api.dao.StepDao;
 import com.aiops.api.service.date.DateService;
 import lombok.RequiredArgsConstructor;

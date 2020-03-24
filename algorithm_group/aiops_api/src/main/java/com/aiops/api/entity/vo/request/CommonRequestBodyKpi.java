@@ -13,8 +13,8 @@ import javax.validation.constraints.NotNull;
  * @create 2020-03-06 12:47
  **/
 @Data
-@ApiModel(description = "接口参数")
-public class CommonRequestBody {
+@ApiModel(description = "Kpi接口参数")
+public class CommonRequestBodyKpi {
 
     @Valid
     @NotNull(message = "duration不能为空")

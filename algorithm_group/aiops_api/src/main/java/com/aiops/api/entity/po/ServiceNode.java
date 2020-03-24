@@ -1,4 +1,4 @@
-package com.aiops.api.entity;
+package com.aiops.api.entity.po;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;

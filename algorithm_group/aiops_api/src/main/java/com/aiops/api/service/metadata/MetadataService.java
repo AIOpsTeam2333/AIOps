@@ -3,12 +3,12 @@ package com.aiops.api.service.metadata;
 import com.aiops.api.dao.ServiceEndpointDao;
 import com.aiops.api.dao.ServiceInstanceDao;
 import com.aiops.api.dao.ServiceNodeDao;
-import com.aiops.api.entity.Database;
-import com.aiops.api.entity.ServiceEndpoint;
-import com.aiops.api.entity.ServiceInstance;
-import com.aiops.api.entity.dto.ServiceEndpointSearchDto;
-import com.aiops.api.entity.dto.ServiceInstanceSearchDto;
-import com.aiops.api.entity.dto.ServiceNodeSearchDto;
+import com.aiops.api.entity.po.Database;
+import com.aiops.api.entity.po.ServiceEndpoint;
+import com.aiops.api.entity.po.ServiceInstance;
+import com.aiops.api.service.metadata.dto.ServiceEndpointSearchDto;
+import com.aiops.api.service.metadata.dto.ServiceInstanceSearchDto;
+import com.aiops.api.service.metadata.dto.ServiceNodeSearchDto;
 import com.aiops.api.entity.vo.response.GlobalBrief;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +36,7 @@ public class MetadataService {
         return globalBrief;
     }
 
-    public List<com.aiops.api.entity.Service> getServices(
+    public List<com.aiops.api.entity.po.Service> getServices(
             Integer serviceId,
             String name,
             String nodeType

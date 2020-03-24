@@ -1,6 +1,6 @@
 package com.aiops.api.dao;
 
-import com.aiops.api.common.type.StatisticsStep;
+import com.aiops.api.common.enums.StatisticsStep;
 import com.aiops.api.mapper.StepMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -5,14 +5,12 @@ import lombok.Data;
 /**
  * @author Shuaiyu Yao
  * @create 2020-03-06 17:45
- */
+ **/
 @Data
-public class TopologyCall {
+public class EndpointTopologyNode {
 
-    private String id;
+    private Integer id;
 
-    private Integer source;
-
-    private Integer target;
+    private String value;
 
 }

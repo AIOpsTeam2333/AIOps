@@ -1,4 +1,4 @@
-package com.aiops.api.entity;
+package com.aiops.api.entity.po;
 
 import io.swagger.annotations.ApiModel;
 import lombok.Data;

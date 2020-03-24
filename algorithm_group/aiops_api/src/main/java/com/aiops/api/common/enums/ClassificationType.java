@@ -1,4 +1,4 @@
-package com.aiops.api.common.type;
+package com.aiops.api.common.enums;
 
 /**
  * @author Shuaiyu Yao

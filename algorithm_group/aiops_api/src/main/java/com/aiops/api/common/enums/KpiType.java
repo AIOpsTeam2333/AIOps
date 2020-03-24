@@ -1,4 +1,4 @@
-package com.aiops.api.common.type;
+package com.aiops.api.common.enums;
 
 import com.aiops.api.common.exception.NoSuchKpiException;
 import io.swagger.annotations.ApiModel;

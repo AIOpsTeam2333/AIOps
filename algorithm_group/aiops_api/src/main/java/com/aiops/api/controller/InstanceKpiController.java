@@ -1,7 +1,7 @@
 package com.aiops.api.controller;
 
 import com.aiops.api.common.validation.NeedIdGroup;
-import com.aiops.api.entity.vo.request.CommonRequestBody;
+import com.aiops.api.entity.vo.request.CommonRequestBodyKpi;
 import com.aiops.api.entity.vo.response.InstanceKpiAll;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -26,7 +26,7 @@ public class InstanceKpiController {
     @ApiOperation(value = "实例指标视图")
     @PostMapping("/")
     public InstanceKpiAll instanceKpiAllData(
-            @RequestBody @Validated({NeedIdGroup.class}) CommonRequestBody commonRequestBody,
+            @RequestBody @Validated({NeedIdGroup.class}) CommonRequestBodyKpi commonRequestBodyKpi,
             BindingResult bindingResult
     ) {
         return new InstanceKpiAll();

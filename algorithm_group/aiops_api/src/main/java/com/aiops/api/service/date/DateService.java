@@ -1,6 +1,6 @@
 package com.aiops.api.service.date;
 
-import com.aiops.api.common.type.StatisticsStep;
+import com.aiops.api.common.enums.StatisticsStep;
 import org.springframework.stereotype.Service;
 
 import java.text.DateFormat;

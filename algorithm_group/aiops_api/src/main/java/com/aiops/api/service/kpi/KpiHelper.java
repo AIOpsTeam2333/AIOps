@@ -1,6 +1,6 @@
 package com.aiops.api.service.kpi;
 
-import com.aiops.api.common.type.KpiType;
+import com.aiops.api.common.enums.KpiType;
 import org.springframework.stereotype.Service;
 
 import java.util.*;

@@ -1,9 +1,8 @@
 package com.aiops.api.controller;
 
 import com.aiops.api.common.validation.NeedIdGroup;
-import com.aiops.api.entity.vo.request.CommonRequestBody;
+import com.aiops.api.entity.vo.request.CommonRequestBodyKpi;
 import com.aiops.api.entity.vo.response.DatabaseKpiAll;
-import com.aiops.api.entity.vo.response.EndpointKpiAll;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -27,7 +26,7 @@ public class DatabaseKpiController {
     @ApiOperation(value = "数据库指标数据")
     @PostMapping("/")
     public DatabaseKpiAll endpointKpiAllData(
-            @RequestBody @Validated({NeedIdGroup.class}) CommonRequestBody commonRequestBody,
+            @RequestBody @Validated({NeedIdGroup.class}) CommonRequestBodyKpi commonRequestBodyKpi,
             BindingResult bindingResult) {
         return new DatabaseKpiAll();
     }

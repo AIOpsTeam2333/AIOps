@@ -1,8 +1,8 @@
 package com.aiops.api.mapper;
 
 import com.aiops.api.config.MyMapper;
-import com.aiops.api.entity.ServiceEndpoint;
-import com.aiops.api.entity.dto.ServiceEndpointSearchDto;
+import com.aiops.api.entity.po.ServiceEndpoint;
+import com.aiops.api.service.metadata.dto.ServiceEndpointSearchDto;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
