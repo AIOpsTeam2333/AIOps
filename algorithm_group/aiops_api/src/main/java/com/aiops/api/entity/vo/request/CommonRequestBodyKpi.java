@@ -14,7 +14,7 @@ import javax.validation.constraints.NotNull;
  **/
 @Data
 @ApiModel(description = "Kpi接口参数")
-public class CommonRequestBodyKpi {
+public class CommonRequestBodyKpi implements WithDuration{
 
     @Valid
     @NotNull(message = "duration不能为空")

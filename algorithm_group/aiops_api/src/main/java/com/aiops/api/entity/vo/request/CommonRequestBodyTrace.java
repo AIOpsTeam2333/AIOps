@@ -3,8 +3,6 @@ package com.aiops.api.entity.vo.request;
 import com.aiops.api.common.enums.QueryOrder;
 import com.aiops.api.common.enums.TraceState;
 import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
-import io.swagger.annotations.ApiParam;
 import lombok.Data;
 
 import javax.validation.Valid;
@@ -16,7 +14,7 @@ import javax.validation.constraints.NotNull;
  **/
 @Data
 @ApiModel(description = "Trace接口参数")
-public class CommonRequestBodyTrace {
+public class CommonRequestBodyTrace implements WithDuration, WithPaging {
 
     private Integer serviceId;
 
@@ -30,7 +28,9 @@ public class CommonRequestBodyTrace {
 
     @Valid
     @NotNull(message = "duration不能为空")
-    private Duration queryDuration;
+    private Duration duration;
+
+    private Paging paging;
 
     private Integer minTraceDuration;
 

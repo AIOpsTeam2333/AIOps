@@ -71,11 +71,10 @@ public class EndpointKpiController {
             result.setGlobalPercentile(globalKpiService.getGlobalPercentileGraph(duration));
         }
 
-        //TODO
         result.setGlobalBrief(metadataService.globalBrief());
         result.setGlobalSlow(endpointKpiService.getGlobalSlowEndpoint(duration));
         result.setEndpointTopology(endpointTopologyService.selectEndpointTopology(duration, endpointId));
-        result.setEndpointTraces(null);
+        result.setEndpointTraces(traceService.queryTracesInfoByEndpointId(duration, endpointId));
         return result;
     }
 

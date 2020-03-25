@@ -16,8 +16,7 @@
     <select id="selectList" resultMap="serviceInstance"
             parameterType="com.aiops.api.service.metadata.dto.ServiceInstanceSearchDto">
         select si.service_instance_id service_instance_id, si.service_id service_id, si.name i_name, si.language
-        `language`
-        , sia.name a_name, sia.value `value`
+        `language` , sia.name a_name, sia.value `value`
         from metadata_service_instance si
         left join metadata_service_instance_attribute sia
         on si.service_instance_id=sia.service_instance_id
