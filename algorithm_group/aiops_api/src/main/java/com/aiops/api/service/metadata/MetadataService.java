@@ -28,7 +28,7 @@ public class MetadataService {
     private final ServiceInstanceDao serviceInstanceDao;
     private final ServiceNodeDao serviceNodeDao;
 
-    public GlobalBrief globalBrief() {
+    public GlobalBrief getGlobalBrief() {
         GlobalBrief globalBrief = new GlobalBrief();
         globalBrief.setNumOfEndpoint(serviceEndpointDao.countAll());
         globalBrief.setNumOfService(serviceNodeDao.countAllService());

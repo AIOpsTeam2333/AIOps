@@ -16,11 +16,11 @@ public class InstanceKpiAll {
     private List<CrossAxisGraphPoint> instanceSLA;
     private List<CrossAxisGraphPoint> instanceCPU;
     private List<CrossAxisGraphPoint> clrCPU;
-    private CrlGC crlGC;
     private List<CrossAxisGraphPoint> clrHeap;
+    private ClrGC clrGC;
     private GcTime gcTime;
+    private GcCount gcCount;
 
     private List<MemoryPoint> heap;
     private List<MemoryPoint> nonHeap;
-
 }

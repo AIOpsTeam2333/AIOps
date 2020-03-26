@@ -4,6 +4,7 @@ import io.swagger.annotations.ApiModel;
 import lombok.Data;
 
 import javax.persistence.Column;
+import javax.persistence.Id;
 import javax.persistence.Table;
 
 /**
@@ -14,6 +15,7 @@ import javax.persistence.Table;
 @Table(name = "metadata_service_instance_attribute")
 @ApiModel(description = "服务实例属性")
 public class ServiceInstanceAttribute {
+
 
     @Column(name = "name")
     private String name;

@@ -41,27 +41,27 @@ public class ServiceKpiController {
     public ServiceKpiAll serviceKpiAllData(
             @RequestBody @Validated({NeedIdGroup.class}) CommonRequestBodyKpi commonRequestBodyKpi
     ) {
-        Set<KpiType> kpiTypes = kpiHelper.splitKpi(commonRequestBodyKpi.getBusiness());
+        KpiIndicator kpiIndicator = kpiHelper.splitKpi(commonRequestBodyKpi.getBusiness());
         ServiceKpiAll serviceKpiAll = new ServiceKpiAll();
         Duration duration = commonRequestBodyKpi.getDuration();
         Integer id = commonRequestBodyKpi.getId();
-        if (kpiTypes.isEmpty() || kpiTypes.contains(KpiType.APDEX_SCORE)) {
+        if (kpiIndicator.needKpiType(KpiType.APDEX_SCORE)) {
             serviceKpiAll.setServiceApdexScore(serviceKpiService.getApdexScore(duration, id));
         }
 
-        if (kpiTypes.isEmpty() || kpiTypes.contains(KpiType.RESPONSE_TIME)) {
+        if (kpiIndicator.needKpiType(KpiType.RESPONSE_TIME)) {
             serviceKpiAll.setServiceResponseTime(serviceKpiService.getResponseTime(duration, id));
         }
 
-        if (kpiTypes.isEmpty() || kpiTypes.contains(KpiType.THROUGHPUT)) {
+        if (kpiIndicator.needKpiType(KpiType.THROUGHPUT)) {
             serviceKpiAll.setServiceThroughput(serviceKpiService.getThroughput(duration, id));
         }
 
-        if (kpiTypes.isEmpty() || kpiTypes.contains(KpiType.SLA)) {
+        if (kpiIndicator.needKpiType(KpiType.SLA)) {
             serviceKpiAll.setServiceSLA(serviceKpiService.getSla(duration, id));
         }
 
-        if (kpiTypes.isEmpty() || kpiTypes.contains(KpiType.PERCENTILE) || kpiTypes.contains(KpiType.P50) || kpiTypes.contains(KpiType.P75) || kpiTypes.contains(KpiType.P90) || kpiTypes.contains(KpiType.P95) || kpiTypes.contains(KpiType.P99)) {
+        if (kpiIndicator.needPercentile()) {
             serviceKpiAll.setGlobalPercentile(globalKpiService.getGlobalPercentileGraph(duration));
             serviceKpiAll.setServicePercentile(serviceKpiService.getPercentileGraph(duration, id));
         }
@@ -73,7 +73,7 @@ public class ServiceKpiController {
 
 
     @ApiOperation(value = "服务指标数据serviceApdexScore")
-    @PostMapping("/serviceApdexScore")
+    @PostMapping("/apdexScore")
     public List<CrossAxisGraphPoint> serviceApdexScore(
             @RequestBody @Validated({NeedIdGroup.class}) CommonRequestBodyKpi commonRequestBodyKpi
     ) {
@@ -81,7 +81,7 @@ public class ServiceKpiController {
     }
 
     @ApiOperation(value = "服务指标数据serviceResponseTime")
-    @PostMapping("/serviceResponseTime")
+    @PostMapping("/responseTime")
     public List<CrossAxisGraphPoint> serviceResponseTime(
             @RequestBody @Validated({NeedIdGroup.class}) CommonRequestBodyKpi commonRequestBodyKpi
     ) {
@@ -89,7 +89,7 @@ public class ServiceKpiController {
     }
 
     @ApiOperation(value = "服务指标数据serviceThroughput")
-    @PostMapping("/serviceThroughput")
+    @PostMapping("/throughput")
     public List<CrossAxisGraphPoint> serviceThroughput(
             @RequestBody @Validated({NeedIdGroup.class}) CommonRequestBodyKpi commonRequestBodyKpi
     ) {
@@ -98,7 +98,7 @@ public class ServiceKpiController {
     }
 
     @ApiOperation(value = "服务指标数据serviceSLA")
-    @PostMapping("/serviceSLA")
+    @PostMapping("/sla")
     public List<CrossAxisGraphPoint> serviceSLA(
             @RequestBody @Validated({NeedIdGroup.class}) CommonRequestBodyKpi commonRequestBodyKpi
     ) {
@@ -107,7 +107,7 @@ public class ServiceKpiController {
     }
 
     @ApiOperation(value = "服务指标数据servicePercentile")
-    @PostMapping("/servicePercentile")
+    @PostMapping("/percentile")
     public PercentileGraph servicePercentile(
             @RequestBody @Validated({NeedIdGroup.class}) CommonRequestBodyKpi commonRequestBodyKpi
     ) {

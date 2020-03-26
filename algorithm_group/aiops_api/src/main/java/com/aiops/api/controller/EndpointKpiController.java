@@ -4,13 +4,11 @@ import com.aiops.api.common.enums.KpiType;
 import com.aiops.api.common.validation.NeedIdGroup;
 import com.aiops.api.entity.vo.request.CommonRequestBodyKpi;
 import com.aiops.api.entity.vo.request.Duration;
-import com.aiops.api.entity.vo.response.CrossAxisGraphPoint;
-import com.aiops.api.entity.vo.response.EndpointKpiAll;
-import com.aiops.api.entity.vo.response.PercentileGraph;
-import com.aiops.api.entity.vo.response.SimpleOrderNode;
+import com.aiops.api.entity.vo.response.*;
 import com.aiops.api.service.kpi.EndpointKpiService;
 import com.aiops.api.service.kpi.GlobalKpiService;
 import com.aiops.api.service.kpi.KpiHelper;
+import com.aiops.api.service.kpi.KpiIndicator;
 import com.aiops.api.service.metadata.MetadataService;
 import com.aiops.api.service.topology.endpoint.EndpointTopologyService;
 import com.aiops.api.service.trace.TraceService;
@@ -23,7 +21,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Set;
 
 /**
  * @author Shuaiyu Yao
@@ -48,30 +45,29 @@ public class EndpointKpiController {
     public EndpointKpiAll endpointKpiAllData(
             @RequestBody @Validated({NeedIdGroup.class}) CommonRequestBodyKpi commonRequestBodyKpi
     ) {
-        Set<KpiType> kpiTypes = kpiHelper.splitKpi(commonRequestBodyKpi.getBusiness());
-        final boolean kpiEmpty = kpiTypes.isEmpty();
+        KpiIndicator kpiIndicator = kpiHelper.splitKpi(commonRequestBodyKpi.getBusiness());
         Duration duration = commonRequestBodyKpi.getDuration();
         Integer endpointId = commonRequestBodyKpi.getId();
         EndpointKpiAll result = new EndpointKpiAll();
 
-        if (kpiEmpty || kpiTypes.contains(KpiType.RESPONSE_TIME)) {
+        if (kpiIndicator.needKpiType(KpiType.RESPONSE_TIME)) {
             result.setEndpointResponseTime(endpointKpiService.getResponseTime(duration, endpointId));
         }
 
-        if (kpiEmpty || kpiTypes.contains(KpiType.THROUGHPUT)) {
+        if (kpiIndicator.needKpiType(KpiType.THROUGHPUT)) {
             result.setEndpointThroughput(endpointKpiService.getThroughput(duration, endpointId));
         }
 
-        if (kpiEmpty || kpiTypes.contains(KpiType.SLA)) {
+        if (kpiIndicator.needKpiType(KpiType.SLA)) {
             result.setEndpointSLA(endpointKpiService.getSla(duration, endpointId));
         }
 
-        if (kpiEmpty || kpiTypes.contains(KpiType.PERCENTILE) || kpiTypes.contains(KpiType.P50) || kpiTypes.contains(KpiType.P75) || kpiTypes.contains(KpiType.P90) || kpiTypes.contains(KpiType.P95) || kpiTypes.contains(KpiType.P99)) {
+        if (kpiIndicator.needPercentile()) {
             result.setEndpointPercentile(endpointKpiService.getPercentileGraph(duration, endpointId));
             result.setGlobalPercentile(globalKpiService.getGlobalPercentileGraph(duration));
         }
 
-        result.setGlobalBrief(metadataService.globalBrief());
+        result.setGlobalBrief(metadataService.getGlobalBrief());
         result.setGlobalSlow(endpointKpiService.getGlobalSlowEndpoint(duration));
         result.setEndpointTopology(endpointTopologyService.selectEndpointTopology(duration, endpointId));
         result.setEndpointTraces(traceService.queryTracesInfoByEndpointId(duration, endpointId));
@@ -79,7 +75,7 @@ public class EndpointKpiController {
     }
 
     @ApiOperation(value = "端点指标数据endpointResponseTime")
-    @PostMapping("/endpointResponseTime")
+    @PostMapping("/responseTime")
     public List<CrossAxisGraphPoint> endpointResponseTime(
             @RequestBody @Validated({NeedIdGroup.class}) CommonRequestBodyKpi commonRequestBodyKpi
     ) {
@@ -87,7 +83,7 @@ public class EndpointKpiController {
     }
 
     @ApiOperation(value = "端点指标数据endpointThroughput")
-    @PostMapping("/endpointThroughput")
+    @PostMapping("/throughput")
     public List<CrossAxisGraphPoint> endpointThroughput(
             @RequestBody @Validated({NeedIdGroup.class}) CommonRequestBodyKpi commonRequestBodyKpi
     ) {
@@ -95,7 +91,7 @@ public class EndpointKpiController {
     }
 
     @ApiOperation(value = "端点指标数据endpointSLA")
-    @PostMapping("/endpointSLA")
+    @PostMapping("/sla")
     public List<CrossAxisGraphPoint> endpointSLA(
             @RequestBody @Validated({NeedIdGroup.class}) CommonRequestBodyKpi commonRequestBodyKpi
     ) {
@@ -103,7 +99,7 @@ public class EndpointKpiController {
     }
 
     @ApiOperation(value = "端点指标数据endpointPercentile")
-    @PostMapping("/endpointPercentile")
+    @PostMapping("/percentile")
     public PercentileGraph endpointPercentile(
             @RequestBody @Validated({NeedIdGroup.class}) CommonRequestBodyKpi commonRequestBodyKpi
     ) {
@@ -116,5 +112,21 @@ public class EndpointKpiController {
             @RequestBody @Validated({NeedIdGroup.class}) CommonRequestBodyKpi commonRequestBodyKpi
     ) {
         return endpointKpiService.getGlobalSlowEndpoint(commonRequestBodyKpi.getDuration());
+    }
+
+    @ApiOperation(value = "端点指标数据endpointTopology")
+    @PostMapping("/topology")
+    public EndpointTopology endpointTopology(
+            @RequestBody @Validated({NeedIdGroup.class}) CommonRequestBodyKpi commonRequestBodyKpi
+    ) {
+        return endpointTopologyService.selectEndpointTopology(commonRequestBodyKpi.getDuration(), commonRequestBodyKpi.getId());
+    }
+
+    @ApiOperation(value = "端点指标数据endpointTraces")
+    @PostMapping("/traces")
+    public TracesGraph endpointTraces(
+            @RequestBody @Validated({NeedIdGroup.class}) CommonRequestBodyKpi commonRequestBodyKpi
+    ) {
+        return traceService.queryTracesInfoByEndpointId(commonRequestBodyKpi.getDuration(), commonRequestBodyKpi.getId());
     }
 }

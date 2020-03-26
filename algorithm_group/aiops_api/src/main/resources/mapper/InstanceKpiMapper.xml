@@ -2,20 +2,20 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.aiops.api.mapper.InstanceKpiMapper">
 
-    <select id="selectCrossAxisKpi" resultType="com.aiops.api.entity.vo.response.CrossAxisGraphPoint">
+    <select id="queryCrossAxisKpi" resultType="com.aiops.api.entity.vo.response.CrossAxisGraphPoint">
         SELECT s.`time` `time`, IFNULL(`value`, 0) `value`, IFNULL(`predict`,0) `predict`
         FROM step_${step} s
         LEFT JOIN
         (SELECT `time`, `value`, `predict`
         FROM kpi_instance_${kpiName}_${step}
-        WHERE instance_id = 0) a
+        WHERE service_instance_id = #{instanceId}) a
         ON s.`time`= a.`time`
         WHERE s.`time` <![CDATA[ >= ]]> #{from}
         AND s.`time` <![CDATA[ <= ]]> #{to}
-        ORDER BY s.`time`;
+        ORDER BY s.`time` asc;
     </select>
 
-    <select id="serviceInstanceThroughputDesc" resultType="com.aiops.api.entity.vo.response.SimpleOrderNode">
+    <select id="queryServiceInstanceThroughputDesc" resultType="com.aiops.api.entity.vo.response.SimpleOrderNode">
         select msi.`service_instance_id` id, msi.`name` `name`, IFNULL(AVG(k.`value`),0 ) `value`
         from metadata_service_instance msi
         left join kpi_instance_throughput_${step} k
@@ -25,6 +25,24 @@
         and k.`time` <![CDATA[ >= ]]> #{from}
         group by msi.`service_instance_id`
         ORDER BY `value` DESC
+    </select>
+
+    <select id="queryMemoryPoints" resultType="com.aiops.api.entity.vo.response.MemoryPoint">
+        SELECT IFNULL(a.`value`, 0) `value`, IFNULL(a.`free`, 0) `free`, IFNULL(a.`predict`, 0) `predict`
+        FROM step_day s
+        LEFT JOIN(
+        SELECT h.`value` AS `value`,
+        IF (mh.`value`-h.`value`<![CDATA[ < ]]> 0,0,mh.`value`-h.`value`) AS `free`,
+        h.`predict` AS `predict` ,
+        h.`time` AS `time`
+        FROM kpi_instance_${occupiedHeap}_${step} h
+        LEFT JOIN kpi_instance_${maxHeap}_${step} mh
+        ON h.`service_instance_id`=mh.`service_instance_id` AND h.`time`=mh.`time`
+        WHERE h.`service_instance_id`=#{instanceId}) a
+        ON s.`time`=a.`time`
+        where s.`time` <![CDATA[ <= ]]> #{to}
+        and s.`time` <![CDATA[ >= ]]> #{from}
+        order by s.`time` asc;
     </select>
 
 </mapper>

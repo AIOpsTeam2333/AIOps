@@ -9,7 +9,7 @@ import java.util.List;
  * @create 2020-03-09 10:50
  */
 @Data
-public class CrlGC {
+public class ClrGC {
 
     private List<CrossAxisGraphPoint> clrGCGen0;
     private List<CrossAxisGraphPoint> clrGCGen1;

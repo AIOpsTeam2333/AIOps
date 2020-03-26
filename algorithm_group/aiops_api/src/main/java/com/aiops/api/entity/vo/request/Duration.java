@@ -20,16 +20,21 @@ public class Duration {
 
     @JsonProperty(value = "start", required = true)
     @NotNull(message = "起始时间不能为空")
-    @ApiModelProperty(name = "start", example = "2020-01-01")
+    @ApiModelProperty(name = "start", example = "2020-03-01")
     private Date start;
 
     @JsonProperty(value = "end", required = true)
     @NotNull(message = "结束时间不能为空")
-    @ApiModelProperty(name = "stop", example = "2020-05-01")
+    @ApiModelProperty(name = "stop", example = "2020-03-02")
     private Date end;
 
     @JsonProperty(value = "step", required = true)
     @NotNull(message = "时间步长不能为空")
     @ApiModelProperty(name = "step", example = "DAY")
     private StatisticsStep step;
+
+    @ApiModelProperty(hidden = true)
+    public String getStepName() {
+        return step.getName();
+    }
 }

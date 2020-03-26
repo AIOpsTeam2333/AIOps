@@ -14,7 +14,6 @@ import java.util.List;
  * @create 2020-03-10 13:28
  */
 @Repository
-@Mapper
 public interface GlobalKpiMapper {
 
     List<CrossAxisGraphPoint> selectCrossAxisKpi(

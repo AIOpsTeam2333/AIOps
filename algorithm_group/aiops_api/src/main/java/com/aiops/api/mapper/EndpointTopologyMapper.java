@@ -15,7 +15,6 @@ import java.util.List;
  * @create 2020-03-24 15:13
  **/
 @Repository
-@Mapper
 public interface EndpointTopologyMapper extends MyMapper<EndpointTopologyNode> {
 
     List<ContextIdInfo> getContextIdInfo(
