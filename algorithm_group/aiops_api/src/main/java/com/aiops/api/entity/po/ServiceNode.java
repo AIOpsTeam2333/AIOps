@@ -33,7 +33,7 @@ public class ServiceNode {
 
     @ApiModelProperty(example = "2000-01-01 00:00:00")
     @Column(name = "add_timestamp")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date addTimestamp;
 
     @Column(name = "node_type")

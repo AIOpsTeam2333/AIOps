@@ -4,6 +4,7 @@ import com.aiops.api.common.enums.StatisticsStep;
 import com.aiops.api.entity.vo.request.Duration;
 import com.aiops.api.entity.vo.response.EndpointTopology;
 import com.aiops.api.service.topology.endpoint.EndpointTopologyService;
+import jdk.nashorn.internal.ir.annotations.Ignore;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -22,6 +23,7 @@ public class TopologyTests {
     private EndpointTopologyService endpointTopologyService;
 
     @Test
+    @Ignore
     public void endpointTopoTest1() throws ParseException {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMM");
         Duration duration = new Duration();

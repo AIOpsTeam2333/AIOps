@@ -124,7 +124,7 @@ public class EndpointKpiController {
 
     @ApiOperation(value = "端点指标数据endpointTraces")
     @PostMapping("/traces")
-    public TracesGraph endpointTraces(
+    public TraceGraph endpointTraces(
             @RequestBody @Validated({NeedIdGroup.class}) CommonRequestBodyKpi commonRequestBodyKpi
     ) {
         return traceService.queryTracesInfoByEndpointId(commonRequestBodyKpi.getDuration(), commonRequestBodyKpi.getId());

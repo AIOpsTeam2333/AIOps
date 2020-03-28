@@ -6,7 +6,7 @@ import com.aiops.api.entity.vo.request.CommonRequestBodyTrace;
 import com.aiops.api.entity.vo.request.Duration;
 import com.aiops.api.entity.vo.request.Paging;
 import com.aiops.api.entity.vo.response.TracePoint;
-import com.aiops.api.entity.vo.response.TracesGraph;
+import com.aiops.api.entity.vo.response.TraceGraph;
 import com.aiops.api.service.trace.dto.TraceSearchDto;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -29,7 +29,7 @@ public class TraceService {
     private Integer defaultPageSize;
     private final TraceDao traceDao;
 
-    public TracesGraph queryTracesInfoByEndpointId(Duration duration, Integer endpointId) {
+    public TraceGraph queryTracesInfoByEndpointId(Duration duration, Integer endpointId) {
         CommonRequestBodyTrace commonRequestBodyTrace = new CommonRequestBodyTrace();
         commonRequestBodyTrace.setEndpointId(endpointId);
         commonRequestBodyTrace.setQueryOrder(QueryOrder.BY_DURATION);
@@ -42,11 +42,11 @@ public class TraceService {
     }
 
 
-    public TracesGraph queryTracesInfo(
+    public TraceGraph queryTracesInfo(
             CommonRequestBodyTrace commonRequestBodyTrace
     ) {
         if (commonRequestBodyTrace == null) {
-            return new TracesGraph();
+            return new TraceGraph();
         }
 
         TraceSearchDto traceSearchDto = traceBody2TraceSearchDto(commonRequestBodyTrace);
@@ -54,7 +54,7 @@ public class TraceService {
         Integer pageSize = commonRequestBodyTrace.getPagingSize();
         PageHelper.startPage(pageNum, pageSize);
         PageInfo<TracePoint> pageInfo = new PageInfo<>(traceDao.queryTraces(traceSearchDto));
-        TracesGraph result = new TracesGraph();
+        TraceGraph result = new TraceGraph();
         result.setTraces(pageInfo.getList());
         result.setTotal((int) pageInfo.getTotal());
         PageHelper.clearPage();

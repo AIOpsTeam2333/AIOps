@@ -19,6 +19,6 @@ public class EndpointKpiAll {
     private PercentileGraph endpointPercentile;
     private EndpointTopology endpointTopology;
     private List<SimpleOrderNode> globalSlow;
-    private TracesGraph endpointTraces;
+    private TraceGraph endpointTraces;
 
 }

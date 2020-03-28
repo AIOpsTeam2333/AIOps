@@ -1,5 +1,6 @@
 package com.aiops.api.entity.vo.response;
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.util.List;
@@ -17,5 +18,6 @@ public class DatabaseKpiAll {
     private List<CrossAxisGraphPoint> databaseResponseTime;
     private List<CrossAxisGraphPoint> databaseThroughput;
     private List<CrossAxisGraphPoint> databaseSLA;
+    @ApiModelProperty(hidden = true)
     private List<DatabaseRecord> databaseTopNRecords;
 }

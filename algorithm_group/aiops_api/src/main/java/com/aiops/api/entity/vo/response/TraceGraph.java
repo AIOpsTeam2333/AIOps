@@ -9,7 +9,7 @@ import java.util.List;
  * @create 2020-03-06 17:48
  */
 @Data
-public class TracesGraph {
+public class TraceGraph {
 
     private Integer total;
 

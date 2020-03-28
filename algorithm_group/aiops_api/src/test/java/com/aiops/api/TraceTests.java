@@ -2,8 +2,9 @@ package com.aiops.api;
 
 import com.aiops.api.common.enums.StatisticsStep;
 import com.aiops.api.entity.vo.request.Duration;
-import com.aiops.api.entity.vo.response.TracesGraph;
+import com.aiops.api.entity.vo.response.TraceGraph;
 import com.aiops.api.service.trace.TraceService;
+import jdk.nashorn.internal.ir.annotations.Ignore;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -21,6 +22,7 @@ public class TraceTests {
     @Autowired
     private TraceService traceService;
 
+    @Ignore
     @Test
     public void TraceTest1() throws ParseException {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMM");
@@ -29,8 +31,8 @@ public class TraceTests {
         duration.setEnd(simpleDateFormat.parse("202012"));
         duration.setStep(StatisticsStep.MONTH);
         Integer endpointId = 1;
-        TracesGraph tracesGraph = traceService.queryTracesInfoByEndpointId(duration, endpointId);
-        System.out.println(tracesGraph);
+        TraceGraph traceGraph = traceService.queryTracesInfoByEndpointId(duration, endpointId);
+        System.out.println(traceGraph);
     }
 
 }
