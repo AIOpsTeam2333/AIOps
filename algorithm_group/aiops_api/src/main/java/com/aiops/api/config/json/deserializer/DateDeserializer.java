@@ -1,4 +1,4 @@
-package com.aiops.api.config;
+package com.aiops.api.config.json.deserializer;
 
 import com.aiops.api.common.enums.StatisticsStep;
 import com.fasterxml.jackson.core.JsonParser;
@@ -19,7 +19,7 @@ import java.util.Map;
  * @create 2020-03-11 14:07
  */
 @JsonComponent
-public class DataConverterConfig extends JsonDeserializer<Date> {
+public class DateDeserializer extends JsonDeserializer<Date> {
 
     private final static Map<StatisticsStep, SimpleDateFormat> formatMap;
 
@@ -37,7 +37,9 @@ public class DataConverterConfig extends JsonDeserializer<Date> {
 
     @Override
     public Date deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException, JsonProcessingException {
-        String value = jsonParser.getText().trim();
+        String value = jsonParser.getText();
+        if (value == null) return null;
+        value = value.trim();
         if ("".equals(value)) {
             return null;
         }
