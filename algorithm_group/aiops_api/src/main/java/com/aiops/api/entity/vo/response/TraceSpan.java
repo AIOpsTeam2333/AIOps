@@ -23,7 +23,7 @@ public class TraceSpan {
 
     private Integer spanId;
 
-    private Integer parentId;
+    private Integer parentSpanId;
 
     private List<TraceSpanRef> refs;
 
@@ -47,5 +47,5 @@ public class TraceSpan {
 
     private List<KeyValue> tags;
 
-    private TraceSpanLog logs;
+    private List<TraceSpanLog> logs;
 }
