@@ -1,13 +1,79 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="203df713-cef4-467c-993e-8a1b19cbba3d" name="Default Changelist" comment="" />
+    <list default="true" id="203df713-cef4-467c-993e-8a1b19cbba3d" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Collection_Group/.idea/compiler.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Collection_Group/.idea/encodings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Collection_Group/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Collection_Group/.idea/uiDesigner.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Collection_Group/.idea/workspace.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Collection_Group/Collection_Group.ipr" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Collection_Group/Collection_Group.iws" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Collection_Group/pom.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Collection_Group/src/main/java/com/AIOps/Leonarda/App.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Collection_Group/src/main/java/com/AIOps/Leonarda/domain/Paging.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Collection_Group/src/main/java/com/AIOps/Leonarda/domain/QueryDuration.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Collection_Group/src/main/java/com/AIOps/Leonarda/domain/TraceQueryCondition.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Collection_Group/src/main/java/com/AIOps/Leonarda/domain/common/Language.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Collection_Group/src/main/java/com/AIOps/Leonarda/domain/common/Step.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Collection_Group/src/main/java/com/AIOps/Leonarda/domain/trace/QueryOrder.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Collection_Group/src/main/java/com/AIOps/Leonarda/domain/trace/TraceState.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Collection_Group/src/main/java/com/AIOps/Leonarda/service/GraphqlCollection.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Collection_Group/src/main/java/com/AIOps/Leonarda/service/impl/GraphqlCollectionImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Collection_Group/src/main/java/com/AIOps/Leonarda/tools/JsonCreation.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Collection_Group/src/test/java/com/AIOps/Leonarda/AppTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Collection_Group/target/classes/META-INF/Collection_Group.kotlin_module" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Collection_Group/target/classes/com/AIOps/Leonarda/App.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Collection_Group/target/classes/com/AIOps/Leonarda/domain/Paging.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Collection_Group/target/classes/com/AIOps/Leonarda/domain/QueryDuration.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Collection_Group/target/classes/com/AIOps/Leonarda/domain/TraceQueryCondition.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Collection_Group/target/classes/com/AIOps/Leonarda/domain/common/Language.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Collection_Group/target/classes/com/AIOps/Leonarda/domain/common/Step.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Collection_Group/target/classes/com/AIOps/Leonarda/domain/trace/QueryOrder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Collection_Group/target/classes/com/AIOps/Leonarda/domain/trace/TraceState.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Collection_Group/target/classes/com/AIOps/Leonarda/service/GraphqlCollection.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Collection_Group/target/classes/com/AIOps/Leonarda/service/impl/GraphqlCollectionImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Collection_Group/target/classes/com/AIOps/Leonarda/tools/JsonCreation.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Collection_Group/target/test-classes/com/AIOps/Leonarda/AppTest.class" beforeDir="false" />
+    </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileEditorManager">
+    <leaf>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/algorithm_group/aiops_api/src/main/java/com/aiops/api/common/enums/KpiType.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="144">
+              <caret line="10" column="12" selection-start-line="10" selection-start-column="12" selection-end-line="10" selection-end-column="12" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/algorithm_group/aiops_api/src/main/java/com/aiops/api/common/enums/QueryOrder.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="108">
+              <caret line="6" column="12" selection-start-line="6" selection-start-column="12" selection-end-line="6" selection-end-column="12" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/algorithm_group/aiops_api/src/main/java/com/aiops/api/common/exception/CommonEnum.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-219">
+              <caret line="6" column="12" selection-start-line="6" selection-start-column="12" selection-end-line="6" selection-end-column="12" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -22,7 +88,6 @@
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="19" />
     <option name="y" value="8" />
     <option name="width" value="1280" />
     <option name="height" value="774" />
@@ -33,12 +98,65 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="ProjectPane" />
-      <pane id="Scope" />
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="ALOps" type="b2602c69:ProjectViewProjectNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="ALOps" type="b2602c69:ProjectViewProjectNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="ALOps" type="b2602c69:ProjectViewProjectNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="api" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="ALOps" type="b2602c69:ProjectViewProjectNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="api" type="462c0819:PsiDirectoryNode" />
+              <item name="common" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="ALOps" type="b2602c69:ProjectViewProjectNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="api" type="462c0819:PsiDirectoryNode" />
+              <item name="common" type="462c0819:PsiDirectoryNode" />
+              <item name="enums" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="ALOps" type="b2602c69:ProjectViewProjectNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="api" type="462c0819:PsiDirectoryNode" />
+              <item name="common" type="462c0819:PsiDirectoryNode" />
+              <item name="exception" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="ALOps" type="b2602c69:ProjectViewProjectNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="api" type="462c0819:PsiDirectoryNode" />
+              <item name="common" type="462c0819:PsiDirectoryNode" />
+              <item name="kpidatabase" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
       <pane id="PackagesPane" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
     <property name="node.js.detected.package.eslint" value="true" />
@@ -118,14 +236,15 @@
       <workItem from="1583237268351" duration="313000" />
       <workItem from="1583999249276" duration="189000" />
       <workItem from="1584886699913" duration="511000" />
+      <workItem from="1586732756426" duration="48000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1013000" />
+    <option name="totallyTimeSpent" value="1061000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="19" y="8" width="1280" height="774" extended-state="0" />
+    <frame x="0" y="8" width="1280" height="774" extended-state="0" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.24959612" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -162,6 +281,29 @@
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/algorithm_group/aiops_api/src/main/java/com/aiops/api/common/enums/KpiType.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="144">
+          <caret line="10" column="12" selection-start-line="10" selection-start-column="12" selection-end-line="10" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/algorithm_group/aiops_api/src/main/java/com/aiops/api/common/enums/QueryOrder.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="108">
+          <caret line="6" column="12" selection-start-line="6" selection-start-column="12" selection-end-line="6" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/algorithm_group/aiops_api/src/main/java/com/aiops/api/common/exception/CommonEnum.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-219">
+          <caret line="6" column="12" selection-start-line="6" selection-start-column="12" selection-end-line="6" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
   </component>
   <component name="masterDetails">
     <states>
