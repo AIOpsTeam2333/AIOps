@@ -3,10 +3,13 @@
 <mapper namespace="com.aiops.api.mapper.GlobalKpiMapper">
 
     <select id="selectCrossAxisKpi" resultType="com.aiops.api.entity.vo.response.CrossAxisGraphPoint">
-        select `time`, `value`, `predict`
-        from kpi_all_${kpiName}_${step}
-        where `time` <![CDATA[ >= ]]> #{from}
-        and `time` <![CDATA[ <= ]]> #{to};
+        SELECT s.`time`, IFNULL(m.`value`, 0) `value`, IFNULL(m.`predict`, 0) `predict`
+        FROM step_${step} s
+        LEFT JOIN kpi_all_${kpiName}_${step} m
+        ON s.`time` = m.`time`
+        WHERE s.`time` <![CDATA[ >= ]]> #{from}
+        AND s.`time` <![CDATA[ <= ]]> #{to}
+        ORDER BY s.`time`;
     </select>
 
 
@@ -20,12 +23,14 @@
             @rank := @rank + 1
         END AS `x`, a.y, a.value, a.predict
         FROM(
-            SELECT `time`,  `num_of_steps` AS `y`, `value`, 0.0 AS `predict`
-            FROM kpi_all_heatmap_${step}
-            WHERE `step` = #{heatmapStep}
-            and `time` <![CDATA[ >= ]]> #{from}
-            and `time` <![CDATA[ <= ]]> #{to}
-            ORDER BY `time`, `y` ASC) a;
+            SELECT s.`time`,  IFNULL(`num_of_steps`, 0) `y`, IFNULL(`value`, 0) `value`, 0.0 AS `predict`
+            FROM step_${step} s
+            LEFT JOIN kpi_all_heatmap_${step} k
+            ON s.`time` = k.`time`
+            WHERE s.`time` <![CDATA[ >= ]]> #{from}
+            AND s.`time` <![CDATA[ <= ]]> #{to}
+            ORDER BY s.`time`, `y` ASC
+        ) a;
     </select>
 
 
@@ -35,7 +40,7 @@
         where `time` <![CDATA[ >= ]]> #{from}
         and `time` <![CDATA[ <= ]]> #{to}
         group by step
-        order by step desc
+        order by count(step) desc
         limit 1;
     </select>
 </mapper>

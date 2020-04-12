@@ -3,11 +3,39 @@
 <mapper namespace="com.aiops.api.mapper.EndpointKpiMapper">
 
     <select id="selectCrossAxisKpi" resultType="com.aiops.api.entity.vo.response.CrossAxisGraphPoint">
-        select `time`, `value`, `predict`
-        from kpi_service_${kpiName}_${step}
-        where `endpoint_id` = #{endpointId}
-        and `time` <![CDATA[ >= ]]> #{from}
-        and `time` <![CDATA[ <= ]]> #{to};
+        SELECT s.`time` `time`, IFNULL(`value`, 0) `value`, IFNULL(`predict`,0) `predict`
+        FROM step_${step} s
+        LEFT JOIN
+        (SELECT `time`, `value`, `predict`
+        FROM kpi_endpoint_${kpiName}_${step}
+        WHERE service_endpoint_id = #{endpointId}) a
+        ON s.`time`= a.`time`
+        WHERE s.`time` <![CDATA[ >= ]]> #{from}
+        AND s.`time` <![CDATA[ <= ]]> #{to}
+        ORDER BY s.`time`;
+    </select>
+
+    <select id="selectServiceSlowEndpoint" resultType="com.aiops.api.entity.vo.response.SimpleOrderNode">
+        select mse.`service_endpoint_id` id, mse.`name` `name`, IFNULL(AVG(k.`value`),0 ) `value`
+        from metadata_service_endpoint mse
+        left join kpi_endpoint_response_time_${step} k
+        on mse.`service_endpoint_id`=k.`service_endpoint_id`
+        where mse.`service_id` = #{serviceId}
+        and k.`time` <![CDATA[ <= ]]> #{to}
+        and k.`time` <![CDATA[ >= ]]> #{from}
+        group by mse.`service_endpoint_id`
+        ORDER BY `value` DESC
+    </select>
+
+    <select id="selectGlobalSlowEndpoint" resultType="com.aiops.api.entity.vo.response.SimpleOrderNode">
+        select mse.`service_endpoint_id` id, mse.`name` `name`, IFNULL(AVG(k.`value`),0 ) `value`
+        from metadata_service_endpoint mse
+        left join kpi_endpoint_response_time_${step} k
+        on mse.`service_endpoint_id`=k.`service_endpoint_id`
+        where k.`time` <![CDATA[ <= ]]> #{to}
+        and k.`time` <![CDATA[ >= ]]> #{from}
+        group by mse.`service_endpoint_id`
+        ORDER BY `value` DESC
     </select>
 
 </mapper>

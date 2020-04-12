@@ -21,6 +21,4 @@ public class TracePoint {
 
     private Boolean isError;
 
-    private List<Integer> traceIds;
-
 }

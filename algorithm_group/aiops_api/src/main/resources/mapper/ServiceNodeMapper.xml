@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.aiops.api.mapper.ServiceNodeMapper">
 
-    <resultMap id="node" type="com.aiops.api.entity.ServiceNode">
+    <resultMap id="node" type="com.aiops.api.entity.po.ServiceNode">
         <id column="node_id" property="nodeId"/>
         <result column="name" property="name"/>
         <result column="add_timestamp" property="addTimestamp"/>
@@ -10,15 +10,15 @@
         <result column="node_type" property="nodeType"/>
     </resultMap>
 
-    <resultMap id="service" type="com.aiops.api.entity.Service" extends="node">
+    <resultMap id="service" type="com.aiops.api.entity.po.Service" extends="node">
         <result column="service_id" property="serviceId"/>
     </resultMap>
 
-    <resultMap id="database" type="com.aiops.api.entity.Database" extends="node">
+    <resultMap id="database" type="com.aiops.api.entity.po.Database" extends="node">
         <result column="database_id" property="databaseId"/>
     </resultMap>
 
-    <select id="selectServices" resultMap="service" parameterType="com.aiops.api.entity.dto.ServiceNodeSearchDto">
+    <select id="selectServices" resultMap="service" parameterType="com.aiops.api.service.metadata.dto.ServiceNodeSearchDto">
         select *
         from metadata_service s
         join metadata_service_node n
@@ -37,7 +37,7 @@
     </select>
 
     <select id="selectDatabases" resultMap="database"
-            parameterType="com.aiops.api.entity.dto.ServiceNodeSearchDto">
+            parameterType="com.aiops.api.service.metadata.dto.ServiceNodeSearchDto">
         select *
         from metadata_database d
         join metadata_service_node n

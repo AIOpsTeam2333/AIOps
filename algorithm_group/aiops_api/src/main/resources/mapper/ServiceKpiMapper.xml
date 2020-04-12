@@ -3,11 +3,16 @@
 <mapper namespace="com.aiops.api.mapper.ServiceKpiMapper">
 
     <select id="selectCrossAxisKpi" resultType="com.aiops.api.entity.vo.response.CrossAxisGraphPoint">
-        select `time`, `value`, `predict`
-        from kpi_service_${kpiName}_${step}
-        where `service_id` = #{serviceId}
-        and `time` <![CDATA[ >= ]]> #{from}
-        and `time` <![CDATA[ <= ]]> #{to};
+        SELECT s.`time` `time`, IFNULL(`value`, 0) `value`, IFNULL(`predict`,0) `predict`
+        FROM step_${step} s
+        LEFT JOIN
+        (SELECT `time`, `value`, `predict`
+        FROM kpi_service_${kpiName}_${step}
+        WHERE service_id = 0) a
+        ON s.`time`= a.`time`
+        WHERE s.`time` <![CDATA[ >= ]]> #{from}
+        AND s.`time` <![CDATA[ <= ]]> #{to}
+        ORDER BY s.`time`;
     </select>
 
 </mapper>

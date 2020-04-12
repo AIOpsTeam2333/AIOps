@@ -4,7 +4,7 @@ spring:
   profiles:
     active: dev
   datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
+    driver-class-name: com.mysql.jdbc.Driver
   jackson:
     default-property-inclusion: non_null
 
@@ -20,6 +20,20 @@ mapper:
   not-empty: true
   identity: MYSQL
 
+aiops:
+  paging:
+    size: 15
+  step:
+    reserved-number: 2000
+
+# pagehelper
+pagehelper:
+  helperDialect: mysql
+  reasonable: true
+  supportMethodsArguments: true
+  params: pageNum=pageNum;pageSize=pageSize;count=countSql;reasonable=reasonable;pageSizeZero=pageSizeZero
+  helper-dialect: mysql
+  support-methods-arguments: true
 ---
 spring:
   profiles: dev
@@ -41,4 +55,4 @@ spring:
   datasource:
     username: kdm
     password: aiops-api
-    url: jdbc:mysql://localhost:3306/aiops?characterEncoding=UTF-8&useSSL=true&serverTimezone=GMT%2B8&allowMultiQueries=true
+    url: jdbc:mysql://localhost:3306/aiops?characterEncoding=UTF-8&useSSL=false&serverTimezone=GMT%2B8&allowMultiQueries=true

@@ -5,6 +5,7 @@ import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.converter.HttpMessageConversionException;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.BindException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -62,8 +63,17 @@ public class GlobalExceptionHandler {
     @ResponseBody
     public ResultBody exceptionHandler(HttpMessageNotReadableException e) {
         log.error("传参错误:" + e.getLocalizedMessage());
-        e.printStackTrace();
         return ResultBody.error(e.getLocalizedMessage());
+    }
+
+    @ExceptionHandler(value = MethodArgumentNotValidException.class)
+    @ResponseBody
+    public ResultBody exceptionHandler(MethodArgumentNotValidException e) {
+        log.error("参数错误:" + e.getBindingResult().toString());
+        return ResultBody.error(e.getBindingResult().getFieldErrors().stream()
+                .map(a -> a.getField() + " " + a.getDefaultMessage())
+                .reduce((a, b) -> a + ", " + b)
+                .orElse(""));
     }
 
     @ExceptionHandler(value = HttpMessageConversionException.class)

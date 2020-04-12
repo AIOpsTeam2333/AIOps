@@ -16,6 +16,9 @@ import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
+import java.sql.Timestamp;
+import java.util.Date;
+
 /**
  * @author Shuaiyu Yao
  * @create 2020-03-03 13:24
@@ -44,7 +47,8 @@ public class Swagger2Controller {
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("com.aiops.api.controller"))
                 .paths(PathSelectors.any())
-                .build();
+                .build()
+                .directModelSubstitute(Timestamp.class, Long.class);
 //        return new Docket(DocumentationType.SWAGGER_2).select().apis(RequestHandlerSelectors.withMethodAnnotation(ApiOperation.class)).build();
     }
 

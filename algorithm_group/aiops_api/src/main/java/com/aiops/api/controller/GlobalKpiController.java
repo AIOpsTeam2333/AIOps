@@ -1,23 +1,20 @@
 package com.aiops.api.controller;
 
-import com.aiops.api.common.type.KpiType;
-import com.aiops.api.dao.ServiceNodeDao;
-import com.aiops.api.dao.ServiceEndpointDao;
-import com.aiops.api.entity.vo.request.CommonRequestBody;
+import com.aiops.api.common.enums.KpiType;
+import com.aiops.api.entity.vo.request.CommonRequestBodyKpi;
 import com.aiops.api.entity.vo.request.Duration;
 import com.aiops.api.entity.vo.response.*;
 import com.aiops.api.service.kpi.GlobalKpiService;
 import com.aiops.api.service.kpi.KpiHelper;
+import com.aiops.api.service.kpi.KpiIndicator;
+import com.aiops.api.service.metadata.MetadataService;
 import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.validation.BindException;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.Set;
 
 /**
  * @author Shuaiyu Yao
@@ -30,66 +27,47 @@ import java.util.Set;
 @RestController
 public class GlobalKpiController {
 
-    private final ServiceEndpointDao serviceEndpointDao;
-    private final ServiceNodeDao serviceNodeDao;
     private final KpiHelper kpiHelper;
     private final GlobalKpiService globalKpiService;
+    private final MetadataService metadataService;
 
     @ApiOperation(value = "全局指标数据")
     @ApiImplicitParam
     @PostMapping("/")
     public GlobalKpiAll globalAllData(
-            @RequestBody @Valid CommonRequestBody commonRequestBody,
-            BindingResult bindingResult
-    ) throws BindException {
-        if (bindingResult.hasErrors()) {
-            throw new BindException(bindingResult);
-        }
-        Set<KpiType> kpis = kpiHelper.splitKpi(commonRequestBody.getBusiness());
+            @RequestBody @Valid CommonRequestBodyKpi commonRequestBodyKpi
+    ) {
+        KpiIndicator kpiIndicator = kpiHelper.splitKpi(commonRequestBodyKpi.getBusiness());
 
         GlobalKpiAll result = new GlobalKpiAll();
-        if (kpis.isEmpty() || kpis.contains(KpiType.PERCENTILE) || kpis.contains(KpiType.P50) || kpis.contains(KpiType.P75) || kpis.contains(KpiType.P90) || kpis.contains(KpiType.P95) || kpis.contains(KpiType.P99)) {
-            result.setPercentileGraph(globalPercentile(commonRequestBody.getDuration(), bindingResult));
+        if (kpiIndicator.needPercentile()) {
+            result.setPercentileGraph(globalPercentile(commonRequestBodyKpi.getDuration()));
         }
-        if (kpis.isEmpty() || kpis.contains(KpiType.HEATMAP)) {
-            result.setHeatmapGraph(globalHeatmap(commonRequestBody.getDuration(), bindingResult));
+        if (kpiIndicator.needKpiType(KpiType.HEATMAP)) {
+            result.setHeatmapGraph(globalHeatmap(commonRequestBodyKpi.getDuration()));
         }
         return result;
     }
 
     @ApiOperation(value = "全局视图")
-    @GetMapping("/globalBrief")
+    @GetMapping("/brief")
     public GlobalBrief globalBrief() {
-        GlobalBrief globalBrief = new GlobalBrief();
-        globalBrief.setNumOfEndpoint(serviceEndpointDao.countAll());
-        globalBrief.setNumOfService(serviceNodeDao.countAllService());
-        globalBrief.setNumOfDatabase(serviceNodeDao.countAllDatabase());
-        return globalBrief;
+        return metadataService.getGlobalBrief();
     }
 
     @ApiOperation(value = "全局百分位数, 包括p50-p99")
-    @PostMapping("/globalPercentile")
+    @PostMapping("/percentile")
     public PercentileGraph globalPercentile(
-            @RequestBody @Valid Duration duration,
-            BindingResult bindingResult
-    ) throws BindException {
-        if (bindingResult.hasErrors()) {
-            throw new BindException(bindingResult);
-        }
-
+            @RequestBody @Valid Duration duration
+    ) {
         return globalKpiService.getGlobalPercentileGraph(duration);
     }
 
     @ApiOperation(value = "全局热量图")
-    @PostMapping("/globalHeatmap")
+    @PostMapping("/heatmap")
     public HeatmapGraph globalHeatmap(
-            @RequestBody @Valid Duration duration,
-            BindingResult bindingResult
-    ) throws BindException {
-        if (bindingResult.hasErrors()) {
-            throw new BindException(bindingResult);
-        }
-
+            @RequestBody @Valid Duration duration
+    ) {
         return globalKpiService.getGlobalHeatmapGraph(duration);
     }
 }

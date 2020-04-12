@@ -2,22 +2,21 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.aiops.api.mapper.ServiceInstanceMapper">
 
-    <resultMap id="serviceInstance" type="com.aiops.api.entity.ServiceInstance">
+    <resultMap id="serviceInstance" type="com.aiops.api.entity.po.ServiceInstance">
         <id column="service_instance_id" property="serviceInstanceId"/>
         <result column="service_id" property="serviceId"/>
         <result column="i_name" property="name"/>
         <result column="language" property="language"/>
-        <collection property="attributes" ofType="com.aiops.api.entity.ServiceInstanceAttribute">
+        <collection property="attributes" ofType="com.aiops.api.entity.po.ServiceInstanceAttribute">
             <result column="a_name" property="name"/>
             <result column="value" property="value"/>
         </collection>
     </resultMap>
 
     <select id="selectList" resultMap="serviceInstance"
-            parameterType="com.aiops.api.entity.dto.ServiceInstanceSearchDto">
+            parameterType="com.aiops.api.service.metadata.dto.ServiceInstanceSearchDto">
         select si.service_instance_id service_instance_id, si.service_id service_id, si.name i_name, si.language
-        `language`
-        , sia.name a_name, sia.value `value`
+        `language` , sia.name a_name, sia.value `value`
         from metadata_service_instance si
         left join metadata_service_instance_attribute sia
         on si.service_instance_id=sia.service_instance_id

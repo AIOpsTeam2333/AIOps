@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aiops.api.mapper.TraceMapper">
+
+    <select id="queryTraces" resultType="com.aiops.api.entity.vo.response.TracePoint"
+            parameterType="com.aiops.api.service.trace.dto.TraceSearchDto">
+        SELECT
+        CASE
+        WHEN (UNIX_TIMESTAMP(MAX(s.`end_time`))-UNIX_TIMESTAMP( MIN(s.`start_time`))) <![CDATA[ < ]]> 0 THEN 0
+        ELSE (UNIX_TIMESTAMP(MAX(s.`end_time`))-UNIX_TIMESTAMP( MIN(s.`start_time`))) END AS `duration`,
+        UNIX_TIMESTAMP(MIN(s.`start_time`)) AS `start`, s.`is_error`, t.`trace_id` AS `id`, GROUP_CONCAT(DISTINCT
+        e.`name`) AS
+        `endpointNames`
+        FROM trace_trace t
+        JOIN trace_span s
+        ON t.`trace_id` = s.`trace_id`
+        JOIN metadata_service_endpoint e
+        ON e.`service_endpoint_id` = s.`endpoint_id`
+        WHERE s.`trace_id` IN(
+        SELECT DISTINCT trace_id FROM trace_span ts
+        <where>
+            <if test="serviceId">
+                and ts.`service_id` = #{serviceId}
+            </if>
+            <if test="serviceInstanceId">
+                and ts.`instance_id` = #{serviceInstanceId}
+            </if>
+            <if test="endpointId">
+                and ts.`endpoint_id` = #{endpointId}
+            </if>
+            <if test="from">
+                and ts.`start_time` <![CDATA[ >= ]]> #{from}
+            </if>
+            <if test="to">
+                and ts.`end_time` <![CDATA[ <= ]]> #{to}
+            </if>
+            <if test='traceState=="ERROR"'>
+                and ts.`is_error` = true
+            </if>
+        </where>
+        )
+        GROUP BY t.`trace_id`
+        <trim prefix="HAVING" suffixOverrides="AND">
+            <if test="minTraceDuration">
+                `duration` <![CDATA[ >= ]]> #{minTraceDuration}
+            </if>
+            <if test="maxTraceDuration">
+                `duration` <![CDATA[ <= ]]> #{maxTraceDuration}
+            </if>
+            <if test='traceState=="SUCCESS"'>
+                sum(s.`is_error`)=0
+            </if>
+        </trim>
+        ORDER BY
+        <choose>
+            <when test='queryOrder=="BY_START_TIME"'>
+                `start` DESC
+            </when>
+            <otherwise>
+                `duration` DESC
+            </otherwise>
+        </choose>
+        ;
+    </select>
+</mapper>
