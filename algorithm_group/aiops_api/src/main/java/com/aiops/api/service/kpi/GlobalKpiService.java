@@ -5,10 +5,12 @@ import com.aiops.api.entity.vo.request.Duration;
 import com.aiops.api.entity.vo.response.HeatmapGraph;
 import com.aiops.api.entity.vo.response.HeatmapPoint;
 import com.aiops.api.entity.vo.response.PercentileGraph;
+import com.aiops.api.entity.vo.response.SimpleOrderNode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -45,5 +47,13 @@ public class GlobalKpiService {
         result.setNodes(heatmapPoints);
         result.setResponseTimeStep(heatmapStep);
         return result;
+    }
+
+    public List<SimpleOrderNode> getGlobalSlow(Duration duration) {
+        return new ArrayList<>();
+    }
+
+    public List<SimpleOrderNode> getGlobalThroughout(Duration duration) {
+        return new ArrayList<>();
     }
 }

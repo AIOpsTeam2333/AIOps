@@ -4,6 +4,7 @@ import com.aiops.api.common.enums.KpiType;
 import com.aiops.api.entity.vo.request.CommonRequestBodyKpi;
 import com.aiops.api.entity.vo.request.Duration;
 import com.aiops.api.entity.vo.response.*;
+import com.aiops.api.service.kpi.EndpointKpiService;
 import com.aiops.api.service.kpi.GlobalKpiService;
 import com.aiops.api.service.kpi.KpiHelper;
 import com.aiops.api.service.kpi.KpiIndicator;
@@ -30,6 +31,7 @@ public class GlobalKpiController {
     private final KpiHelper kpiHelper;
     private final GlobalKpiService globalKpiService;
     private final MetadataService metadataService;
+    private final EndpointKpiService endpointKpiService;
 
     @ApiOperation(value = "全局指标数据")
     @ApiImplicitParam
@@ -46,6 +48,9 @@ public class GlobalKpiController {
         if (kpiIndicator.needKpiType(KpiType.HEATMAP)) {
             result.setHeatmapGraph(globalHeatmap(commonRequestBodyKpi.getDuration()));
         }
+        result.setGlobalBrief(metadataService.getGlobalBrief());
+        result.setGlobalSlow(endpointKpiService.getGlobalSlowEndpoint(commonRequestBodyKpi.getDuration()));
+        result.setGlobalThroughput(globalKpiService.getGlobalThroughout(commonRequestBodyKpi.getDuration()));
         return result;
     }
 
