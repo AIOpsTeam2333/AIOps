@@ -25,7 +25,7 @@ public class Duration {
 
     @JsonProperty(value = "end", required = true)
     @NotNull(message = "结束时间不能为空")
-    @ApiModelProperty(name = "stop", example = "2020-05-02")
+    @ApiModelProperty(name = "stop", example = "2020-03-02")
     private Date end;
 
     @JsonProperty(value = "step", required = true)

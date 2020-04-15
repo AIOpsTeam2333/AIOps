@@ -1,6 +1,7 @@
 package com.aiops.api.mapper;
 
 import com.aiops.api.entity.vo.response.CrossAxisGraphPoint;
+import com.aiops.api.entity.vo.response.SimpleOrderNode;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
@@ -14,9 +15,17 @@ import java.util.List;
 @Repository
 public interface ServiceKpiMapper {
 
-    List<CrossAxisGraphPoint> selectCrossAxisKpi(
+    List<CrossAxisGraphPoint> queryCrossAxisKpi(
             @Param("serviceId") Integer serviceId,
             @Param("kpiName") String kpiName,
+            @Param("step") String step,
+            @Param("from") Date from,
+            @Param("to") Date to
+    );
+
+    List<SimpleOrderNode> queryKpiByOrder(
+            @Param("kpiName") String kpiName,
+            @Param("isDesc") Boolean isDesc,
             @Param("step") String step,
             @Param("from") Date from,
             @Param("to") Date to

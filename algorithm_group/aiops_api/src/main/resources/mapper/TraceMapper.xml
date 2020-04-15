@@ -60,6 +60,5 @@
                 `duration` DESC
             </otherwise>
         </choose>
-        ;
     </select>
 </mapper>

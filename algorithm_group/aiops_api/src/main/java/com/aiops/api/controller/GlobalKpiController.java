@@ -3,11 +3,9 @@ package com.aiops.api.controller;
 import com.aiops.api.common.enums.KpiType;
 import com.aiops.api.entity.vo.request.CommonRequestBodyKpi;
 import com.aiops.api.entity.vo.request.Duration;
+import com.aiops.api.entity.vo.request.Paging;
 import com.aiops.api.entity.vo.response.*;
-import com.aiops.api.service.kpi.EndpointKpiService;
-import com.aiops.api.service.kpi.GlobalKpiService;
-import com.aiops.api.service.kpi.KpiHelper;
-import com.aiops.api.service.kpi.KpiIndicator;
+import com.aiops.api.service.kpi.*;
 import com.aiops.api.service.metadata.MetadataService;
 import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
@@ -32,6 +30,7 @@ public class GlobalKpiController {
     private final GlobalKpiService globalKpiService;
     private final MetadataService metadataService;
     private final EndpointKpiService endpointKpiService;
+    private final ServiceKpiService serviceKpiService;
 
     @ApiOperation(value = "全局指标数据")
     @ApiImplicitParam
@@ -50,7 +49,7 @@ public class GlobalKpiController {
         }
         result.setGlobalBrief(metadataService.getGlobalBrief());
         result.setGlobalSlow(endpointKpiService.getGlobalSlowEndpoint(commonRequestBodyKpi.getDuration()));
-        result.setGlobalThroughput(globalKpiService.getGlobalThroughout(commonRequestBodyKpi.getDuration()));
+        result.setGlobalThroughput(serviceKpiService.getThroughputByDescTop());
         return result;
     }
 

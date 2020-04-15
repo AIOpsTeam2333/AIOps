@@ -3,6 +3,7 @@ package com.aiops.api.entity.vo.request;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -13,11 +14,12 @@ import javax.validation.constraints.NotNull;
 public class Paging {
 
     @NotNull(message = "pageNum不能为null")
+    @Min(value = 1, message = "pageNum最小为1")
     @ApiModelProperty(example = "1")
     private Integer pageNum;
 
-    @ApiModelProperty(example = "20")
+    @ApiModelProperty(example = "15")
+    @Min(value = 1, message = "pageSize最小为1")
     @NotNull(message = "pageSize不能为null")
     private Integer pageSize;
-
 }

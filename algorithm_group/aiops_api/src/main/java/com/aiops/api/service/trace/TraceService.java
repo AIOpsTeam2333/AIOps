@@ -25,8 +25,7 @@ import java.util.Objects;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class TraceService {
 
-    @Value("${aiops.paging.size}")
-    private Integer defaultPageSize;
+    private final Paging defaultPaging;
     private final TraceDao traceDao;
 
     public TraceGraph queryTracesInfoByEndpointId(Duration duration, Integer endpointId) {
@@ -34,10 +33,7 @@ public class TraceService {
         commonRequestBodyTrace.setEndpointId(endpointId);
         commonRequestBodyTrace.setQueryOrder(QueryOrder.BY_DURATION);
         commonRequestBodyTrace.setDuration(duration);
-        Paging paging = new Paging();
-        paging.setPageSize(defaultPageSize);
-        paging.setPageNum(1);
-        commonRequestBodyTrace.setPaging(paging);
+        commonRequestBodyTrace.setPaging(defaultPaging);
         return queryTracesInfo(commonRequestBodyTrace);
     }
 
@@ -50,9 +46,8 @@ public class TraceService {
         }
 
         TraceSearchDto traceSearchDto = traceBody2TraceSearchDto(commonRequestBodyTrace);
-        Integer pageNum = commonRequestBodyTrace.getPagingNum();
-        Integer pageSize = commonRequestBodyTrace.getPagingSize();
-        PageHelper.startPage(pageNum, pageSize);
+        Paging paging = commonRequestBodyTrace.getPaging();
+        PageHelper.startPage(paging);
         PageInfo<TracePoint> pageInfo = new PageInfo<>(traceDao.queryTraces(traceSearchDto));
         TraceGraph result = new TraceGraph();
         result.setTraces(pageInfo.getList());

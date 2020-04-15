@@ -2,10 +2,14 @@ package com.aiops.api.service.kpi;
 
 import com.aiops.api.dao.ServiceKpiDao;
 import com.aiops.api.entity.vo.request.Duration;
+import com.aiops.api.entity.vo.request.Paging;
 import com.aiops.api.entity.vo.response.CrossAxisGraphPoint;
 import com.aiops.api.entity.vo.response.PercentileGraph;
+import com.aiops.api.entity.vo.response.SimpleOrderNode;
+import com.github.pagehelper.PageHelper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -20,6 +24,8 @@ import java.util.List;
 public class ServiceKpiService {
 
     private final ServiceKpiDao serviceKpiDao;
+    @Qualifier("defaultPaging")
+    private final Paging defaultPaging;
 
     public List<CrossAxisGraphPoint> getApdexScore(Duration duration, Integer serviceId) {
         Date from = duration.getStart();
@@ -60,5 +66,13 @@ public class ServiceKpiService {
         result.setP95(serviceKpiDao.getP95(serviceId, step, from, to));
         result.setP99(serviceKpiDao.getP99(serviceId, step, from, to));
         return result;
+    }
+
+    public List<SimpleOrderNode> getThroughputByDescTop(Duration duration) {
+        Date from = duration.getStart();
+        Date to = duration.getEnd();
+        String step = duration.getStepName();
+        PageHelper.startPage(defaultPaging);
+        return serviceKpiDao.queryThroughputByOrder(true, step, from, to);
     }
 }

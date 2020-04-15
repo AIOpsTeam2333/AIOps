@@ -34,6 +34,7 @@ pagehelper:
   params: pageNum=pageNum;pageSize=pageSize;count=countSql;reasonable=reasonable;pageSizeZero=pageSizeZero
   helper-dialect: mysql
   support-methods-arguments: true
+  pageSizeZero: true
 ---
 spring:
   profiles: dev

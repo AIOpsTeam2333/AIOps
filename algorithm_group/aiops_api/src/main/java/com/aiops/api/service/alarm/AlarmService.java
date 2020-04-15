@@ -4,6 +4,7 @@ import com.aiops.api.common.enums.ScopeType;
 import com.aiops.api.dao.AlarmDao;
 import com.aiops.api.entity.po.Alarm;
 import com.aiops.api.entity.vo.request.CommonRequestBodyAlarm;
+import com.aiops.api.entity.vo.request.Paging;
 import com.aiops.api.entity.vo.response.AlarmList;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -24,10 +25,8 @@ import java.util.Date;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class AlarmService {
 
-    @Value("${aiops.paging.size}")
-    private Integer defaultPageSize;
-
     private final AlarmDao alarmDao;
+    private final Paging defaultPaging;
 
     public AlarmList getAlarmList(
             CommonRequestBodyAlarm commonRequestBodyAlarm
@@ -40,9 +39,9 @@ public class AlarmService {
         String keyword = commonRequestBodyAlarm.getKeyword();
         //分页
         Integer pageSize = commonRequestBodyAlarm.getPagingSize();
-        if (pageSize == null) pageSize = defaultPageSize;
+        if (pageSize == null) pageSize = defaultPaging.getPageSize();
         Integer pageNum = commonRequestBodyAlarm.getPagingNum();
-        if (pageNum == null) pageNum = 1;
+        if (pageNum == null) pageNum = defaultPaging.getPageNum();
 
         //查询
         PageHelper.startPage(pageNum, pageSize);
