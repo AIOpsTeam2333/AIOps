@@ -128,7 +128,7 @@ def generateDataFrame(datalist):
 
 def getLatestOnePieceData(kpiName,db_name):
     # defaultPredict=str(defaultPredict)
-    SQLstr="select id,value,time,predict FROM "+kpiName+" WHERE  is  null ORDER BY time   limit 1 "
+    SQLstr="select id,value,time,predict FROM "+kpiName+" WHERE predict  is  null ORDER BY time   limit 1 "
     # print (SQLstr)
     conn = mysql.connector.connect(host=HOST,
                                    user=USERNAME,

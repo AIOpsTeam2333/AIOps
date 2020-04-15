@@ -22,7 +22,7 @@ from datetime import datetime
 
 
 def kpi_train_model(kpiid,rowDataFrame,modelConfig):
-    KPIdirs = modelConfig[ "KPIdirs" ]
+
     saveDirs = modelConfig[ "saveDirs" ]
     uu = modelConfig[ "uu" ]  # 起始位置
     hRate = modelConfig[ "hRate" ]   # 历史数据集大小
