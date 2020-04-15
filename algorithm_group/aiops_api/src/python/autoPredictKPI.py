@@ -10,35 +10,44 @@ import mysql.connector
 
 import KPI_modelTrain
 import KPI_predict
-HOST = 'localhost'
-USERNAME = 'root'
-PASSWORD = '123456'
 
-DB_NAME="aiops"
-PredictKPIList="all"
-modelDir="models/"
-tableIgnoreList=["kpi_all_heatmap_month","kpi_all_heatmap_minute","kpi_all_heatmap_hour","kpi_all_heatmap_day","kpi_all_p95_hour"]
-defaultPredict=0
+import configparser
+cf = configparser.ConfigParser()
+cf.read("KPIautoPredictConfig.ini")
+secs = cf.sections()
+# print(secs)
+print(cf.get("modelconfig", "minTrainNum"))
+
+
+
+HOST =cf.get("database", "HOST")
+USERNAME = cf.get("database", "USERNAME")
+PASSWORD = str(cf.get("database", "PASSWORD"))
+
+
+DB_NAME=cf.get("database", "DB_NAME")
+PredictKPIList=cf.get("predictconfig", "PredictKPIList")
+modelDir=cf.get("modelconfig", "modelDir")
+
+tableIgnoreList=cf.get("predictconfig", "tableIgnoreList").split(",")
+
 modelConfig = {
-    "minTrainNum":1000,
-    "minPredictNum": 10,
-    "KPIdirs": "../KPIdata/",
-    "saveDirs": "../DataSaves_Auto/",
-    "uu": 0,  # 起始位置
-    "hRate": 0.7,  # 历史数据集大小
-    "nRate": 0.28,  # 实时数据集大小（用于检验
+    "minTrainNum":int(cf.get("modelconfig", "minTrainNum")),
+    "minPredictNum":int(cf.get("modelconfig", "minPredictNum")),
+    "saveDirs": cf.get("modelconfig", "saveDirs"),
+    "uu": int(cf.get("modelconfig", "uu")),  # 起始位置
+    "hRate":float(cf.get("modelconfig", "hRate") )  ,  # 历史数据集大小
+    "nRate": float(cf.get("modelconfig", "nRate") ),  # 实时数据集大小（用于检验
 
-    "traintestRate": 0.8,  # 划分train test比例
-    "max_epochs": 20,  # 训练次数
-    "b_size": 40,  # batch_size每批数量
+    "traintestRate": float(cf.get("modelconfig", "traintestRate") ),  # 划分train test比例
+    "max_epochs": int(cf.get("modelconfig", "max_epochs")),  # 训练次数
+    "b_size": int(cf.get("modelconfig", "b_size")),  # batch_size每批数量
 
-    "STA_windowSize_left": 20,  # 特征提取窗口大小
-    "STA_windowSize_right": 0,
-
-    "STA_fws": 0.5,  # 特征提取分位数
+    "STA_windowSize_left": int(cf.get("modelconfig", "STA_windowSize_left")),  # 特征提取窗口大小
+    "STA_windowSize_right": int(cf.get("modelconfig", "STA_windowSize_right")),
+    "STA_fws": float(cf.get("modelconfig", "STA_fws") ),  # 特征提取分位数
 
 }
-
 
 
 def read_database(db_name: str, table_name: str):
@@ -119,7 +128,7 @@ def generateDataFrame(datalist):
 
 def getLatestOnePieceData(kpiName,db_name):
     # defaultPredict=str(defaultPredict)
-    SQLstr="select id,value,time,predict FROM "+kpiName+" WHERE predict = "+str(defaultPredict)+" ORDER BY time   limit 1 "
+    SQLstr="select id,value,time,predict FROM "+kpiName+" WHERE  is  null ORDER BY time   limit 1 "
     # print (SQLstr)
     conn = mysql.connector.connect(host=HOST,
                                    user=USERNAME,
@@ -179,7 +188,7 @@ def setPredict(kpiName,db_name,dataid,predict):
 def getAllHistoryData(kpiName,db_name):
     defaultPredict=-1
     defaultPredict=str(defaultPredict)
-    SQLstr="select id,value,time,predict  FROM "+kpiName+" WHERE predict != "+str(defaultPredict)+" ORDER BY time   DESC "
+    SQLstr="select id,value,time,predict  FROM "+kpiName+" WHERE predict is not null ORDER BY time   DESC "
     # print (SQLstr)
     conn = mysql.connector.connect(host=HOST,
                                    user=USERNAME,
@@ -192,9 +201,6 @@ def getAllHistoryData(kpiName,db_name):
     print(values)
     if len(values)<=modelConfig["minTrainNum"]:
         return None
-     # //logging.info('read from `%s`.`%s`, size of result set: %d' % (db_name, kpiName, len(values)))
-    # print(values)
-
     cursor.close()
     conn.close()
 
@@ -228,18 +234,17 @@ def every_ten_seconds():
     print("当前时间： ",str ( time.strftime('%Y.%m.%d %H:%M:%S ', time.localtime(time.time())) ) )
     kpiNameList = getAllKpiName()
     for kpiName in kpiNameList:
-        if kpiName in tableIgnoreList:
+        if kpiName  in tableIgnoreList:
             continue
-        print("正在处理."+str(kpiName))
-
         targetID=getLatestOnePieceData(kpiName, "aiops")
         if targetID==None:
-            return
+            print("数据过少，跳过 " + str(kpiName))
+            continue
         TfDataFrame =getReleatedData(kpiName, "aiops", targetID)
         if TfDataFrame!=None:
             predict= KPI_predict.kpi_predict(kpiName, TfDataFrame, modelConfig)
             setPredict(kpiName, "aiops", targetID, predict);
-            print(str(kpiName)+"predict："+str(predict))
+            print(str(kpiName)+"预测为："+str(predict))
 
     print("=======================================" )
 def ever_week():
@@ -249,24 +254,18 @@ def ever_week():
     for kpiName in kpiNameList:
         if kpiName in tableIgnoreList:
             continue
-        print("正在处理."+str(kpiName))
+        print("正在处理." + str(kpiName))
         historyData   =getAllHistoryData(kpiName, "aiops")
         print(historyData)
         if historyData  !=None:
-            KPI_modelTrain.kpi_train_model(kpiName,        generateDataFrame(historyData)  ,modelConfig)
+            KPI_modelTrain.kpi_train_model(kpiName,    generateDataFrame(historyData)  ,modelConfig)
 
-
-# //  import  KPI_modelTrain.py
-
-
-# read_database('diploma_paper', 'actor')
-    # write_database('diploma_paper', 'actor', [('bruce', 'lee')])
 
 if __name__ == '__main__':
     # KPI_modelTrain.kpi_train_model("kpi_all_p95_hour", generateDataFrame(getAllHistoryData("kpi_all_p95_hour", "aiops")), modelConfig)
     #print("predict：" + str(KPI_predict.kpi_predict("kpi_all_p95_hour", getLatestOnePieceData("kpi_all_p95_hour", "aiops"), modelConfig)))
-
-    # ever_week()
+    # print ( getAllKpiName())
+    ever_week()
 
     # 如果只有定时任务，使用 BlockingScheduler
     # scheduler = BlockingScheduler()
