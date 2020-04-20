@@ -4,8 +4,6 @@
 
 
 
-![1587391946221](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\1587391946221.png)
-
 ## 1.结构介绍
 
 ### **resource**包
