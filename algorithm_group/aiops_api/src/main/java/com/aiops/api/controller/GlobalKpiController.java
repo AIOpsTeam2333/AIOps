@@ -1,12 +1,12 @@
 package com.aiops.api.controller;
 
 import com.aiops.api.common.enums.KpiType;
-import com.aiops.api.entity.vo.request.CommonRequestBodyKpi;
+import com.aiops.api.entity.vo.request.RequestBodyKpi;
 import com.aiops.api.entity.vo.request.Duration;
-import com.aiops.api.entity.vo.request.Paging;
 import com.aiops.api.entity.vo.response.*;
 import com.aiops.api.service.kpi.*;
 import com.aiops.api.service.metadata.MetadataService;
+import com.aiops.api.common.kpi.KpiIndicator;
 import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,7 +26,6 @@ import javax.validation.Valid;
 @RestController
 public class GlobalKpiController {
 
-    private final KpiHelper kpiHelper;
     private final GlobalKpiService globalKpiService;
     private final MetadataService metadataService;
     private final EndpointKpiService endpointKpiService;
@@ -36,20 +35,20 @@ public class GlobalKpiController {
     @ApiImplicitParam
     @PostMapping("/")
     public GlobalKpiAll globalAllData(
-            @RequestBody @Valid CommonRequestBodyKpi commonRequestBodyKpi
+            @RequestBody @Valid RequestBodyKpi requestBodyKpi
     ) {
-        KpiIndicator kpiIndicator = kpiHelper.splitKpi(commonRequestBodyKpi.getBusiness());
+        KpiIndicator kpiIndicator = requestBodyKpi.getBusiness();
 
         GlobalKpiAll result = new GlobalKpiAll();
         if (kpiIndicator.needPercentile()) {
-            result.setPercentileGraph(globalPercentile(commonRequestBodyKpi.getDuration()));
+            result.setPercentileGraph(globalPercentile(requestBodyKpi.getDuration()));
         }
         if (kpiIndicator.needKpiType(KpiType.HEATMAP)) {
-            result.setHeatmapGraph(globalHeatmap(commonRequestBodyKpi.getDuration()));
+            result.setHeatmapGraph(globalHeatmap(requestBodyKpi.getDuration()));
         }
         result.setGlobalBrief(metadataService.getGlobalBrief());
-        result.setGlobalSlow(endpointKpiService.getGlobalSlowEndpoint(commonRequestBodyKpi.getDuration()));
-        result.setGlobalThroughput(serviceKpiService.getThroughputByDescTop());
+        result.setGlobalSlow(endpointKpiService.getGlobalSlowEndpoint(requestBodyKpi.getDuration()));
+        result.setGlobalThroughput(serviceKpiService.getThroughputByDescTop(requestBodyKpi.getDuration()));
         return result;
     }
 

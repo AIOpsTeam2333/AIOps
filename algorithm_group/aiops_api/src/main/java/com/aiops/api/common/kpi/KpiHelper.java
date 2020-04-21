@@ -1,4 +1,4 @@
-package com.aiops.api.service.kpi;
+package com.aiops.api.common.kpi;
 
 import com.aiops.api.common.enums.KpiType;
 import org.springframework.stereotype.Service;
@@ -29,7 +29,7 @@ public class KpiHelper {
 
         for (String strKpi : split) {
             try {
-                KpiType kpiType = KpiType.find(strKpi);
+                KpiType kpiType = KpiType.find(strKpi.trim());
                 kpiTypes.add(kpiType);
             } catch (Exception ignored) {
             }

@@ -2,12 +2,11 @@ package com.aiops.api.controller;
 
 import com.aiops.api.common.enums.KpiType;
 import com.aiops.api.common.validation.NeedIdGroup;
-import com.aiops.api.entity.vo.request.CommonRequestBodyKpi;
+import com.aiops.api.entity.vo.request.RequestBodyKpi;
 import com.aiops.api.entity.vo.request.Duration;
 import com.aiops.api.entity.vo.response.*;
 import com.aiops.api.service.kpi.InstanceKpiService;
-import com.aiops.api.service.kpi.KpiHelper;
-import com.aiops.api.service.kpi.KpiIndicator;
+import com.aiops.api.common.kpi.KpiIndicator;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -29,17 +28,16 @@ import java.util.List;
 @RequestMapping("/instance")
 public class InstanceKpiController {
 
-    private final KpiHelper kpiHelper;
     private final InstanceKpiService instanceKpiService;
 
     @ApiOperation(value = "实例指标视图")
     @PostMapping("/")
     public InstanceKpiAll instanceKpiAllData(
-            @RequestBody @Validated({NeedIdGroup.class}) CommonRequestBodyKpi commonRequestBodyKpi
+            @RequestBody @Validated({NeedIdGroup.class}) RequestBodyKpi requestBodyKpi
     ) {
-        KpiIndicator kpiIndicator = kpiHelper.splitKpi(commonRequestBodyKpi.getBusiness());
-        Duration duration = commonRequestBodyKpi.getDuration();
-        Integer instanceId = commonRequestBodyKpi.getId();
+        KpiIndicator kpiIndicator = requestBodyKpi.getBusiness();
+        Duration duration = requestBodyKpi.getDuration();
+        Integer instanceId = requestBodyKpi.getId();
         InstanceKpiAll result = new InstanceKpiAll();
 
         if (kpiIndicator.needKpiType(KpiType.RESPONSE_TIME)) {
@@ -91,88 +89,88 @@ public class InstanceKpiController {
     @ApiOperation(value = "实例指标数据ResponseTime")
     @PostMapping("/responseTime")
     public List<CrossAxisGraphPoint> instanceResponseTime(
-            @RequestBody @Validated({NeedIdGroup.class}) CommonRequestBodyKpi commonRequestBodyKpi
+            @RequestBody @Validated({NeedIdGroup.class}) RequestBodyKpi requestBodyKpi
     ) {
-        return instanceKpiService.getInstanceResponseTime(commonRequestBodyKpi.getDuration(), commonRequestBodyKpi.getId());
+        return instanceKpiService.getInstanceResponseTime(requestBodyKpi.getDuration(), requestBodyKpi.getId());
     }
 
     @ApiOperation(value = "实例指标数据Throughput")
     @PostMapping("/throughput")
     public List<CrossAxisGraphPoint> instanceThroughput(
-            @RequestBody @Validated({NeedIdGroup.class}) CommonRequestBodyKpi commonRequestBodyKpi
+            @RequestBody @Validated({NeedIdGroup.class}) RequestBodyKpi requestBodyKpi
     ) {
-        return instanceKpiService.getInstanceThroughput(commonRequestBodyKpi.getDuration(), commonRequestBodyKpi.getId());
+        return instanceKpiService.getInstanceThroughput(requestBodyKpi.getDuration(), requestBodyKpi.getId());
     }
 
     @ApiOperation(value = "实例指标数据SLA")
     @PostMapping("/sla")
     public List<CrossAxisGraphPoint> instanceSLA(
-            @RequestBody @Validated({NeedIdGroup.class}) CommonRequestBodyKpi commonRequestBodyKpi
+            @RequestBody @Validated({NeedIdGroup.class}) RequestBodyKpi requestBodyKpi
     ) {
-        return instanceKpiService.getInstanceSla(commonRequestBodyKpi.getDuration(), commonRequestBodyKpi.getId());
+        return instanceKpiService.getInstanceSla(requestBodyKpi.getDuration(), requestBodyKpi.getId());
     }
 
     @ApiOperation(value = "实例指标数据jvm cpu")
     @PostMapping("/cpu")
     public List<CrossAxisGraphPoint> cpu(
-            @RequestBody @Validated({NeedIdGroup.class}) CommonRequestBodyKpi commonRequestBodyKpi
+            @RequestBody @Validated({NeedIdGroup.class}) RequestBodyKpi requestBodyKpi
     ) {
-        return instanceKpiService.getInstanceCpu(commonRequestBodyKpi.getDuration(), commonRequestBodyKpi.getId());
+        return instanceKpiService.getInstanceCpu(requestBodyKpi.getDuration(), requestBodyKpi.getId());
     }
 
     @ApiOperation(value = "实例指标数据heap")
     @PostMapping("/heap")
     public List<MemoryPoint> heap(
-            @RequestBody @Validated({NeedIdGroup.class}) CommonRequestBodyKpi commonRequestBodyKpi
+            @RequestBody @Validated({NeedIdGroup.class}) RequestBodyKpi requestBodyKpi
     ) {
-        return instanceKpiService.getJvmHeap(commonRequestBodyKpi.getDuration(), commonRequestBodyKpi.getId());
+        return instanceKpiService.getJvmHeap(requestBodyKpi.getDuration(), requestBodyKpi.getId());
     }
 
     @ApiOperation(value = "实例指标数据nonHeap")
     @PostMapping("/nonHeap")
     public List<MemoryPoint> nonHeap(
-            @RequestBody @Validated({NeedIdGroup.class}) CommonRequestBodyKpi commonRequestBodyKpi
+            @RequestBody @Validated({NeedIdGroup.class}) RequestBodyKpi requestBodyKpi
     ) {
-        return instanceKpiService.getNonJvmHeap(commonRequestBodyKpi.getDuration(), commonRequestBodyKpi.getId());
+        return instanceKpiService.getNonJvmHeap(requestBodyKpi.getDuration(), requestBodyKpi.getId());
     }
 
     @ApiOperation(value = "实例指标数据gcTime")
     @PostMapping("/gcTime")
     public GcTime gcTime(
-            @RequestBody @Validated({NeedIdGroup.class}) CommonRequestBodyKpi commonRequestBodyKpi
+            @RequestBody @Validated({NeedIdGroup.class}) RequestBodyKpi requestBodyKpi
     ) {
-        return instanceKpiService.getGcTime(commonRequestBodyKpi.getDuration(), commonRequestBodyKpi.getId());
+        return instanceKpiService.getGcTime(requestBodyKpi.getDuration(), requestBodyKpi.getId());
     }
 
     @ApiOperation(value = "实例指标数据gcCount")
     @PostMapping("/gcCount")
     public GcCount gcCount(
-            @RequestBody @Validated({NeedIdGroup.class}) CommonRequestBodyKpi commonRequestBodyKpi
+            @RequestBody @Validated({NeedIdGroup.class}) RequestBodyKpi requestBodyKpi
     ) {
-        return instanceKpiService.getGcCount(commonRequestBodyKpi.getDuration(), commonRequestBodyKpi.getId());
+        return instanceKpiService.getGcCount(requestBodyKpi.getDuration(), requestBodyKpi.getId());
     }
 
     @ApiOperation(value = "实例指标数据clrGc")
     @PostMapping("/clrGc")
     public ClrGC clrGc(
-            @RequestBody @Validated({NeedIdGroup.class}) CommonRequestBodyKpi commonRequestBodyKpi
+            @RequestBody @Validated({NeedIdGroup.class}) RequestBodyKpi requestBodyKpi
     ) {
-        return instanceKpiService.getClrGc(commonRequestBodyKpi.getDuration(), commonRequestBodyKpi.getId());
+        return instanceKpiService.getClrGc(requestBodyKpi.getDuration(), requestBodyKpi.getId());
     }
 
     @ApiOperation(value = "实例指标数据clrCpu")
     @PostMapping("/clrCpu")
     public List<CrossAxisGraphPoint> clrCpu(
-            @RequestBody @Validated({NeedIdGroup.class}) CommonRequestBodyKpi commonRequestBodyKpi
+            @RequestBody @Validated({NeedIdGroup.class}) RequestBodyKpi requestBodyKpi
     ) {
-        return instanceKpiService.getClrCpu(commonRequestBodyKpi.getDuration(), commonRequestBodyKpi.getId());
+        return instanceKpiService.getClrCpu(requestBodyKpi.getDuration(), requestBodyKpi.getId());
     }
 
     @ApiOperation(value = "实例指标数据clrHeap")
     @PostMapping("/clrHeap")
     public List<CrossAxisGraphPoint> clrHeap(
-            @RequestBody @Validated({NeedIdGroup.class}) CommonRequestBodyKpi commonRequestBodyKpi
+            @RequestBody @Validated({NeedIdGroup.class}) RequestBodyKpi requestBodyKpi
     ) {
-        return instanceKpiService.getClrHeap(commonRequestBodyKpi.getDuration(), commonRequestBodyKpi.getId());
+        return instanceKpiService.getClrHeap(requestBodyKpi.getDuration(), requestBodyKpi.getId());
     }
 }

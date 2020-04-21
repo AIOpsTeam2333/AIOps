@@ -15,9 +15,18 @@
         ORDER BY s.`time`;
     </select>
 
-
     <select id="queryKpiByOrder" resultType="com.aiops.api.entity.vo.response.SimpleOrderNode">
-
+        SELECT k.`service_id` AS `id`, AVG(k.`value`) AS `value`, msn.`name` AS `name`
+        FROM kpi_service_${kpiName}_${step} k
+        JOIN metadata_service_node msn
+        ON k.`service_id`=msn.`node_id`
+        WHERE k.`time` <![CDATA[ >= ]]> #{from}
+        AND k.`time` <![CDATA[ <= ]]> #{to}
+        GROUP BY k.`service_id`
+        <choose>
+            <when test="isDesc"> order by `value` desc </when>
+            <otherwise> order by `value` asc </otherwise>
+        </choose>
     </select>
 
 </mapper>

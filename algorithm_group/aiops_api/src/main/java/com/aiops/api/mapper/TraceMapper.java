@@ -1,6 +1,7 @@
 package com.aiops.api.mapper;
 
 import com.aiops.api.entity.vo.response.TracePoint;
+import com.aiops.api.entity.vo.response.TraceSpan;
 import com.aiops.api.service.trace.dto.TraceSearchDto;
 import org.springframework.stereotype.Repository;
 
@@ -15,4 +16,5 @@ public interface TraceMapper {
 
     List<TracePoint> queryTraces(TraceSearchDto dto);
 
+    List<TraceSpan> querySpans(Integer traceId);
 }

@@ -6,12 +6,13 @@ import java.util.List;
 
 /**
  * @author Shuaiyu Yao
- * @create 2020-03-28 15:23
- **/
+ * @create 2020-04-20 18:42
+ */
 @Data
-public class TraceSpanLog {
+public class Topology {
 
-    private Long time;
+    List<TopologyCall> calls;
 
-    private TraceSpanLogData data;
+    List<TopologyNode> nodes;
+
 }

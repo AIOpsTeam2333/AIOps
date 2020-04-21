@@ -1,10 +1,10 @@
 package com.aiops.api.controller;
 
 import com.aiops.api.common.validation.NeedIdGroup;
-import com.aiops.api.entity.vo.request.CommonRequestBodyKpi;
-import com.aiops.api.entity.vo.request.CommonRequestBodyTrace;
+import com.aiops.api.entity.vo.request.RequestBodyTrace;
 import com.aiops.api.entity.vo.response.TraceGraph;
 import com.aiops.api.entity.vo.response.TraceSpan;
+import com.aiops.api.service.trace.TraceService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -13,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -26,23 +28,24 @@ import java.util.List;
 @RestController
 public class TraceController {
 
+    private final TraceService traceService;
 
     @ApiOperation(value = "查询trace列表, 可分页")
     @PostMapping("/trace")
     public TraceGraph queryTraces(
-            @RequestBody @Validated({NeedIdGroup.class}) CommonRequestBodyTrace commonRequestBodyTrace
+            @RequestBody @Validated({NeedIdGroup.class}) RequestBodyTrace requestBodyTrace
     ) {
-
-        return null;
+        return traceService.queryTracesInfo(requestBodyTrace);
     }
 
 
     @ApiOperation(value = "根据traceId查询所属span")
     @GetMapping("/span")
     public List<TraceSpan> querySpan(
-            @RequestParam("traceId") Integer traceId
+            @RequestParam("traceId")
+            @NotNull(message = "traceId不能为空")
+                    Integer traceId
     ) {
-
-        return null;
+        return traceService.queryTraceSpans(traceId);
     }
 }

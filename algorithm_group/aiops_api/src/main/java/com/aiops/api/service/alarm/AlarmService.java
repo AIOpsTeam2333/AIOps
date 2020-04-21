@@ -3,7 +3,7 @@ package com.aiops.api.service.alarm;
 import com.aiops.api.common.enums.ScopeType;
 import com.aiops.api.dao.AlarmDao;
 import com.aiops.api.entity.po.Alarm;
-import com.aiops.api.entity.vo.request.CommonRequestBodyAlarm;
+import com.aiops.api.entity.vo.request.RequestBodyAlarm;
 import com.aiops.api.entity.vo.request.Paging;
 import com.aiops.api.entity.vo.response.AlarmList;
 import com.github.pagehelper.PageHelper;
@@ -11,7 +11,6 @@ import com.github.pagehelper.PageInfo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -29,18 +28,18 @@ public class AlarmService {
     private final Paging defaultPaging;
 
     public AlarmList getAlarmList(
-            CommonRequestBodyAlarm commonRequestBodyAlarm
+            RequestBodyAlarm requestBodyAlarm
     ) {
-        if (commonRequestBodyAlarm == null) return new AlarmList();
+        if (requestBodyAlarm == null) return new AlarmList();
 
-        Date from = commonRequestBodyAlarm.getDurationFrom();
-        Date to = commonRequestBodyAlarm.getDurationTo();
-        ScopeType scope = commonRequestBodyAlarm.getScope();
-        String keyword = commonRequestBodyAlarm.getKeyword();
+        Date from = requestBodyAlarm.getDurationFrom();
+        Date to = requestBodyAlarm.getDurationTo();
+        ScopeType scope = requestBodyAlarm.getScope();
+        String keyword = requestBodyAlarm.getKeyword();
         //分页
-        Integer pageSize = commonRequestBodyAlarm.getPagingSize();
+        Integer pageSize = requestBodyAlarm.getPagingSize();
         if (pageSize == null) pageSize = defaultPaging.getPageSize();
-        Integer pageNum = commonRequestBodyAlarm.getPagingNum();
+        Integer pageNum = requestBodyAlarm.getPagingNum();
         if (pageNum == null) pageNum = defaultPaging.getPageNum();
 
         //查询

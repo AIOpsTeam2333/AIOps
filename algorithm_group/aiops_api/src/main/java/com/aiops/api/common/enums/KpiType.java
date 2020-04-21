@@ -10,7 +10,10 @@ import io.swagger.annotations.ApiModel;
 @ApiModel("所有的kpi 的类型, 不区分大小写")
 public enum KpiType {
 
+    //数据库中实际不存在的
     PERCENTILE,
+
+    //实际存在的
     P50,
     P75,
     P90,

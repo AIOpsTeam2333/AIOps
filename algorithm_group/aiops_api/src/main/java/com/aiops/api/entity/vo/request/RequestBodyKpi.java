@@ -1,6 +1,7 @@
 package com.aiops.api.entity.vo.request;
 
 import com.aiops.api.common.validation.NeedIdGroup;
+import com.aiops.api.common.kpi.KpiIndicator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -14,14 +15,14 @@ import javax.validation.constraints.NotNull;
  **/
 @Data
 @ApiModel(description = "Kpi接口参数")
-public class CommonRequestBodyKpi implements WithDuration{
+public class RequestBodyKpi implements WithDuration{
 
     @Valid
     @NotNull(message = "duration不能为空")
     private Duration duration;
 
     @ApiModelProperty(value = "查询业务名称, 按逗号隔开, 无则为全部查询", name = "business")
-    private String business;
+    private KpiIndicator business;
 
     @NotNull(groups = NeedIdGroup.class, message = "id不能为空")
     @ApiModelProperty(value = "查询的数据的id", example = "1")

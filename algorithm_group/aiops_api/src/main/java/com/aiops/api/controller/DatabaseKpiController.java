@@ -2,12 +2,11 @@ package com.aiops.api.controller;
 
 import com.aiops.api.common.enums.KpiType;
 import com.aiops.api.common.validation.NeedIdGroup;
-import com.aiops.api.entity.vo.request.CommonRequestBodyKpi;
+import com.aiops.api.entity.vo.request.RequestBodyKpi;
 import com.aiops.api.entity.vo.request.Duration;
 import com.aiops.api.entity.vo.response.DatabaseKpiAll;
 import com.aiops.api.service.kpi.GlobalKpiService;
-import com.aiops.api.service.kpi.KpiHelper;
-import com.aiops.api.service.kpi.KpiIndicator;
+import com.aiops.api.common.kpi.KpiIndicator;
 import com.aiops.api.service.kpi.ServiceKpiService;
 import com.aiops.api.service.metadata.MetadataService;
 import io.swagger.annotations.Api;
@@ -15,7 +14,6 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,7 +28,6 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/database")
 public class DatabaseKpiController {
 
-    private final KpiHelper kpiHelper;
     private final GlobalKpiService globalKpiService;
     private final MetadataService metadataService;
     private final ServiceKpiService serviceKpiService;
@@ -38,11 +35,11 @@ public class DatabaseKpiController {
     @ApiOperation(value = "数据库指标数据")
     @PostMapping("/")
     public DatabaseKpiAll endpointKpiAllData(
-            @RequestBody @Validated({NeedIdGroup.class}) CommonRequestBodyKpi commonRequestBodyKpi
+            @RequestBody @Validated({NeedIdGroup.class}) RequestBodyKpi requestBodyKpi
     ) {
-        KpiIndicator kpiIndicator = kpiHelper.splitKpi(commonRequestBodyKpi.getBusiness());
-        Duration duration = commonRequestBodyKpi.getDuration();
-        Integer databaseId = commonRequestBodyKpi.getId();
+        KpiIndicator kpiIndicator = requestBodyKpi.getBusiness();
+        Duration duration = requestBodyKpi.getDuration();
+        Integer databaseId = requestBodyKpi.getId();
         DatabaseKpiAll result = new DatabaseKpiAll();
 
         if (kpiIndicator.needKpiType(KpiType.RESPONSE_TIME)) {

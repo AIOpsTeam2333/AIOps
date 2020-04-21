@@ -3,6 +3,7 @@ package com.aiops.api;
 import com.aiops.api.common.enums.StatisticsStep;
 import com.aiops.api.entity.vo.request.Duration;
 import com.aiops.api.entity.vo.response.TraceGraph;
+import com.aiops.api.entity.vo.response.TraceSpan;
 import com.aiops.api.service.trace.TraceService;
 import jdk.nashorn.internal.ir.annotations.Ignore;
 import org.junit.jupiter.api.Test;
@@ -11,6 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.List;
 
 /**
  * @author Shuaiyu Yao
@@ -33,6 +35,13 @@ public class TraceTests {
         Integer endpointId = 1;
         TraceGraph traceGraph = traceService.queryTracesInfoByEndpointId(duration, endpointId);
         System.out.println(traceGraph);
+    }
+
+    @Test
+    @Ignore
+    public void test2() {
+        List<TraceSpan> spans = traceService.queryTraceSpans(7);
+        System.out.println(spans);
     }
 
 }

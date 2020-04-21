@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import javax.persistence.Id;
 import java.util.List;
 
 /**
@@ -13,14 +14,11 @@ import java.util.List;
 @Data
 public class TraceSpan {
 
-    @JsonIgnore
-    @ApiModelProperty(hidden = true)
-    private Integer id;
-
     private Integer traceId;
 
     private Integer segmentId;
 
+    @Id
     private Integer spanId;
 
     private Integer parentSpanId;

@@ -1,5 +1,6 @@
 package com.aiops.api.controller;
 
+import com.aiops.api.common.kpi.KpiIndicator;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Controller;
@@ -17,7 +18,6 @@ import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 import java.sql.Timestamp;
-import java.util.Date;
 
 /**
  * @author Shuaiyu Yao
@@ -48,18 +48,16 @@ public class Swagger2Controller {
                 .apis(RequestHandlerSelectors.basePackage("com.aiops.api.controller"))
                 .paths(PathSelectors.any())
                 .build()
-                .directModelSubstitute(Timestamp.class, Long.class);
-//        return new Docket(DocumentationType.SWAGGER_2).select().apis(RequestHandlerSelectors.withMethodAnnotation(ApiOperation.class)).build();
+                .directModelSubstitute(Timestamp.class, Long.class)
+                .directModelSubstitute(KpiIndicator.class, String.class);
     }
 
-    //构建 api文档的详细信息函数,注意这里的注解引用的是哪个
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
                 //页面标题
                 .title("AiOps 展示数据API")
                 //创建人
                 .contact(new Contact("姚帅宇", "http://wpa.qq.com/msgrd?v=3&uin=260386109&site=qq&menu=yes", "260386109@qq.com"))
-                //.contact(new Contact("Bryan", "http://blog.bianxh.top/", ""))
                 //版本号
                 .version("1.0")
                 //描述

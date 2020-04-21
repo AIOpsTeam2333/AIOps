@@ -61,4 +61,54 @@
             </otherwise>
         </choose>
     </select>
+
+    <resultMap id="span" type="com.aiops.api.entity.vo.response.TraceSpan">
+        <id column="spanId" property="spanId"/>
+        <result column="traceId" property="traceId"/>
+        <result column="segmentId" property="segmentId"/>
+        <result column="parentSpanId" property="parentSpanId"/>
+        <result column="serviceCode" property="serviceCode"/>
+        <result column="startTime" property="startTime"/>
+        <result column="endTime" property="endTime"/>
+        <result column="endpointName" property="endpointName"/>
+        <result column="type" property="type"/>
+        <result column="peer" property="peer"/>
+        <result column="component" property="component"/>
+        <result column="isError" property="isError"/>
+        <result column="layer" property="layer"/>
+        <collection property="refs" ofType="com.aiops.api.entity.vo.response.TraceSpanRef">
+            <result column="ref_traceId" property="traceId"/>
+            <result column="ref_parentSegmentId" property="parentSegmentId"/>
+            <result column="ref_parentSpanId" property="parentSpanId"/>
+            <result column="ref_type" property="type"/>
+        </collection>
+        <collection property="tags" ofType="com.aiops.api.entity.vo.response.KeyValue">
+            <result column="tag_key" property="key"/>
+            <result column="tag_value" property="value"/>
+        </collection>
+        <collection property="logs" ofType="com.aiops.api.entity.vo.response.TraceSpanLog">
+            <result column="log_time" property="time"/>
+            <result column="log_data" property="data"/>
+        </collection>
+    </resultMap>
+
+    <select id="querySpans" resultMap="span">
+        SELECT s.`trace_id` AS `traceId`, s.`segment_id` AS `segmentId`
+        , s.`id` AS `spanId`, s.`parent_span_id` AS `parentSpanId`, s.`service_code` AS `serviceCode`
+        , UNIX_TIMESTAMP(s.`start_time`)*1000 AS `startTime`, UNIX_TIMESTAMP(s.`end_time`)*1000 AS `endTime`
+        , e.`name` AS `endpointName`, s.`type` AS `type`, s.`peer` AS `peer`, s.`component` AS `component`
+        , s.`is_error` AS `isError`, s.`layer` AS `layer`
+        , kv.`key` AS `tag_key`, kv.`value` AS `tag_value`
+        , r.`parent_segment_id` AS `ref_parentSegmentId`, r.`parent_span_id` AS `ref_parentSpanId`, r.`ref_type` AS `ref_type`, s.`trace_id` AS `ref_traceId`
+        , UNIX_TIMESTAMP(l.`time`)*1000 AS `log_time`, ld.`data` AS `log_data`
+        FROM trace_span s
+        LEFT JOIN metadata_service_endpoint e ON s.`endpoint_id`=e.`service_endpoint_id`
+        LEFT JOIN trace_span_tags t ON s.`id`=t.`span_id`
+        LEFT JOIN trace_key_value kv ON t.`key_value_id`=kv.`key_value_id`
+        LEFT JOIN trace_span_refs sr ON s.`id`=sr.`span_id`
+        LEFT JOIN trace_ref r ON sr.`ref_id`=r.`ref_id`
+        LEFT JOIN trace_log_entity l ON s.`id`=l.`span_id`
+        LEFT JOIN trace_log_entity_data ld ON l.`log_entity_id`=ld.`log_entity_id`
+        WHERE s.`trace_id` = #{traceId}
+    </select>
 </mapper>

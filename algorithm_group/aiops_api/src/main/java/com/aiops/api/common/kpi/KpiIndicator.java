@@ -1,4 +1,4 @@
-package com.aiops.api.service.kpi;
+package com.aiops.api.common.kpi;
 
 import com.aiops.api.common.enums.KpiType;
 

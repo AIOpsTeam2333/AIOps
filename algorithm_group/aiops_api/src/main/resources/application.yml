@@ -13,6 +13,7 @@ mybatis:
   mapper-locations: classpath:mapper/*.xml
   configuration:
     map-underscore-to-camel-case: true
+  type-handlers-package: com.aiops.api.config.mybatis.typehandler
 
 mapper:
   mappers:

@@ -1,6 +1,7 @@
 package com.aiops.api.dao;
 
 import com.aiops.api.entity.vo.response.TracePoint;
+import com.aiops.api.entity.vo.response.TraceSpan;
 import com.aiops.api.mapper.TraceMapper;
 import com.aiops.api.service.trace.dto.TraceSearchDto;
 import lombok.RequiredArgsConstructor;
@@ -21,5 +22,9 @@ public class TraceDao {
 
     public List<TracePoint> queryTraces(TraceSearchDto traceSearchDto) {
         return traceMapper.queryTraces(traceSearchDto);
+    }
+
+    public List<TraceSpan> querySpans(Integer traceId) {
+        return traceMapper.querySpans(traceId);
     }
 }
