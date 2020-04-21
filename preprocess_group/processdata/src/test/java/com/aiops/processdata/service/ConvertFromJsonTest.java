@@ -37,7 +37,7 @@ public class ConvertFromJsonTest {
         String filepath = getClass().getClassLoader().getResource(bundle.getString("ENDPOINT_FILEPATH")).getPath();
 
         Endpoint_Data endpoint_data = jsonToBean.convert(filepath, Endpoint_Data.class);
-        System.out.println("endpoint转化个数为："+endpoint_data.getEndpoint_infoList().getEndpoint_infoList().size());
+        System.out.println("endpoint转化个数为：" + endpoint_data.getEndpoint_infoList().getEndpoint_infoList().size());
     }
 
     @Test
@@ -46,26 +46,26 @@ public class ConvertFromJsonTest {
         String filepath = getClass().getClassLoader().getResource(bundle.getString("SPAN_FILEPATH")).getPath();
 
         Span_Data span_data = jsonToBean.convert(filepath, Span_Data.class);
-        System.out.println("span转化个数为："+span_data.getData().getQueryTrace().getSpans().size());
+        System.out.println("span转化个数为：" + span_data.getData().getQueryTrace().getSpans().size());
     }
 
     @Test
     public void testService() {
         String filepath = getClass().getClassLoader().getResource(bundle.getString("SERVICE_FILEPATH")).getPath();
         Service_Data service_data = jsonToBean.convert(filepath, Service_Data.class);
-        System.out.println("service转化个数为："+service_data.getData().getService_infoList().size());
+        System.out.println("service转化个数为：" + service_data.getData().getService_infoList().size());
     }
 
     @Test
     public void testServiceInstance() {
         String filepath = getClass().getClassLoader().getResource(bundle.getString("SERVICEINSTANCE_FILEPATH")).getPath();
         ServiceInstance_Data serviceInstance_data = jsonToBean.convert(filepath, ServiceInstance_Data.class);
-        System.out.println("instance转化个数为："+serviceInstance_data.getData().getServiceInstance_infos().size());
+        System.out.println("instance转化个数为：" + serviceInstance_data.getData().getServiceInstance_infos().size());
     }
 
     @Test
-    public void testTrace(){
-        Trace_Data trace_data=init.initTrace();
-        System.out.println("trace转化个数为："+trace_data.getData().getTrace_infoList().getTraces().size());
+    public void testTrace() {
+        Trace_Data trace_data = init.initTrace();
+        System.out.println("trace转化个数为：" + trace_data.getData().getTrace_infoList().getTraces().size());
     }
 }

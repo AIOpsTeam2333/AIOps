@@ -29,13 +29,13 @@ public class TraceAndSegmentRepositoryTest {
     private TraceAndSegmentRepository traceAndSegmentRepository;
 
     @Test
-    public void insertTraceAndSegment(){
-        Trace_Data trace_data=init.initTrace();
-        List<TracePO> tracePOList=new ArrayList<>();
-        List<SegmentPO> segmentPOList=new ArrayList<>();
-        for(Trace_Info trace_info:trace_data.getData().getTrace_infoList().getTraces()){
-            TracePO tracePO=traceAndSegmentRepository.insertTrace(trace_info);
-            SegmentPO segmentPO=traceAndSegmentRepository.insertSegment(trace_info);
+    public void insertTraceAndSegment() {
+        Trace_Data trace_data = init.initTrace();
+        List<TracePO> tracePOList = new ArrayList<>();
+        List<SegmentPO> segmentPOList = new ArrayList<>();
+        for (Trace_Info trace_info : trace_data.getData().getTrace_infoList().getTraces()) {
+            TracePO tracePO = traceAndSegmentRepository.insertTrace(trace_info);
+            SegmentPO segmentPO = traceAndSegmentRepository.insertSegment(trace_info);
             tracePOList.add(tracePO);
             segmentPOList.add(segmentPO);
         }

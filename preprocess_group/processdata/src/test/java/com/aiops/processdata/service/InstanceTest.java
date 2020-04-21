@@ -25,9 +25,9 @@ public class InstanceTest {
     private Instance instance;
 
     @Test
-    public void save(){
-        ServiceInstance_Data serviceInstance_data=init.initServiceInstance();
-        List<InstancePO> instancePOList=instance.save(serviceInstance_data);
+    public void save() {
+        ServiceInstance_Data serviceInstance_data = init.initServiceInstance();
+        List<InstancePO> instancePOList = instance.save(serviceInstance_data);
         System.out.println(instancePOList);
     }
 }

@@ -4,7 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import java.io.*;
-import java.util.Date;
+import java.sql.Timestamp;
 
 /**
  * @author Zongwen Yang
@@ -41,9 +41,9 @@ public class MyUtils {
      * @param timestamp
      * @return
      */
-    public static Date stampToDate(Long timestamp) {
+    public static Timestamp stampToDate(Long timestamp) {
         //  SimpleDateFormat  simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        return new Date(timestamp);
+        return new Timestamp(timestamp);
     }
 
     /**

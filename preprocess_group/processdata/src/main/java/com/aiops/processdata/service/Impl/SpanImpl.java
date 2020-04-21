@@ -31,46 +31,46 @@ public class SpanImpl implements Span {
     public List<SpanPO> save(Span_Data span_data) {
         List<Span_Info> span_infoList = span_data.getData().getQueryTrace().getSpans();
         List<SpanPO> spanPOList = new ArrayList<>();
-        List<Span_Info> refOrParent_span_infoList=new ArrayList<>();
+        List<Span_Info> refOrParent_span_infoList = new ArrayList<>();
         for (Span_Info span_info : span_infoList) {
 
             //先插入父span,将所有含有引用的span信息和子span信息存列表
-            if(span_info.getParentSpanId()!=-1||span_info.getRefs().size()!=0) {
+            if (span_info.getParentSpanId() != -1 || span_info.getRefs().size() != 0) {
                 refOrParent_span_infoList.add(span_info);
                 continue;
             }
             //判断已存在
-            String pre_segment_id=span_info.getTraceId() + "/" + span_info.getSegmentId();
-            String pre_id =pre_segment_id+ "/" + span_info.getSpanId();
+            String pre_segment_id = span_info.getTraceId() + "/" + span_info.getSegmentId();
+            String pre_id = pre_segment_id + "/" + span_info.getSpanId();
             SpanPO spanPO = spanRepository.findSpanPOById(pre_id);
             if (spanPO != null) {
-                System.out.println("插入父span: "+pre_id+" 已存在，跳过");
+                System.out.println("插入父span: " + pre_id + " 已存在，跳过");
                 //spanPOList.add(spanPO);
                 continue;
             }
-            if(!judgeExistSegment(pre_segment_id)){
-                System.out.println("插入父span: "+pre_id+" 坏节点，节点所属segment未注册" );
+            if (!judgeExistSegment(pre_segment_id)) {
+                System.out.println("插入父span: " + pre_id + " 坏节点，节点所属segment未注册");
                 continue;
             }
             spanPO = spanRepository.insertSpan(span_info);
-            System.out.println("插入父span："+pre_id+" 成功！");
+            System.out.println("插入父span：" + pre_id + " 成功！");
             spanPOList.add(spanPO);
         }
 
         //再插入引用span和子span
-        for(Span_Info span_info:refOrParent_span_infoList){
+        for (Span_Info span_info : refOrParent_span_infoList) {
             //判断已存在
-            String pre_segment_id=span_info.getTraceId() + "/" + span_info.getSegmentId();
-            String pre_id =pre_segment_id + "/" + span_info.getSpanId();
+            String pre_segment_id = span_info.getTraceId() + "/" + span_info.getSegmentId();
+            String pre_id = pre_segment_id + "/" + span_info.getSpanId();
 
             SpanPO spanPO = spanRepository.findSpanPOById(pre_id);
             if (spanPO != null) {
                 //spanPOList.add(spanPO);
-                System.out.println("插入子span: "+pre_id+" 已存在，跳过");
+                System.out.println("插入子span: " + pre_id + " 已存在，跳过");
                 continue;//已存在 跳过
             }
-            if(!judgeExistSegment(pre_segment_id)){
-                System.out.println("插入子span: "+pre_id+" 坏节点，节点所属segment未注册" );
+            if (!judgeExistSegment(pre_segment_id)) {
+                System.out.println("插入子span: " + pre_id + " 坏节点，节点所属segment未注册");
                 continue;
             }
             //验证是否正常节点
@@ -78,7 +78,7 @@ public class SpanImpl implements Span {
                 continue;//坏节点跳过
             }
             spanPO = spanRepository.insertSpan(span_info);
-            System.out.println("插入子span："+pre_id+" 成功！");
+            System.out.println("插入子span：" + pre_id + " 成功！");
             spanPOList.add(spanPO);
         }
         return spanPOList;
@@ -104,7 +104,7 @@ public class SpanImpl implements Span {
         String pre_id = span_info.getTraceId() + "/" + span_info.getSegmentId() + "/" + span_info.getParentSpanId();
         if (span_info.getParentSpanId() != -1) {
             if (findById(pre_id) == -1) {
-                System.out.println("插入子span: "+pre_id+" 坏节点，节点所属父span未注册" );
+                System.out.println("插入子span: " + pre_id + " 坏节点，节点所属父span未注册");
                 return false;
             }
         }
@@ -113,7 +113,7 @@ public class SpanImpl implements Span {
             if (ref_info.getParentSpanId() != -1) {
                 String ref_pre_id = ref_info.getTraceId() + "/" + ref_info.getParentSegmentId() + "/" + ref_info.getParentSpanId();
                 if (findById(ref_pre_id) == -1) {
-                    System.out.println("插入子span: "+pre_id+" 坏节点，引用span未注册");
+                    System.out.println("插入子span: " + pre_id + " 坏节点，引用span未注册");
                     return false;//存在引用节点不存在
                 }
             }
@@ -123,11 +123,12 @@ public class SpanImpl implements Span {
 
     /**
      * 判断该节点所属的segment是否在trace表中注册
+     *
      * @param pre_segment_id
      * @return
      */
-    private boolean judgeExistSegment(String pre_segment_id){
-        Integer segmentId=trace.findSegmentById(pre_segment_id);
-        return segmentId==-1?false:true;
+    private boolean judgeExistSegment(String pre_segment_id) {
+        Integer segmentId = trace.findSegmentById(pre_segment_id);
+        return segmentId == -1 ? false : true;
     }
 }

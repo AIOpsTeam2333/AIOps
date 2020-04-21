@@ -30,12 +30,12 @@ public class EndpointRepositoryTest {
     private EndpointRepository endpointRepository;
 
     @Test
-    public void insert(){
-        Endpoint_Data endpoint_data=init.initEndpoint();
-        List<EndpointPO> endpointPOList=new ArrayList<>();
-        for(Endpoint_Info endpoint_info:endpoint_data.getEndpoint_infoList().getEndpoint_infoList()){
+    public void insert() {
+        Endpoint_Data endpoint_data = init.initEndpoint();
+        List<EndpointPO> endpointPOList = new ArrayList<>();
+        for (Endpoint_Info endpoint_info : endpoint_data.getEndpoint_infoList().getEndpoint_infoList()) {
 
-            EndpointPO endpointPO=endpointRepository.insertEndpoint(endpoint_info);
+            EndpointPO endpointPO = endpointRepository.insertEndpoint(endpoint_info);
             endpointPOList.add(endpointPO);
 
         }
@@ -43,16 +43,16 @@ public class EndpointRepositoryTest {
     }
 
     @Test
-    public void findById(){
-        EndpointPO endpointPO=endpointRepository.findById("2");
+    public void findById() {
+        EndpointPO endpointPO = endpointRepository.findById("2");
         System.out.println(endpointPO);
     }
 
     @Test
-    public void findByName(){
-        EndpointPO endpointPO=endpointRepository.findByName("{POST}/");
-        EndpointPO endpointPO2=endpointRepository.findByName("/");
-        EndpointPO endpointPO3=endpointRepository.findByName("abc/");
+    public void findByName() {
+        EndpointPO endpointPO = endpointRepository.findByName("{POST}/");
+        EndpointPO endpointPO2 = endpointRepository.findByName("/");
+        EndpointPO endpointPO3 = endpointRepository.findByName("abc/");
         System.out.println(endpointPO);
         System.out.println(endpointPO2);
         System.out.println(endpointPO3);

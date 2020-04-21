@@ -27,21 +27,21 @@ public class RefRepositoryTest {
     private Init init;
 
     @Test
-    public void findRefByConent(){
-        Span_Data span_data=init.initSpan();
-        Ref_Info ref_info=span_data.getData().getQueryTrace().getSpans().get(1).getRefs().get(0);
-        RefPO refPO=refRepository.findRefByConent(ref_info);
+    public void findRefByConent() {
+        Span_Data span_data = init.initSpan();
+        Ref_Info ref_info = span_data.getData().getQueryTrace().getSpans().get(1).getRefs().get(0);
+        RefPO refPO = refRepository.findRefByConent(ref_info);
         System.out.println(refPO);
         ref_info.setType("t");
-        refPO=refRepository.findRefByConent(ref_info);
+        refPO = refRepository.findRefByConent(ref_info);
         System.out.println(refPO);
     }
 
     @Test
-    public void findRefsBySpanId(){
-        List<RefPO> refPOList=refRepository.findRefsBySpanId("");
+    public void findRefsBySpanId() {
+        List<RefPO> refPOList = refRepository.findRefsBySpanId("");
         System.out.println(refPOList);
-        refPOList=refRepository.findRefsBySpanId("2.63.15867631492160003/2.225.15867631494360000/0");
+        refPOList = refRepository.findRefsBySpanId("2.63.15867631492160003/2.225.15867631494360000/0");
         System.out.println(refPOList);
     }
 }

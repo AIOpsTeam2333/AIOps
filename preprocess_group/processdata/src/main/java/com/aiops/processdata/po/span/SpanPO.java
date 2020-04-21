@@ -5,7 +5,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
-import java.util.Objects;
 
 /**
  * @author Zongwen Yang
@@ -25,7 +24,7 @@ public class SpanPO {
     public boolean equals(Object o) {
 
         SpanPO spanPO = (SpanPO) o;
-        if(this.traceSpanPO.getId()==spanPO.traceSpanPO.getId()) return true;
+        if (this.traceSpanPO.getId() == spanPO.traceSpanPO.getId()) return true;
         return false;
     }
 

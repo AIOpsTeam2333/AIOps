@@ -23,19 +23,19 @@ public class EndpointTest {
     private Endpoint endpoint;
 
     @Test
-    public void save(){
-        Endpoint_Data endpoint_data=init.initEndpoint();
+    public void save() {
+        Endpoint_Data endpoint_data = init.initEndpoint();
         System.out.println(endpoint.save(endpoint_data));
     }
 
     @Test
-    public void findById(){
+    public void findById() {
         System.out.println(endpoint.findById("9"));
         System.out.println(endpoint.findById("5"));
     }
 
     @Test
-    public void findByName(){
+    public void findByName() {
         System.out.println(endpoint.findByName("/"));
         System.out.println(endpoint.findByName(""));
     }

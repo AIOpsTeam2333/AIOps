@@ -22,24 +22,24 @@ public class TraceTest {
     private Init init;
 
     @Test
-    public void save(){
-        Trace_Data trace_data=init.initTrace();
+    public void save() {
+        Trace_Data trace_data = init.initTrace();
         trace.save(trace_data);
     }
 
     @Test
-    public void findTraceById(){
-        Integer traceId=trace.findTraceById("2.76.15867606640990505");
+    public void findTraceById() {
+        Integer traceId = trace.findTraceById("2.76.15867606640990505");
         System.out.println(traceId);
-        Integer traceId2=trace.findTraceById("");
+        Integer traceId2 = trace.findTraceById("");
         System.out.println(traceId2);
     }
 
     @Test
-    public void findSegmentById(){
-        Integer segmentId=trace.findSegmentById("2.76.15867606640990505/2.76.15867606640990504");
+    public void findSegmentById() {
+        Integer segmentId = trace.findSegmentById("2.76.15867606640990505/2.76.15867606640990504");
         System.out.println(segmentId);
-        Integer segmentId2=trace.findSegmentById("");
+        Integer segmentId2 = trace.findSegmentById("");
         System.out.println(segmentId2);
     }
 }

@@ -55,7 +55,7 @@ public class EndpointRepositoryImpl implements EndpointRepository {
         Integer count = jdbcTemplate.queryForObject(SELECT_ENDPOINT_COUNT_BY_ID, Integer.class, pre_id);
         if (count == 0) return null;//已存在
         List<EndpointPO> endpointPOList = jdbcTemplate.query(SELECT_Endpoint_BY_ID, new BeanPropertyRowMapper<>(EndpointPO.class), pre_id);
-        return endpointPOList.size()==0?null:endpointPOList.get(0);//返回第一个满足对象
+        return endpointPOList.size() == 0 ? null : endpointPOList.get(0);//返回第一个满足对象
     }
 
     @Override
@@ -64,7 +64,7 @@ public class EndpointRepositoryImpl implements EndpointRepository {
         if (count == 0) return null;
         RowMapper<EndpointPO> rowMapper = new BeanPropertyRowMapper<>(EndpointPO.class);
         List<EndpointPO> endpointPOList = jdbcTemplate.query(SELECT_Endpoint_BY_Name, rowMapper, name);
-        return endpointPOList.size()==0?null:endpointPOList.get(0);//返回第一个满足对象
+        return endpointPOList.size() == 0 ? null : endpointPOList.get(0);//返回第一个满足对象
     }
 
 

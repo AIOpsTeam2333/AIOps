@@ -26,9 +26,9 @@ public class SpanTest {
     private Span span;
 
     @Test
-    public void insert(){
-        Span_Data span_data=init.initSpan();
-        List<SpanPO> spanPOList=span.save(span_data);
+    public void insert() {
+        Span_Data span_data = init.initSpan();
+        List<SpanPO> spanPOList = span.save(span_data);
         System.out.println(spanPOList);
     }
 }

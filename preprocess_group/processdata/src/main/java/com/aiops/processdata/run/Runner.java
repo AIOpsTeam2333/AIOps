@@ -43,32 +43,32 @@ public class Runner {
         endpoint.save(endpoint_data);
         instance.save(serviceInstance_data);
         trace.save(trace_data);
-        List<SpanPO> spanPOList=span.save(span_data);
-        Set<SpanPO> spanPOSet=new HashSet<>(spanPOList);
-        System.out.println("SpanPO的数量为 "+spanPOSet.size());
-        int counttag=0;
-        for(SpanPO spanPO:spanPOSet){
-            if (spanPO.getTagPOList().getKVList().size()!=0) counttag++;
+        List<SpanPO> spanPOList = span.save(span_data);
+        Set<SpanPO> spanPOSet = new HashSet<>(spanPOList);
+        System.out.println("SpanPO的数量为 " + spanPOSet.size());
+        int counttag = 0;
+        for (SpanPO spanPO : spanPOSet) {
+            if (spanPO.getTagPOList().getKVList().size() != 0) counttag++;
         }
-        System.out.println("SpanPO中存在tag的数量为 "+counttag);
-        int countError=0;
-        for(SpanPO spanPO:spanPOSet){
-            if (spanPO.getTraceSpanPO().isError()==true) countError++;
+        System.out.println("SpanPO中存在tag的数量为 " + counttag);
+        int countError = 0;
+        for (SpanPO spanPO : spanPOSet) {
+            if (spanPO.getTraceSpanPO().isError() == true) countError++;
         }
-        System.out.println("SpanPO中存在isError的数量为 "+countError);
-        int countlog=0;
-        for(SpanPO spanPO:spanPOSet){
-            if (spanPO.getLogPOList().size()!=0) {
+        System.out.println("SpanPO中存在isError的数量为 " + countError);
+        int countlog = 0;
+        for (SpanPO spanPO : spanPOSet) {
+            if (spanPO.getLogPOList().size() != 0) {
                 countlog++;
-                System.out.println("unemptylog spanId= "+spanPO.getTraceSpanPO().getId()+" pre_id= "+spanPO.getTraceSpanPO().getSpanId());
+                System.out.println("unemptylog spanId= " + spanPO.getTraceSpanPO().getId() + " pre_id= " + spanPO.getTraceSpanPO().getSpanId());
             }
         }
-        System.out.println("SpanPO中存在log的数量为 "+countlog);
-        int countref=0;
-        for(SpanPO spanPO:spanPOSet){
-            if (spanPO.getRefPOList().size()!=0) countref++;
+        System.out.println("SpanPO中存在log的数量为 " + countlog);
+        int countref = 0;
+        for (SpanPO spanPO : spanPOSet) {
+            if (spanPO.getRefPOList().size() != 0) countref++;
         }
-        System.out.println("SpanPO中存在ref的数量为 "+countref);
+        System.out.println("SpanPO中存在ref的数量为 " + countref);
     }
 
 

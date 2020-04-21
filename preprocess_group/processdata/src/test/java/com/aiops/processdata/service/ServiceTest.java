@@ -27,24 +27,25 @@ public class ServiceTest {
     private Service service;
 
     @Test
-    public void save(){
-        Service_Data service_data=init.initService();
-        List<ServicePO> servicePOList=service.save(service_data);
+    public void save() {
+        Service_Data service_data = init.initService();
+        List<ServicePO> servicePOList = service.save(service_data);
         System.out.println(servicePOList);
     }
+
     @Test
-    public void findById(){
-        Integer t=service.findById("11");
+    public void findById() {
+        Integer t = service.findById("11");
         System.out.println(t);
-        Integer t2=service.findById("100");
+        Integer t2 = service.findById("100");
         System.out.println(t2);
     }
 
     @Test
-    public void findByName(){
-        Integer t=service.findByName("Config");
+    public void findByName() {
+        Integer t = service.findByName("Config");
         System.out.println(t);
-        Integer t2=service.findByName("");
+        Integer t2 = service.findByName("");
         System.out.println(t2);
     }
 }

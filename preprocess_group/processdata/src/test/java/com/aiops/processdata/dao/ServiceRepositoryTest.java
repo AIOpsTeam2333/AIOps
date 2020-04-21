@@ -21,17 +21,18 @@ public class ServiceRepositoryTest {
     private ServiceRepository repository;
 
     @Test
-    public void findById(){
-        ServicePO servicePO=repository.findById("11");
+    public void findById() {
+        ServicePO servicePO = repository.findById("11");
         System.out.println(servicePO);
-        ServicePO servicePO2=repository.findById("200");
+        ServicePO servicePO2 = repository.findById("200");
         System.out.println(servicePO2);
     }
+
     @Test
-    public void findByName(){
-        ServicePO servicePO=repository.findByName("Config");
+    public void findByName() {
+        ServicePO servicePO = repository.findByName("Config");
         System.out.println(servicePO);
-        ServicePO servicePO2=repository.findByName("");
+        ServicePO servicePO2 = repository.findByName("");
         System.out.println(servicePO2);
     }
 }

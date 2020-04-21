@@ -37,10 +37,10 @@ public class SpanRepositoryTest {
     private Init init;
 
     @Test
-    public void insertSpan(){
-        Span_Data span_data=init.initSpan();
-        List<Span_Info> span_infoList=span_data.getData().getQueryTrace().getSpans();
-        for(Span_Info span_info:span_infoList){
+    public void insertSpan() {
+        Span_Data span_data = init.initSpan();
+        List<Span_Info> span_infoList = span_data.getData().getQueryTrace().getSpans();
+        for (Span_Info span_info : span_infoList) {
             System.out.println(span_info);
             System.out.println(spanRepository.insertSpan(span_info));
         }
@@ -48,16 +48,15 @@ public class SpanRepositoryTest {
     }
 
     @Test
-    public void kvtest(){
+    public void kvtest() {
         System.out.println("`key`");
-        String s="insert into trace_key_value(`key`,`value`) VALUES (?,?)";
+        String s = "insert into trace_key_value(`key`,`value`) VALUES (?,?)";
         KeyHolder keyHolder = new GeneratedKeyHolder();
         jdbcTemplate.update(
                 new PreparedStatementCreator() {
-                    public PreparedStatement createPreparedStatement(Connection con) throws SQLException
-                    {
+                    public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
                         PreparedStatement ps = jdbcTemplate.getDataSource()
-                                .getConnection().prepareStatement(s,new String[]{ "key" ,"value"});
+                                .getConnection().prepareStatement(s, new String[]{"key", "value"});
                         ps.setString(1, "站点号");
                         ps.setString(2, "我的名字");
                         return ps;

@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
+import java.sql.Timestamp;
 
 /**
  * @author Zongwen Yang
@@ -16,7 +16,7 @@ import java.util.Date;
 @AllArgsConstructor
 public class LogPO {
     private Integer entityId;
-    private Date time;
+    private Timestamp time;
     private Integer spanId;
     private String data;
 }

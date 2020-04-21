@@ -13,7 +13,11 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
-import java.util.*;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author Zongwen Yang
@@ -78,7 +82,7 @@ public class LogRepositoryImpl implements LogRepository {
         SimpleJdbcInsert jdbcInsert = new SimpleJdbcInsert(jdbcTemplate).withTableName("trace_log_entity");
         jdbcInsert.setGeneratedKeyName("log_entity_id");
         Map<String, Object> args = new HashMap<>();
-        Date time = MyUtils.stampToDate(log_info.getTime());
+        Timestamp time = MyUtils.stampToDate(log_info.getTime());
         args.put("time", time);
         args.put("span_id", spanId);
         Integer entityId = jdbcInsert.executeAndReturnKey(args).intValue();

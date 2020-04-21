@@ -53,8 +53,8 @@ public class ServiceRepositoryImpl implements ServiceRepository {
         if (count == 0) return null;//已存在
 
         RowMapper<ServicePO> rowMapper = new BeanPropertyRowMapper<>(ServicePO.class);
-        List<ServicePO> servicePOList=jdbcTemplate.query(SELECT_SERVICE_BY_ID, rowMapper, pre_id);
-        return servicePOList.size()==0?null:servicePOList.get(0);
+        List<ServicePO> servicePOList = jdbcTemplate.query(SELECT_SERVICE_BY_ID, rowMapper, pre_id);
+        return servicePOList.size() == 0 ? null : servicePOList.get(0);
     }
 
     @Override
@@ -62,8 +62,8 @@ public class ServiceRepositoryImpl implements ServiceRepository {
         Integer count = jdbcTemplate.queryForObject(SELECT_SERVICE_COUNT_BY_NAME, Integer.class, name);
         if (count == 0) return null;
         RowMapper<ServicePO> rowMapper = new BeanPropertyRowMapper<>(ServicePO.class);
-        List<ServicePO> servicePOList=jdbcTemplate.query(SELECT_SERVICE_BY_NAME, rowMapper, name);
-        return servicePOList.size()==0?null:servicePOList.get(0);
+        List<ServicePO> servicePOList = jdbcTemplate.query(SELECT_SERVICE_BY_NAME, rowMapper, name);
+        return servicePOList.size() == 0 ? null : servicePOList.get(0);
     }
 
 
