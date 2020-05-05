@@ -23,14 +23,14 @@ public class TopologyTests {
     private EndpointTopologyService endpointTopologyService;
 
     @Test
-    @Ignore
+    //@Ignore
     public void endpointTopoTest1() throws ParseException {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMM");
         Duration duration = new Duration();
         duration.setStart(simpleDateFormat.parse("201001"));
         duration.setEnd(simpleDateFormat.parse("202012"));
         duration.setStep(StatisticsStep.MONTH);
-        Integer endpointId = 1;
+        Integer endpointId = 21;
 
         EndpointTopology endpointTopology = endpointTopologyService.selectEndpointTopology(duration, endpointId);
         System.out.println(endpointTopology);

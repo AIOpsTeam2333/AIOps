@@ -3,10 +3,16 @@
 <mapper namespace="com.aiops.api.mapper.EndpointTopologyMapper">
 
     <select id="getContextIdInfo" resultType="com.aiops.api.service.topology.endpoint.dto.ContextIdInfo">
-        SELECT t.`span_id`, t.`parent_span_id`, m.`name`
+        SELECT t.`id` as `span_id`,
+        IF(r.`parent_span_id` IS NOT NULL, r.`parent_span_id`, t.`parent_span_id`) `parent_span_id`,
+        m.`name`
         FROM metadata_service_endpoint m
-        JOIN trace_span t
+        left JOIN trace_span t
         ON m.`service_endpoint_id` = t.`endpoint_id`
+        LEFT JOIN trace_span_refs sr
+	    ON sr.`span_id`=t.`id`
+	    LEFT JOIN trace_ref r
+	    ON sr.`ref_id`=r.`ref_id`
         WHERE t.`endpoint_id` = #{endpointId}
         AND t.`start_time` <![CDATA[ >= ]]> #{from}
         AND t.`start_time`<![CDATA[ <= ]]> #{to}
@@ -17,11 +23,15 @@
         FROM metadata_service_endpoint m
         JOIN trace_span t
         ON m.`service_endpoint_id`=t.`endpoint_id`
+        LEFT JOIN trace_span_refs sr
+        ON t.`id` = sr.`span_id`
+        LEFT JOIN trace_ref r
+        ON sr.`ref_id`= r.`ref_id`
         WHERE t.`start_time` <![CDATA[ >= ]]> #{from}
         AND t.`start_time`<![CDATA[ <= ]]> #{to}
         AND
         <if test="isCurrentId">
-            t.`span_id`
+            t.`id`
         </if>
         <if test="isCurrentId==false">
             t.`parent_span_id`
@@ -30,5 +40,11 @@
         <foreach item="item" index="index" collection="ids" open="(" separator="," close=")">
             #{item}
         </foreach>
+        <if test="isCurrentId==false">
+            OR r.`parent_span_id` IN
+            <foreach item="item" index="index" collection="ids" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
     </select>
 </mapper>

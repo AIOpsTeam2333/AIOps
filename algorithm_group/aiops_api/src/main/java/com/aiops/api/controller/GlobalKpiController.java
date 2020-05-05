@@ -38,13 +38,14 @@ public class GlobalKpiController {
             @RequestBody @Valid RequestBodyKpi requestBodyKpi
     ) {
         KpiIndicator kpiIndicator = requestBodyKpi.getBusiness();
+        Duration duration = requestBodyKpi.getDuration();
 
         GlobalKpiAll result = new GlobalKpiAll();
         if (kpiIndicator.needPercentile()) {
-            result.setPercentileGraph(globalPercentile(requestBodyKpi.getDuration()));
+            result.setPercentileGraph(globalKpiService.getGlobalPercentileGraph(duration));
         }
         if (kpiIndicator.needKpiType(KpiType.HEATMAP)) {
-            result.setHeatmapGraph(globalHeatmap(requestBodyKpi.getDuration()));
+            result.setHeatmapGraph(globalKpiService.getGlobalHeatmapGraph(duration));
         }
         result.setGlobalBrief(metadataService.getGlobalBrief());
         result.setGlobalSlow(endpointKpiService.getGlobalSlowEndpoint(requestBodyKpi.getDuration()));

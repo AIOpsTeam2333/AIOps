@@ -43,17 +43,12 @@ public class GlobalKpiService {
         Date to = duration.getEnd();
         String step = duration.getStep().getName();
         Integer heatmapStep = globalKpiDao.getTheMostHeatmapStep(step, from, to);
+        if (heatmapStep == null) {
+            heatmapStep = 0;
+        }
         List<HeatmapPoint> heatmapPoints = globalKpiDao.getHeatmap(step, heatmapStep, from, to);
         result.setNodes(heatmapPoints);
         result.setResponseTimeStep(heatmapStep);
         return result;
-    }
-
-    public List<SimpleOrderNode> getGlobalSlow(Duration duration) {
-        return new ArrayList<>();
-    }
-
-    public List<SimpleOrderNode> getGlobalThroughout(Duration duration) {
-        return new ArrayList<>();
     }
 }

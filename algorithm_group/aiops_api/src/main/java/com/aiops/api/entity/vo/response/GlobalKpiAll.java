@@ -12,11 +12,14 @@ import java.util.List;
 @Data
 public class GlobalKpiAll {
 
+    //热量图
+    private HeatmapGraph heatmapGraph;
+
     //百分位数
     private PercentileGraph percentileGraph;
 
-    //热量图
-    private HeatmapGraph heatmapGraph;
+    //全局概览
+    private GlobalBrief globalBrief;
 
     //全局吞吐量
     private List<SimpleOrderNode> globalThroughput;
@@ -24,6 +27,5 @@ public class GlobalKpiAll {
     //全局最慢Endpoint
     private List<SimpleOrderNode> globalSlow;
 
-    //全局概览
-    private GlobalBrief globalBrief;
+
 }

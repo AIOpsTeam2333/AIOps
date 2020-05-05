@@ -12,10 +12,10 @@ import java.util.List;
 public class EndpointKpiAll {
 
     private GlobalBrief globalBrief;
-    private PercentileGraph globalPercentile;
     private List<CrossAxisGraphPoint> endpointResponseTime;
     private List<CrossAxisGraphPoint> endpointThroughput;
     private List<CrossAxisGraphPoint> endpointSLA;
+    private PercentileGraph globalPercentile;
     private PercentileGraph endpointPercentile;
     private EndpointTopology endpointTopology;
     private List<SimpleOrderNode> globalSlow;
