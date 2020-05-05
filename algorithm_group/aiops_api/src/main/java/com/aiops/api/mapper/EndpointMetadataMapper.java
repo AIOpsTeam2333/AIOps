@@ -1,9 +1,8 @@
 package com.aiops.api.mapper;
 
 import com.aiops.api.config.MyMapper;
-import com.aiops.api.entity.po.ServiceEndpoint;
+import com.aiops.api.entity.po.Endpoint;
 import com.aiops.api.service.metadata.dto.ServiceEndpointSearchDto;
-import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -13,7 +12,7 @@ import java.util.List;
  * @create 2020-03-03 23:56
  **/
 @Repository
-public interface ServiceEndpointMapper extends MyMapper<ServiceEndpoint> {
+public interface EndpointMetadataMapper extends MyMapper<Endpoint> {
 
-    List<ServiceEndpoint> selectList(ServiceEndpointSearchDto dto);
+    List<Endpoint> selectList(ServiceEndpointSearchDto dto);
 }

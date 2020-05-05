@@ -14,7 +14,7 @@ import javax.persistence.Table;
 @Data
 @Table(name = "metadata_service_endpoint")
 @ApiModel(description = "服务端点")
-public class ServiceEndpoint {
+public class Endpoint {
 
     @Id
     @Column(name = "service_endpoint_id")

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aiops.api.mapper.TopologyMapper">
+
+    <select id="queryTopologyCall" resultType="com.aiops.api.entity.vo.response.TopologyCall">
+        select
+        <if test='scope=="endpoint"'>
+            distinct s1.`endpoint_id` as `target`, s2.`endpoint_id` as `source`, concat(s2.`endpoint_id`,'_',s1.`endpoint_id`) as `id`
+        </if>
+        <if test='scope=="service"'>
+            DISTINCT e1.`service_id` AS `target`, e2.`service_id` AS `source`, CONCAT(e2.`service_id`,'_',e1.`service_id`) AS `id`
+        </if>
+        from
+        (select s.`id` as `span_id`,
+        if(s.`parent_span_id`=-1, r.`parent_span_id`, s.`parent_span_id`) as `parent_span_id`
+        from trace_span s
+        left join trace_span_refs sr
+        on s.`id`=sr.`span_id`
+        left join trace_ref r
+        on r.`ref_id`=sr.`ref_id`
+        where (r.`parent_span_id` is not null
+        or s.`parent_span_id` <![CDATA[ <> ]]> -1
+        )
+        AND s.`start_time` <![CDATA[ >= ]]> #{from}
+        AND s.`start_time` <![CDATA[ <= ]]> #{to}
+        ) tmp
+        join trace_span s1 on s1.`id`=tmp.`span_id`
+        join trace_span s2 on s2.`id`=tmp.`parent_span_id`
+        <if test='scope=="service"'>
+            JOIN metadata_service_endpoint e1 ON s1.`endpoint_id`=e1.`service_endpoint_id`
+            JOIN metadata_service_endpoint e2 ON s2.`endpoint_id`=e2.`service_endpoint_id`
+        </if>
+        <if test="id">
+            <if test='scope=="endpoint"'>
+                WHERE s1.`endpoint_id`=#{id} OR s2.`endpoint_id`=#{id}
+            </if>
+            <if test='scope=="service"'>
+                WHERE e1.`service_id`=#{id} OR e2.`service_id`=#{id}
+            </if>
+        </if>
+    </select>
+
+</mapper>

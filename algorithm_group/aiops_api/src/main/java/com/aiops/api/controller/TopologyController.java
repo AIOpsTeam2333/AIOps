@@ -2,6 +2,7 @@ package com.aiops.api.controller;
 
 import com.aiops.api.entity.vo.request.RequestBodyTopology;
 import com.aiops.api.entity.vo.response.Topology;
+import com.aiops.api.service.topology.service.ServiceTopologyService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -24,12 +25,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class TopologyController {
 
+    private final ServiceTopologyService serviceTopologyService;
+
     @ApiOperation(value = "查询拓扑关系")
     @PostMapping("/topology")
     public Topology queryTopo(
             @RequestBody @Validated RequestBodyTopology requestBodyTopology
     ) {
-        return new Topology();
+        return serviceTopologyService.getServiceTopology(requestBodyTopology.getDuration(), requestBodyTopology.getServiceId());
     }
 
 

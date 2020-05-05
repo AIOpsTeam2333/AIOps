@@ -17,7 +17,7 @@ public class EndpointKpiAll {
     private List<CrossAxisGraphPoint> endpointSLA;
     private PercentileGraph globalPercentile;
     private PercentileGraph endpointPercentile;
-    private EndpointTopology endpointTopology;
+    private Topology endpointTopology;
     private List<SimpleOrderNode> globalSlow;
     private TraceGraph endpointTraces;
 

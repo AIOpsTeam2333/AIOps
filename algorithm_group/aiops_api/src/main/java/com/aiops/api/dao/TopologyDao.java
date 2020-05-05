@@ -1,41 +1,40 @@
 package com.aiops.api.dao;
 
+import com.aiops.api.common.enums.ScopeType;
 import com.aiops.api.entity.vo.request.Duration;
-import com.aiops.api.entity.vo.response.EndpointTopologyNode;
-import com.aiops.api.service.topology.endpoint.dto.ContextIdInfo;
+import com.aiops.api.entity.vo.response.TopologyCall;
+import com.aiops.api.mapper.TopologyMapper;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 /**
  * 拓扑信息查询, 包括endpoint拓扑查询和Service拓扑查询
+ *
  * @author Shuaiyu Yao
  * @create 2020-05-05 15:38
  */
 @Repository
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class TopologyDao {
 
+    private final TopologyMapper topologyMapper;
 
     /**
-     * 获取endpoint端点上下文信息
+     * 查询拓扑关系
      *
-     * @param duration
-     * @param endpointId
+     * @param duration  duration
+     * @param id        需要查询的关键id
+     * @param scopeType endpoint和service
      * @return
      */
-    public List<ContextIdInfo> getContextIdInfo(
+    public List<TopologyCall> queryTopologyCalls(
             Duration duration,
-            Integer endpointId
+            Integer id,
+            ScopeType scopeType
     ) {
-        return null;
+        return topologyMapper.queryTopologyCall(duration.getStart(), duration.getEnd(), id, scopeType.databaseName());
     }
-
-    public List<EndpointTopologyNode> selectNodesBySpanId(List<Integer> ids, Duration duration) {
-        return null;
-    }
-
-    public List<EndpointTopologyNode> selectNodesByParentSpanId(List<Integer> ids, Duration duration) {
-        return null;
-    }
-
 }

@@ -114,7 +114,7 @@ public class EndpointKpiController {
 
     @ApiOperation(value = "端点指标数据endpointTopology")
     @PostMapping("/topology")
-    public EndpointTopology endpointTopology(
+    public Topology endpointTopology(
             @RequestBody @Validated({NeedIdGroup.class}) RequestBodyKpi requestBodyKpi
     ) {
         return endpointTopologyService.selectEndpointTopology(requestBodyKpi.getDuration(), requestBodyKpi.getId());

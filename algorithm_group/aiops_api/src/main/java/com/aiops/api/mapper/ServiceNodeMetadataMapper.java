@@ -14,7 +14,7 @@ import java.util.List;
  * @create 2020-03-02 18:25
  **/
 @Repository
-public interface ServiceNodeMapper extends MyMapper<ServiceNode> {
+public interface ServiceNodeMetadataMapper extends MyMapper<ServiceNode> {
 
     List<Service> selectServices(ServiceNodeSearchDto serviceNodeSearchDto);
 

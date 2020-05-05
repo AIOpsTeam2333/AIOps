@@ -2,7 +2,7 @@ package com.aiops.api.controller;
 
 import com.aiops.api.entity.po.Database;
 import com.aiops.api.entity.po.Service;
-import com.aiops.api.entity.po.ServiceEndpoint;
+import com.aiops.api.entity.po.Endpoint;
 import com.aiops.api.entity.po.ServiceInstance;
 import com.aiops.api.service.metadata.MetadataService;
 import io.swagger.annotations.*;
@@ -62,7 +62,7 @@ public class MetadataController {
             @ApiImplicitParam(name = "keyword", value = "Endpoint关键字, 按名称查询, 部分匹配", paramType = "query", dataType = "string"),
     })
     @GetMapping("/getEndpoints")
-    public List<ServiceEndpoint> getEndpoints(
+    public List<Endpoint> getEndpoints(
             @RequestParam(name = "service_endpoint_id", required = false) Integer serviceEndpointId,
             @RequestParam(name = "service_id", required = false) Integer serviceId,
             @RequestParam(name = "keyword", required = false) String name

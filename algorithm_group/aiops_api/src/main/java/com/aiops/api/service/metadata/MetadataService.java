@@ -1,10 +1,10 @@
 package com.aiops.api.service.metadata;
 
-import com.aiops.api.dao.ServiceEndpointDao;
+import com.aiops.api.dao.EndpointMetadataDao;
 import com.aiops.api.dao.ServiceInstanceDao;
-import com.aiops.api.dao.ServiceNodeDao;
+import com.aiops.api.dao.ServiceNodeMetadataDao;
 import com.aiops.api.entity.po.Database;
-import com.aiops.api.entity.po.ServiceEndpoint;
+import com.aiops.api.entity.po.Endpoint;
 import com.aiops.api.entity.po.ServiceInstance;
 import com.aiops.api.service.metadata.dto.ServiceEndpointSearchDto;
 import com.aiops.api.service.metadata.dto.ServiceInstanceSearchDto;
@@ -24,15 +24,15 @@ import java.util.List;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class MetadataService {
 
-    private final ServiceEndpointDao serviceEndpointDao;
+    private final EndpointMetadataDao endpointMetadataDao;
     private final ServiceInstanceDao serviceInstanceDao;
-    private final ServiceNodeDao serviceNodeDao;
+    private final ServiceNodeMetadataDao serviceNodeMetadataDao;
 
     public GlobalBrief getGlobalBrief() {
         GlobalBrief globalBrief = new GlobalBrief();
-        globalBrief.setNumOfEndpoint(serviceEndpointDao.countAll());
-        globalBrief.setNumOfService(serviceNodeDao.countAllService());
-        globalBrief.setNumOfDatabase(serviceNodeDao.countAllDatabase());
+        globalBrief.setNumOfEndpoint(endpointMetadataDao.countAll());
+        globalBrief.setNumOfService(serviceNodeMetadataDao.countAllService());
+        globalBrief.setNumOfDatabase(serviceNodeMetadataDao.countAllDatabase());
         return globalBrief;
     }
 
@@ -45,10 +45,10 @@ public class MetadataService {
         dto.setNodeId(serviceId);
         dto.setName(name);
         dto.setNodeType(nodeType);
-        return serviceNodeDao.selectServices(dto);
+        return serviceNodeMetadataDao.selectServices(dto);
     }
 
-    public List<ServiceEndpoint> getEndpoints(
+    public List<Endpoint> getEndpoints(
             Integer serviceEndpointId,
             Integer serviceId,
             String name
@@ -57,7 +57,7 @@ public class MetadataService {
         dto.setServiceEndpointId(serviceEndpointId);
         dto.setServiceId(serviceId);
         dto.setName(name);
-        return serviceEndpointDao.queryServiceEndpoint(dto);
+        return endpointMetadataDao.queryServiceEndpoint(dto);
     }
 
     public List<ServiceInstance> getServiceInstances(
@@ -85,6 +85,6 @@ public class MetadataService {
         dto.setNodeId(databaseId);
         dto.setName(name);
         dto.setNodeType(nodeType);
-        return serviceNodeDao.selectDatabase(dto);
+        return serviceNodeMetadataDao.selectDatabase(dto);
     }
 }
