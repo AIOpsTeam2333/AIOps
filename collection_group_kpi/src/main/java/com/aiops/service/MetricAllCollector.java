@@ -10,7 +10,6 @@ import com.aiops.query.model.QueryStatement;
 import com.aiops.query.parser.MetricAllParser;
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.scheduling.annotation.EnableScheduling;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
@@ -23,27 +22,7 @@ public class MetricAllCollector {
     private static String[] metrics = {"all_p50", "all_p75", "all_p90", "all_p95", "all_p99"};
     private static String queryType = "getLinearIntValues";
 
-    @Scheduled(cron = "0 */1 * * * ?")
-    public void collectAllPerMinute(){
-        collectAll(Step.MINUTE);
-    }
-
-    @Scheduled(cron = "0 0 */1 * * ?")
-    public void collectAllPerHour(){
-        collectAll(Step.HOUR);
-    }
-
-    @Scheduled(cron = "0 0 23 * * ?")
-    public void collectAllPerDay(){
-        collectAll(Step.DAY);
-    }
-
-    @Scheduled(cron = "0 0 0 1 * ?")
-    public void collectAllPerMonth(){
-        collectAll(Step.MONTH);
-    }
-
-    private void collectAll(Step step){
+    public void collectAll(Step step){
         try {
             for (String metric : metrics){
                 collectSingle(queryType, metric, step);

@@ -2,10 +2,10 @@ package com.aiops.service;
 
 import com.aiops.query.QueryHelper;
 import com.aiops.query.enums.Step;
+import com.aiops.query.holder.MetaDataHolder;
 import com.aiops.query.model.Duration;
 import com.aiops.query.model.QueryStatement;
 import com.aiops.query.parser.MetaDataParser;
-import com.aiops.service.holder.MetaDataHolder;
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.stereotype.Service;
 

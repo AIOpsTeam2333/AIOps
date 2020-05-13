@@ -4,15 +4,13 @@ import com.aiops.dao.MetricEndpointDAO;
 import com.aiops.model.MetricEndpointDO;
 import com.aiops.query.QueryHelper;
 import com.aiops.query.enums.Step;
+import com.aiops.query.holder.MetaDataHolder;
 import com.aiops.query.model.Duration;
 import com.aiops.query.model.MetricCondition;
 import com.aiops.query.model.QueryStatement;
 import com.aiops.query.parser.MetricEndpointParser;
-import com.aiops.service.holder.MetaDataHolder;
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.EnableScheduling;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
@@ -20,32 +18,11 @@ import java.util.Date;
 import java.util.List;
 
 @Service
-@EnableScheduling
 public class MetricEndpointCollector {
 
     private static String[] metrics = {"endpoint_relation_resp_time", "endpoint_sla", "endpoint_cpm", "endpoint_p99",
             "endpoint_p95", "endpoint_p90", "endpoint_p75", "endpoint_p50"};
     private static String queryType = "getLinearIntValues";
-
-    @Scheduled(cron = "0 */1 * * * ?")
-    public void collectAllPerMinute(){
-        collectEndpoint(Step.MINUTE);
-    }
-
-    @Scheduled(cron = "0 0 */1 * * ?")
-    public void collectAllPerHour(){
-        collectEndpoint(Step.HOUR);
-    }
-
-    @Scheduled(cron = "0 0 23 * * ?")
-    public void collectAllPerDay(){
-        collectEndpoint(Step.DAY);
-    }
-
-    @Scheduled(cron = "0 0 0 1 * ?")
-    public void collectAllPerMonth(){
-        collectEndpoint(Step.MONTH);
-    }
 
     public void collectEndpoint(Step step){
         List<String> endpoints = MetaDataHolder.getEndpoints();

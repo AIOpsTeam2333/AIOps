@@ -1,4 +1,4 @@
-package com.aiops.service.holder;
+package com.aiops.query.holder;
 
 import java.util.ArrayList;
 import java.util.List;
