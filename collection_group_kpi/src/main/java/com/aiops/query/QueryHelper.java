@@ -55,6 +55,4 @@ public class QueryHelper {
         else
             return new QueryStatement("");
     }
-
-
 }

@@ -3,13 +3,14 @@ package com.aiops.dao;
 import com.aiops.model.MetricAllDO;
 import com.aiops.query.enums.Step;
 import com.aiops.util.DBUtil;
+import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-@Service
+@Repository
 public class MetricAllDAO {
 
     public void insertMetricAllDO(MetricAllDO metricAllDO, String metric, Step step) {
@@ -27,6 +28,8 @@ public class MetricAllDAO {
     }
 
     private String prepareInsertSql(String metric, Step step){
-        return "INSERT INTO `kpi_" + metric + "_" + step.toString().toLowerCase() + "` (`value`, `time`, `predict`) VALUES (?, ?, ?);\n";
+        return "INSERT INTO `kpi_" + metric + "_"
+                + step.toString().toLowerCase()
+                + "` (`value`, `time`, `predict`) VALUES (?, ?, ?);\n";
     }
 }

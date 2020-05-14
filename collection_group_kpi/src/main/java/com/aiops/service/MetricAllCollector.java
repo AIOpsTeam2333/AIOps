@@ -9,6 +9,8 @@ import com.aiops.query.model.MetricCondition;
 import com.aiops.query.model.QueryStatement;
 import com.aiops.query.parser.MetricAllParser;
 import com.alibaba.fastjson.JSONObject;
+import com.fasterxml.jackson.databind.annotation.JsonAppend;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +23,9 @@ public class MetricAllCollector {
 
     private static String[] metrics = {"all_p50", "all_p75", "all_p90", "all_p95", "all_p99"};
     private static String queryType = "getLinearIntValues";
+
+    @Autowired
+    private MetricAllDAO metricAllDAO;
 
     public void collectAll(Step step){
         try {
@@ -42,7 +47,6 @@ public class MetricAllCollector {
         JSONObject json = QueryHelper.query(statement);
 
         MetricAllDO metricAllDO = MetricAllParser.parseResponse(step, json);
-        new MetricAllDAO().insertMetricAllDO(metricAllDO, metric, step);
-//        System.out.print("Metric: "+metric+", TimeStamp: " + metricAllDO.getTimestamp() + ", Value: " + metricAllDO.getValue()+"\n");
+        metricAllDAO.insertMetricAllDO(metricAllDO, metric, step);
     }
 }

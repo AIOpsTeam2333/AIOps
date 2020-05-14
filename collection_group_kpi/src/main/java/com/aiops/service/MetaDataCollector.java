@@ -20,13 +20,14 @@ public class MetaDataCollector {
         refreshMetadata();
     }
 
-    private static void refreshMetadata(){
+    public static void refreshMetadata() {
         collectServices();
         collectInstances(MetaDataHolder.getServices());
         collectEndpoints(MetaDataHolder.getServices());
     }
 
-    private static void collectEndpoints(List<String> services){
+    //收集端点ID信息
+    private static void collectEndpoints(List<String> services) {
         List<String> endpointIds = new ArrayList<>();
         for (String id : services) {
             //创建查询
@@ -45,7 +46,8 @@ public class MetaDataCollector {
         System.out.print("Refresh Endpoint MetaData Successfully\n");
     }
 
-    private static void collectInstances(List<String> services){
+    //收集实例ID信息
+    private static void collectInstances(List<String> services) {
         List<String> instanceIds = new ArrayList<>();
         for (String id : services) {
             //创建查询
@@ -63,7 +65,8 @@ public class MetaDataCollector {
         System.out.print("Refresh Instance MetaData Successfully\n");
     }
 
-    private static void collectServices(){
+    //收集服务ID信息
+    private static void collectServices() {
         //创建查询
         QueryStatement statement = QueryHelper.getQueryStatement("getAllServices");
         statement.addDuration(new Duration(new Date(), Step.DAY));
