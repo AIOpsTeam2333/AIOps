@@ -9,7 +9,6 @@ import com.aiops.query.model.MetricCondition;
 import com.aiops.query.model.QueryStatement;
 import com.aiops.query.parser.MetricAllParser;
 import com.alibaba.fastjson.JSONObject;
-import com.fasterxml.jackson.databind.annotation.JsonAppend;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.stereotype.Service;
@@ -26,27 +25,32 @@ public class MetricAllCollector {
 
     @Autowired
     private MetricAllDAO metricAllDAO;
+    @Autowired
+    private RetryCollector retryCollector;
 
     public void collectAll(Step step){
-        try {
-            for (String metric : metrics){
-                collectSingle(queryType, metric, step);
-            }
-        } catch (ParseException e) {
-            e.printStackTrace();
+
+        for (String metric : metrics){
+            collectSingle(queryType, metric, step);
         }
         System.out.println("Collect All(Global) Info By " + step + ": " + new Date());
     }
 
-    private void collectSingle(String querytype, String metric, Step step) throws ParseException {
+    private void collectSingle(String querytype, String metric, Step step){
 
         QueryStatement statement = QueryHelper.getQueryStatement(querytype);
         statement.addDuration(new Duration(new Date(), step));
         statement.addMetricConditon(new MetricCondition(metric));
+        MetricAllDO metricAllDO;
 
-        JSONObject json = QueryHelper.query(statement);
+        try {
+            JSONObject json = QueryHelper.query(statement);
+            metricAllDO = MetricAllParser.parseResponse(step, json);
+        } catch (ParseException e) {
+            retryCollector.addRetryQueryStatement(statement, metric, step);
+            return;
+        }
 
-        MetricAllDO metricAllDO = MetricAllParser.parseResponse(step, json);
         metricAllDAO.insertMetricAllDO(metricAllDO, metric, step);
     }
 }

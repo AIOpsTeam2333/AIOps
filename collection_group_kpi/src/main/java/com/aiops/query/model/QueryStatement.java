@@ -10,6 +10,9 @@ public class QueryStatement {
 
     private JSONObject value;
 
+    public QueryStatement() {
+    }
+
     public QueryStatement(String query) {
         this.value = new JSONObject();
         this.value.put(QUERY, query);
@@ -30,5 +33,13 @@ public class QueryStatement {
 
     public void addParam(String key, Object value) {
         this.value.getJSONObject(VARIABLES).put(key, value);
+    }
+
+    public JSONObject getValue() {
+        return value;
+    }
+
+    public void setValue(JSONObject value) {
+        this.value = value;
     }
 }
