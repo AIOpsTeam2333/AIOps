@@ -33,7 +33,7 @@ public class Alarm {
     @Column(name = "start_time")
     private Timestamp startTime;
 
-    @ApiModelProperty(example = "ServiceInstance")
+    @ApiModelProperty(example = "Instance")
     @Column(name = "scope")
     private ScopeType scope;
 

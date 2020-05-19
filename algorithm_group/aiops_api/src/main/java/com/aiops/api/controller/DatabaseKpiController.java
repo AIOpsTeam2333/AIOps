@@ -34,7 +34,7 @@ public class DatabaseKpiController {
 
     @ApiOperation(value = "数据库指标数据")
     @PostMapping("/")
-    public DatabaseKpiAll endpointKpiAllData(
+    public DatabaseKpiAll databaseKpiAllData(
             @RequestBody @Validated({NeedIdGroup.class}) RequestBodyKpi requestBodyKpi
     ) {
         KpiIndicator kpiIndicator = requestBodyKpi.getBusiness();

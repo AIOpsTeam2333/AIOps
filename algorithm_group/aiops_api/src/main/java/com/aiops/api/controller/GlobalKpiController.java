@@ -34,9 +34,10 @@ public class GlobalKpiController {
     @ApiOperation(value = "全局指标数据")
     @ApiImplicitParam
     @PostMapping("/")
-    public GlobalKpiAll globalAllData(
+    public GlobalKpiAll globalKpiAllData(
             @RequestBody @Valid RequestBodyKpi requestBodyKpi
     ) {
+        //business被映射为KpiIndicator对象
         KpiIndicator kpiIndicator = requestBodyKpi.getBusiness();
         Duration duration = requestBodyKpi.getDuration();
 

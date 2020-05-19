@@ -1,8 +1,8 @@
 package com.aiops.api.dao;
 
-import com.aiops.api.entity.po.ServiceInstance;
+import com.aiops.api.entity.po.Instance;
 import com.aiops.api.service.metadata.dto.ServiceInstanceSearchDto;
-import com.aiops.api.mapper.ServiceInstanceMapper;
+import com.aiops.api.mapper.InstanceMetadataMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -15,12 +15,12 @@ import java.util.List;
  **/
 @Repository
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
-public class ServiceInstanceDao {
+public class InstanceMetadataDao {
 
-    private final ServiceInstanceMapper serviceInstanceMapper;
+    private final InstanceMetadataMapper instanceMetadataMapper;
 
-    public List<ServiceInstance> queryServiceInstance(ServiceInstanceSearchDto dto) {
-        return serviceInstanceMapper.selectList(dto);
+    public List<Instance> queryServiceInstance(ServiceInstanceSearchDto dto) {
+        return instanceMetadataMapper.selectList(dto);
     }
 
 }

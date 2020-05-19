@@ -3,7 +3,7 @@ package com.aiops.api.controller;
 import com.aiops.api.entity.po.Database;
 import com.aiops.api.entity.po.Service;
 import com.aiops.api.entity.po.Endpoint;
-import com.aiops.api.entity.po.ServiceInstance;
+import com.aiops.api.entity.po.Instance;
 import com.aiops.api.service.metadata.MetadataService;
 import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
@@ -79,7 +79,7 @@ public class MetadataController {
             @ApiImplicitParam(name = "instance_uuid", value = "实例uuid", paramType = "query", dataType = "string"),
     })
     @GetMapping("/getServiceInstances")
-    public List<ServiceInstance> getServiceInstances(
+    public List<Instance> getServiceInstances(
             @RequestParam(name = "service_instance_id", required = false) Integer serviceInstanceId,
             @RequestParam(name = "service_id", required = false) Integer serviceId,
             @RequestParam(name = "name", required = false) String name,

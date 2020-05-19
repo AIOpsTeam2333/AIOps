@@ -26,7 +26,7 @@ public class RequestBodyAlarm implements WithDuration, WithPaging {
     @ApiModelProperty(example = "test")
     private String keyword;
 
-    @ApiModelProperty(example = "ServiceInstance")
+    @ApiModelProperty(example = "Instance")
     private ScopeType scope;
 
 }

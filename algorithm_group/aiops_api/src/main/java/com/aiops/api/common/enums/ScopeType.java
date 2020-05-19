@@ -9,7 +9,7 @@ public enum ScopeType {
     ALL("All"),
     SERVICE("Service"),
     ENDPOINT("Endpoint"),
-    INSTANCE("ServiceInstance"),
+    INSTANCE("Instance"),
     DATABASE("Database");
 
     private String frontEndName;
