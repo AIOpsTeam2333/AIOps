@@ -1,0 +1,10 @@
+{
+    "data": {
+        "getAllServices": [
+            {
+                "id":"2",
+                "name":"Account"
+            }
+        ]
+    }
+}

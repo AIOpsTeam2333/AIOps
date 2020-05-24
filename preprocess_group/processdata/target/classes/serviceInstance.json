@@ -1,0 +1,29 @@
+{
+	"data": {
+		"getServiceInstances": [
+			{
+				"id":"2",
+				"name":"Account-pid:1@37c2844f3478",
+				"attributes":[
+					{
+						"name":"os_name",
+						"value":"Linux"
+					},
+					{
+						"name":"host_name",
+						"value":"37c2844f3478"
+					},
+					{
+						"name":"process_no",
+						"value":"1"
+					},
+					{
+						"name":"ipv4s",
+						"value":"172.18.0.15"
+					}
+				],
+				"language":"JAVA"
+			}
+		]
+	}
+}
