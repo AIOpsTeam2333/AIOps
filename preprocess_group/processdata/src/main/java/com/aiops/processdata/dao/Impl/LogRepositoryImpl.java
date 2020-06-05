@@ -39,7 +39,8 @@ public class LogRepositoryImpl implements LogRepository {
     public List<LogPO> insertLog(Span_Info span_info) {
         List<Log_Info> log_infoList = span_info.getLogs();
         List<LogPO> logPOList = new ArrayList<>();
-        Integer spanId = span.findById(span_info.getTraceId() + "/" + span_info.getSegmentId() + "/" + span_info.getSpanId());
+        Integer spanId = span.findById(span_info.getTraceId() + "/"
+                + span_info.getSegmentId() + "/" + span_info.getSpanId());
         if (spanId == -1) return null;//不存在该Span
         for (Log_Info log_info : log_infoList) {
             LogPO logPO = insertLogEntity(spanId, log_info);
@@ -64,7 +65,8 @@ public class LogRepositoryImpl implements LogRepository {
      * @return
      */
     private int insertLogEntityData(LogPO logPO) {
-        SimpleJdbcInsert jdbcInsert = new SimpleJdbcInsert(jdbcTemplate).withTableName("trace_log_entity_data");
+        SimpleJdbcInsert jdbcInsert = new SimpleJdbcInsert(jdbcTemplate)
+                .withTableName("trace_log_entity_data");
         Map<String, Object> args = new HashMap<>();
         args.put("log_entity_id", logPO.getEntityId());
         args.put("data", logPO.getData());
@@ -79,7 +81,8 @@ public class LogRepositoryImpl implements LogRepository {
      * @return
      */
     private LogPO insertLogEntity(Integer spanId, Log_Info log_info) {
-        SimpleJdbcInsert jdbcInsert = new SimpleJdbcInsert(jdbcTemplate).withTableName("trace_log_entity");
+        SimpleJdbcInsert jdbcInsert = new SimpleJdbcInsert(jdbcTemplate)
+                .withTableName("trace_log_entity");
         jdbcInsert.setGeneratedKeyName("log_entity_id");
         Map<String, Object> args = new HashMap<>();
         Timestamp time = MyUtils.stampToDate(log_info.getTime());

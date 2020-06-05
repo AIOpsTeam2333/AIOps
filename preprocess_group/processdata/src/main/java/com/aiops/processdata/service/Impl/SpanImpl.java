@@ -101,7 +101,8 @@ public class SpanImpl implements Span {
      */
     private boolean judgeRightSpan(Span_Info span_info) {
         //父节点全名
-        String pre_id = span_info.getTraceId() + "/" + span_info.getSegmentId() + "/" + span_info.getParentSpanId();
+        String pre_id = span_info.getTraceId() + "/" + span_info.getSegmentId()
+                + "/" + span_info.getParentSpanId();
         if (span_info.getParentSpanId() != -1) {
             if (findById(pre_id) == -1) {
                 System.out.println("插入子span: " + pre_id + " 坏节点，节点所属父span未注册");
@@ -111,7 +112,8 @@ public class SpanImpl implements Span {
         for (Ref_Info ref_info : span_info.getRefs()) {
             //引用到的节点
             if (ref_info.getParentSpanId() != -1) {
-                String ref_pre_id = ref_info.getTraceId() + "/" + ref_info.getParentSegmentId() + "/" + ref_info.getParentSpanId();
+                String ref_pre_id = ref_info.getTraceId() + "/"
+                        + ref_info.getParentSegmentId() + "/" + ref_info.getParentSpanId();
                 if (findById(ref_pre_id) == -1) {
                     System.out.println("插入子span: " + pre_id + " 坏节点，引用span未注册");
                     return false;//存在引用节点不存在
