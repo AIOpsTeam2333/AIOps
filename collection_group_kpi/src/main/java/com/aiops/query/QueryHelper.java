@@ -43,6 +43,9 @@ public class QueryHelper {
             "    \t}\n"+
             "    }";
 
+    private static final String getThermodynamic = "query get($metriccondition: MetricCondition!,$duration : Duration!){" +
+            "   getThermodynamic(metric: $metriccondition, duration: $duration){nodes,axisYStep}}";
+
     public static QueryStatement getQueryStatement(String functionName){
         if (functionName.equals("getLinearIntValues"))
             return new QueryStatement(getLinearIntValues);
@@ -52,6 +55,8 @@ public class QueryHelper {
             return new QueryStatement(getServiceInstances);
         else if (functionName.equals("searchEndpoint"))
             return new QueryStatement(searchEndpoint);
+        else if (functionName.equals("getThermodynamic"))
+            return new QueryStatement(getThermodynamic);
         else
             return new QueryStatement("");
     }

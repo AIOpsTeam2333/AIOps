@@ -8,12 +8,17 @@ import com.aiops.query.model.Duration;
 import com.aiops.query.model.MetricCondition;
 import com.aiops.query.model.QueryStatement;
 import com.aiops.query.parser.MetricAllParser;
+import com.aiops.util.FormatUtil;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 @Service
@@ -33,6 +38,8 @@ public class MetricAllCollector {
         for (String metric : metrics){
             collectSingle(queryType, metric, step);
         }
+        //收集heatmap的逻辑与主分支不一致
+        collectHeatMap(step);
         System.out.println("Collect All(Global) Info By " + step + ": " + new Date());
     }
 
@@ -52,5 +59,42 @@ public class MetricAllCollector {
         }
 
         metricAllDAO.insertMetricAllDO(metricAllDO, metric, step);
+    }
+
+    private void collectHeatMap(Step step){
+        //创建查询
+        QueryStatement statement = QueryHelper.getQueryStatement("getThermodynamic");
+        Duration duration = new Duration(new Date(), step);
+        statement.addDuration(duration);
+        statement.addMetricConditon(new MetricCondition("all_heatmap"));
+        JSONObject json = QueryHelper.query(statement);
+
+        //创建timestamp
+        SimpleDateFormat format = new SimpleDateFormat();
+        if (step == Step.MINUTE){
+            format = new SimpleDateFormat("yyyy-MM-dd HHmm");
+        }
+        else if (step == Step.HOUR){
+            format = new SimpleDateFormat("yyyy-MM-dd HH");
+        }
+        else if (step == Step.DAY){
+            format = new SimpleDateFormat("yyyy-MM-dd");
+        }
+        else if (step == Step.MONTH){
+            format = new SimpleDateFormat("yyyy-MM");
+        }
+        Timestamp timestamp = null;
+        try {
+            timestamp = new Timestamp(format.parse(duration.getStart()).getTime());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        //解析返回值
+        JSONArray values = json.getJSONObject("data").getJSONObject("getThermodynamic").getJSONArray("nodes");
+        for (int i=0; i<=20; i++){
+            JSONArray value = values.getJSONArray(i);
+            metricAllDAO.insertHeatMap(i, value.getDouble(2), timestamp, step);
+        }
     }
 }

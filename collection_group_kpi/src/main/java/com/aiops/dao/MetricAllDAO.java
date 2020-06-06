@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 
 @Repository
 public class MetricAllDAO {
@@ -31,5 +32,24 @@ public class MetricAllDAO {
         return "INSERT INTO `kpi_" + metric + "_"
                 + step.toString().toLowerCase()
                 + "` (`value`, `time`, `predict`) VALUES (?, ?, ?);\n";
+    }
+
+    public void insertHeatMap(double numOfSteps, double value, Timestamp timestamp, Step step){
+        String sql = "INSERT INTO `kpi_all_heatmap_"
+                + step.toString().toLowerCase()
+                + "` (`step`, `num_of_steps`, `time`, `value`) VALUES (?, ?, ?, ?);\n";
+
+        Connection conn = DBUtil.getConnection();
+
+        try {
+            PreparedStatement pstm = conn.prepareStatement(sql);
+            pstm.setDouble(1, 100);
+            pstm.setDouble(2, numOfSteps);
+            pstm.setTimestamp(3, timestamp);
+            pstm.setDouble(4, value);
+            pstm.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }
