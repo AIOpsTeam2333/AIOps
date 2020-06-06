@@ -16,7 +16,7 @@ import java.util.List;
 @Data
 @Table(name = "metadata_service_instance")
 @ApiModel(description = "服务实例")
-public class ServiceInstance {
+public class Instance {
 
     @Id
     @Column(name = "service_instance_id")

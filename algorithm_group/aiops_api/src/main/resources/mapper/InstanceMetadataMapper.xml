@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.aiops.api.mapper.ServiceInstanceMapper">
+<mapper namespace="com.aiops.api.mapper.InstanceMetadataMapper">
 
-    <resultMap id="serviceInstance" type="com.aiops.api.entity.po.ServiceInstance">
+    <resultMap id="serviceInstance" type="com.aiops.api.entity.po.Instance">
         <id column="service_instance_id" property="serviceInstanceId"/>
         <result column="service_id" property="serviceId"/>
         <result column="i_name" property="name"/>

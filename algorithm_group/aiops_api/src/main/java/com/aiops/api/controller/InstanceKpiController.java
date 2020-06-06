@@ -41,19 +41,19 @@ public class InstanceKpiController {
         InstanceKpiAll result = new InstanceKpiAll();
 
         if (kpiIndicator.needKpiType(KpiType.RESPONSE_TIME)) {
-            result.setInstanceResponseTime(instanceKpiService.getInstanceResponseTime(duration, instanceId));
+            result.setInstanceResponseTime(instanceKpiService.getResponseTime(duration, instanceId));
         }
 
         if (kpiIndicator.needKpiType(KpiType.THROUGHPUT)) {
-            result.setInstanceThroughput(instanceKpiService.getInstanceThroughput(duration, instanceId));
+            result.setInstanceThroughput(instanceKpiService.getThroughput(duration, instanceId));
         }
 
         if (kpiIndicator.needKpiType(KpiType.SLA)) {
-            result.setInstanceSLA(instanceKpiService.getInstanceSla(duration, instanceId));
+            result.setInstanceSLA(instanceKpiService.getSla(duration, instanceId));
         }
 
         if (kpiIndicator.needKpiType(KpiType.CPU)) {
-            result.setInstanceCPU(instanceKpiService.getInstanceCpu(duration, instanceId));
+            result.setInstanceCPU(instanceKpiService.getCpu(duration, instanceId));
         }
 
         if (kpiIndicator.needHeap()) {
@@ -91,7 +91,7 @@ public class InstanceKpiController {
     public List<CrossAxisGraphPoint> instanceResponseTime(
             @RequestBody @Validated({NeedIdGroup.class}) RequestBodyKpi requestBodyKpi
     ) {
-        return instanceKpiService.getInstanceResponseTime(requestBodyKpi.getDuration(), requestBodyKpi.getId());
+        return instanceKpiService.getResponseTime(requestBodyKpi.getDuration(), requestBodyKpi.getId());
     }
 
     @ApiOperation(value = "实例指标数据Throughput")
@@ -99,7 +99,7 @@ public class InstanceKpiController {
     public List<CrossAxisGraphPoint> instanceThroughput(
             @RequestBody @Validated({NeedIdGroup.class}) RequestBodyKpi requestBodyKpi
     ) {
-        return instanceKpiService.getInstanceThroughput(requestBodyKpi.getDuration(), requestBodyKpi.getId());
+        return instanceKpiService.getThroughput(requestBodyKpi.getDuration(), requestBodyKpi.getId());
     }
 
     @ApiOperation(value = "实例指标数据SLA")
@@ -107,7 +107,7 @@ public class InstanceKpiController {
     public List<CrossAxisGraphPoint> instanceSLA(
             @RequestBody @Validated({NeedIdGroup.class}) RequestBodyKpi requestBodyKpi
     ) {
-        return instanceKpiService.getInstanceSla(requestBodyKpi.getDuration(), requestBodyKpi.getId());
+        return instanceKpiService.getSla(requestBodyKpi.getDuration(), requestBodyKpi.getId());
     }
 
     @ApiOperation(value = "实例指标数据jvm cpu")
@@ -115,7 +115,7 @@ public class InstanceKpiController {
     public List<CrossAxisGraphPoint> cpu(
             @RequestBody @Validated({NeedIdGroup.class}) RequestBodyKpi requestBodyKpi
     ) {
-        return instanceKpiService.getInstanceCpu(requestBodyKpi.getDuration(), requestBodyKpi.getId());
+        return instanceKpiService.getCpu(requestBodyKpi.getDuration(), requestBodyKpi.getId());
     }
 
     @ApiOperation(value = "实例指标数据heap")

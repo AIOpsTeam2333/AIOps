@@ -30,30 +30,30 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(value = NullPointerException.class)
     @ResponseBody
-    public ResultBody exceptionHandler(HttpServletRequest req, NullPointerException e) {
+    public ExceptionResultBody exceptionHandler(HttpServletRequest req, NullPointerException e) {
         log.error("发生空指针异常！原因是:", e);
-        return ResultBody.error(CommonEnum.BODY_NOT_MATCH);
+        return new ExceptionResultBody(CommonEnum.BODY_NOT_MATCH);
     }
 
     @ExceptionHandler(value = MethodArgumentTypeMismatchException.class)
     @ResponseBody
-    public ResultBody exceptionHandler(MethodArgumentTypeMismatchException e) {
+    public ExceptionResultBody exceptionHandler(MethodArgumentTypeMismatchException e) {
         log.error("传入参数格式不符！原因是:", e);
-        return ResultBody.error(CommonEnum.BODY_NOT_MATCH);
+        return new ExceptionResultBody(CommonEnum.BODY_NOT_MATCH);
     }
 
     @ExceptionHandler(value = NoSuchApiException.class)
     @ResponseBody
-    public ResultBody exceptionHandler(NoSuchApiException e) {
+    public ExceptionResultBody exceptionHandler(NoSuchApiException e) {
         log.error("未找到API:" + e.getApi());
-        return ResultBody.error(CommonEnum.NOT_FOUND);
+        return new ExceptionResultBody(CommonEnum.NOT_FOUND);
     }
 
     @ExceptionHandler(value = BindException.class)
     @ResponseBody
-    public ResultBody exceptionHandler(BindException e) {
+    public ExceptionResultBody exceptionHandler(BindException e) {
         log.error("数据验证错误:" + e.getLocalizedMessage());
-        return ResultBody.error(e.getFieldErrors().stream()
+        return new ExceptionResultBody(e.getFieldErrors().stream()
                 .map(DefaultMessageSourceResolvable::getDefaultMessage)
                 .reduce((a, b) -> a + ", " + b)
                 .orElse(""));
@@ -61,16 +61,16 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(value = HttpMessageNotReadableException.class)
     @ResponseBody
-    public ResultBody exceptionHandler(HttpMessageNotReadableException e) {
+    public ExceptionResultBody exceptionHandler(HttpMessageNotReadableException e) {
         log.error("传参错误:" + e.getLocalizedMessage());
-        return ResultBody.error(e.getLocalizedMessage());
+        return new ExceptionResultBody(e.getLocalizedMessage());
     }
 
     @ExceptionHandler(value = MethodArgumentNotValidException.class)
     @ResponseBody
-    public ResultBody exceptionHandler(MethodArgumentNotValidException e) {
+    public ExceptionResultBody exceptionHandler(MethodArgumentNotValidException e) {
         log.error("参数错误:" + e.getBindingResult().toString());
-        return ResultBody.error(e.getBindingResult().getFieldErrors().stream()
+        return new ExceptionResultBody(e.getBindingResult().getFieldErrors().stream()
                 .map(a -> a.getField() + " " + a.getDefaultMessage())
                 .reduce((a, b) -> a + ", " + b)
                 .orElse(""));
@@ -78,16 +78,16 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(value = HttpMessageConversionException.class)
     @ResponseBody
-    public ResultBody exceptionHandler(HttpMessageConversionException e) {
+    public ExceptionResultBody exceptionHandler(HttpMessageConversionException e) {
         log.error("Http信息解析错误:" + e.getLocalizedMessage());
-        return ResultBody.error(CommonEnum.BODY_NOT_MATCH);
+        return new ExceptionResultBody(CommonEnum.BODY_NOT_MATCH);
     }
 
     @ExceptionHandler(value = NoSuchKpiException.class)
     @ResponseBody
-    public ResultBody exceptionHandler(NoSuchKpiException e) {
+    public ExceptionResultBody exceptionHandler(NoSuchKpiException e) {
         log.error("Kpi类型解析错误:" + e.getKpi());
-        return ResultBody.error("kpi名称错误: " + e.getKpi());
+        return new ExceptionResultBody("kpi名称错误: " + e.getKpi());
     }
 
     /**
@@ -98,8 +98,8 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(value = Exception.class)
     @ResponseBody
-    public ResultBody exceptionHandler(Exception e) {
+    public ExceptionResultBody exceptionHandler(Exception e) {
         log.error("未知异常！原因是:", e);
-        return ResultBody.error(CommonEnum.INTERNAL_SERVER_ERROR);
+        return new ExceptionResultBody(CommonEnum.INTERNAL_SERVER_ERROR);
     }
 }

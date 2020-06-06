@@ -13,5 +13,4 @@ import org.springframework.context.annotation.Import;
 @Import(DataConfig.class)
 @ComponentScan({"com.aiops.processdata"})
 public class Config {
-
 }

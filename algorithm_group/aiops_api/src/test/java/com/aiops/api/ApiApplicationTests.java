@@ -3,6 +3,8 @@ package com.aiops.api;
 import com.aiops.api.entity.vo.response.CrossAxisGraphPoint;
 import com.aiops.api.entity.vo.response.HeatmapPoint;
 import com.aiops.api.mapper.GlobalKpiMapper;
+import com.google.common.base.Joiner;
+import com.google.common.collect.Lists;
 import jdk.nashorn.internal.ir.annotations.Ignore;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,5 +39,12 @@ class ApiApplicationTests {
         Date to = new Date(Long.MAX_VALUE);
         List<CrossAxisGraphPoint> crossAxisGraphPoints = globalKpiMapper.selectCrossAxisKpi("p50", "day", from, to);
         System.out.println(crossAxisGraphPoints);
+    }
+
+    @Test
+    void testGuava() {
+        List<Integer> list = Lists.newArrayList(1, 2, 3, null, 4);
+        String s = Joiner.on(",").skipNulls().join(list);
+        System.out.println(s);
     }
 }

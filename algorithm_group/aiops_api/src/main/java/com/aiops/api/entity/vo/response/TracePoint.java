@@ -13,7 +13,7 @@ public class TracePoint {
 
     private Integer id;
 
-    private List<String> endpointNames;
+    private StringList endpointNames;
 
     private Integer duration;
 

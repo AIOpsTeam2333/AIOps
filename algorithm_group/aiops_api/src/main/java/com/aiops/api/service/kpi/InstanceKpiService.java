@@ -20,34 +20,40 @@ public class InstanceKpiService {
 
     private final InstanceKpiDao instanceKpiDao;
 
-    public List<CrossAxisGraphPoint> getInstanceResponseTime(Duration duration, Integer instanceId) {
+    public List<CrossAxisGraphPoint> getResponseTime(Duration duration, Integer instanceId) {
         String step = duration.getStepName();
         Date from = duration.getStart();
         Date to = duration.getEnd();
         return instanceKpiDao.queryResponseTime(instanceId, step, from, to);
     }
 
-    public List<CrossAxisGraphPoint> getInstanceThroughput(Duration duration, Integer instanceId) {
+    public List<CrossAxisGraphPoint> getThroughput(Duration duration, Integer instanceId) {
         String step = duration.getStepName();
         Date from = duration.getStart();
         Date to = duration.getEnd();
         return instanceKpiDao.queryThroughput(instanceId, step, from, to);
     }
 
-    public List<CrossAxisGraphPoint> getInstanceSla(Duration duration, Integer instanceId) {
+    public List<CrossAxisGraphPoint> getSla(Duration duration, Integer instanceId) {
         String step = duration.getStepName();
         Date from = duration.getStart();
         Date to = duration.getEnd();
         return instanceKpiDao.querySla(instanceId, step, from, to);
     }
 
-    public List<CrossAxisGraphPoint> getInstanceCpu(Duration duration, Integer instanceId) {
+    public List<CrossAxisGraphPoint> getCpu(Duration duration, Integer instanceId) {
         String step = duration.getStepName();
         Date from = duration.getStart();
         Date to = duration.getEnd();
         return instanceKpiDao.queryCpu(instanceId, step, from, to);
     }
 
+    /**
+     * 按照Service id获取当前Service下的Instance的排序信息, 根据Throughput排序
+     * @param duration
+     * @param serviceId
+     * @return
+     */
     public List<SimpleOrderNode> getServiceInstanceThroughput(Duration duration, Integer serviceId) {
         String step = duration.getStepName();
         Date from = duration.getStart();

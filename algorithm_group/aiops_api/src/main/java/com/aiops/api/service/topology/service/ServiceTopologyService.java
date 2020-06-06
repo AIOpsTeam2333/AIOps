@@ -37,15 +37,44 @@ public class ServiceTopologyService {
      * @return
      */
     public Topology getServiceTopology(Duration duration, Integer serviceId) {
-        List<TopologyCall> calls = topologyDao.queryTopologyCalls(duration, serviceId, ScopeType.SERVICE);
+        List<TopologyCall> calls = queryCalls(duration, serviceId);
+        //获取其中的id
         Set<Integer> serviceIds = new HashSet<>();
         for (TopologyCall call : calls) {
             serviceIds.add(call.getTarget());
             serviceIds.add(call.getSource());
         }
-
         List<Integer> serviceIdList = new ArrayList<>(serviceIds);
-        List<ServiceNode> serviceNodes = serviceNodeMetadataDao.queryServicesByIds(serviceIdList);
+
+        //根据Id获取节点信息
+        List<TopologyNode> nodes = queryNodes(serviceIdList);
+
+        //生成Topology实体
+        Topology result = new Topology();
+        result.setCalls(calls);
+        result.setNodes(nodes);
+        return result;
+    }
+
+    /**
+     * 查询调用依赖
+     *
+     * @param duration
+     * @param serviceId
+     * @return
+     */
+    private List<TopologyCall> queryCalls(Duration duration, Integer serviceId) {
+        return topologyDao.queryTopologyCalls(duration, serviceId, ScopeType.SERVICE);
+    }
+
+    /**
+     * 查询节点
+     *
+     * @param serviceIds
+     * @return
+     */
+    private List<TopologyNode> queryNodes(List<Integer> serviceIds) {
+        List<ServiceNode> serviceNodes = serviceNodeMetadataDao.queryServicesByIds(serviceIds);
         List<TopologyNode> nodes = serviceNodes.stream().map(serviceNode -> {
             TopologyNode node = new TopologyNode();
             node.setId(serviceNode.getNodeId());
@@ -54,11 +83,6 @@ public class ServiceTopologyService {
             node.setType(serviceNode.getNodeType());
             return node;
         }).collect(Collectors.toList());
-
-        Topology result = new Topology();
-        result.setCalls(calls);
-        result.setNodes(nodes);
-        return result;
+        return nodes;
     }
-
 }

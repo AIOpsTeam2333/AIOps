@@ -94,9 +94,11 @@ public class KpiDatabaseInitiator implements ApplicationRunner {
     private String generateSqlColumnPart(List<TableColumnXml> list) {
         return list.stream().map(a -> {
                     String result = "`" + a.getName() + "` " + a.getType() + " ";
+                    //时间戳
                     if (a.getType().toLowerCase().equals("timestamp")) {
                         result += " DEFAULT CURRENT_TIMESTAMP NOT NULL ";
                     }
+                    //主键
                     if (a.isPrimary()) {
                         result = result + "  NOT NULL AUTO_INCREMENT primary key";
                     }
