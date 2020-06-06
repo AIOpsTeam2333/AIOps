@@ -16,7 +16,7 @@ public class MetricAllParser {
 
     public static MetricAllDO parseResponse(Step step, JSONObject response) throws ParseException {
         JSONArray values = response.getJSONObject("data").getJSONObject("getLinearIntValues").getJSONArray("values");
-        JSONObject value = values.getJSONObject(1);
+        JSONObject value = values.getJSONObject(0);
 
         SimpleDateFormat format = FormatUtil.createDateFormatByStep(step);
         Timestamp timestamp = new Timestamp(format.parse(value.getString("id")).getTime());

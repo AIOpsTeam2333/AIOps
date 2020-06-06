@@ -32,7 +32,7 @@ public class MetricServiceParser {
     //}
     public static MetricServiceDO parseResponse(Step step, JSONObject response) throws ParseException {
         JSONArray values = response.getJSONObject("data").getJSONObject("getLinearIntValues").getJSONArray("values");
-        JSONObject value = values.getJSONObject(1);
+        JSONObject value = values.getJSONObject(0);
 
         String[] ids = value.getString("id").split("_");
 

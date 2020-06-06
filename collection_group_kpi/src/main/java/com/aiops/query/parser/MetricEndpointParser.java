@@ -15,7 +15,7 @@ public class MetricEndpointParser {
     public static MetricEndpointDO parseResponse(Step step, JSONObject response) throws ParseException {
         //处理格式
         JSONArray values = response.getJSONObject("data").getJSONObject("getLinearIntValues").getJSONArray("values");
-        JSONObject value = values.getJSONObject(1);
+        JSONObject value = values.getJSONObject(0);
         String[] ids = value.getString("id").split("_");
 
         //解析时间
