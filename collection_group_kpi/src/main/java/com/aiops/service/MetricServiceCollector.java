@@ -26,10 +26,11 @@ public class MetricServiceCollector {
 
     public void collectService(Step step){
         List<String> services = MetaDataHolder.getServices();
+        Date date = new Date();
         try {
             for (String metric : metrics){
                 for (String serviceId : services){
-                    collectSingle(queryType, metric, serviceId, step);
+                    collectSingle(queryType, metric, serviceId, step, date);
                 }
             }
         } catch (ParseException e) {
@@ -41,10 +42,10 @@ public class MetricServiceCollector {
     @Autowired
     private MetricServiceDAO metricServiceDAO;
 
-    public void collectSingle(String querytype, String metric, String serviceId, Step step) throws ParseException {
+    public void collectSingle(String querytype, String metric, String serviceId, Step step, Date date) throws ParseException {
 
         QueryStatement statement = QueryHelper.getQueryStatement(querytype);
-        statement.addDuration(new Duration(new Date(), step));
+        statement.addDuration(new Duration(date, step));
         statement.addMetricConditon(new MetricCondition(metric, serviceId));
 
         JSONObject json = QueryHelper.query(statement);

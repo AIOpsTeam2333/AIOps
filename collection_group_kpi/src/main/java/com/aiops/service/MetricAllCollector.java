@@ -35,18 +35,19 @@ public class MetricAllCollector {
 
     public void collectAll(Step step){
 
+        Date date = new Date();
         for (String metric : metrics){
-            collectSingle(queryType, metric, step);
+            collectSingle(queryType, metric, step, date);
         }
         //收集heatmap的逻辑与主分支不一致
-        collectHeatMap(step);
+        collectHeatMap(step, date);
         System.out.println("Collect All(Global) Info By " + step + ": " + new Date());
     }
 
-    private void collectSingle(String querytype, String metric, Step step){
+    private void collectSingle(String querytype, String metric, Step step, Date date){
 
         QueryStatement statement = QueryHelper.getQueryStatement(querytype);
-        statement.addDuration(new Duration(new Date(), step));
+        statement.addDuration(new Duration(date, step));
         statement.addMetricConditon(new MetricCondition(metric));
         MetricAllDO metricAllDO;
 
@@ -61,10 +62,10 @@ public class MetricAllCollector {
         metricAllDAO.insertMetricAllDO(metricAllDO, metric, step);
     }
 
-    private void collectHeatMap(Step step){
+    private void collectHeatMap(Step step, Date date){
         //创建查询
         QueryStatement statement = QueryHelper.getQueryStatement("getThermodynamic");
-        Duration duration = new Duration(new Date(), step);
+        Duration duration = new Duration(date, step);
         statement.addDuration(duration);
         statement.addMetricConditon(new MetricCondition("all_heatmap"));
         JSONObject json = QueryHelper.query(statement);

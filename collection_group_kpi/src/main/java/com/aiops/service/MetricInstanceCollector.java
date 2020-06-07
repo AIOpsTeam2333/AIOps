@@ -27,10 +27,11 @@ public class MetricInstanceCollector {
 
     public void collectInstance(Step step){
         List<String> instances = MetaDataHolder.getInstances();
+        Date date = new Date();
         try {
             for (String metric : metrics){
                 for (String instanceId : instances){
-                    collectSingle(queryType, metric, instanceId, step);
+                    collectSingle(queryType, metric, instanceId, step, date);
                 }
             }
         } catch (ParseException e) {
@@ -49,10 +50,10 @@ public class MetricInstanceCollector {
     @Autowired
     private MetricInstanceDAO metricInstanceDAO;
 
-    public void collectSingle(String querytype, String metric, String instanceId, Step step) throws ParseException {
+    public void collectSingle(String querytype, String metric, String instanceId, Step step, Date date) throws ParseException {
 
         QueryStatement statement = QueryHelper.getQueryStatement(querytype);
-        statement.addDuration(new Duration(new Date(), step));
+        statement.addDuration(new Duration(date, step));
         statement.addMetricConditon(new MetricCondition(metric, instanceId));
 
         JSONObject json = QueryHelper.query(statement);

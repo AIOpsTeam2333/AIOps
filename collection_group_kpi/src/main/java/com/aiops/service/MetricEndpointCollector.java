@@ -26,10 +26,11 @@ public class MetricEndpointCollector {
 
     public void collectEndpoint(Step step){
         List<String> endpoints = MetaDataHolder.getEndpoints();
+        Date date = new Date();
         try {
             for (String metric : metrics){
                 for (String endpointId : endpoints){
-                    collectSingle(queryType, metric, endpointId, step);
+                    collectSingle(queryType, metric, endpointId, step, date);
                 }
             }
         } catch (ParseException e) {
@@ -41,10 +42,10 @@ public class MetricEndpointCollector {
     @Autowired
     private MetricEndpointDAO metricEndpointDAO;
 
-    public void collectSingle(String querytype, String metric, String endpointId, Step step) throws ParseException {
+    public void collectSingle(String querytype, String metric, String endpointId, Step step, Date date) throws ParseException {
 
         QueryStatement statement = QueryHelper.getQueryStatement(querytype);
-        statement.addDuration(new Duration(new Date(), step));
+        statement.addDuration(new Duration(date, step));
         statement.addMetricConditon(new MetricCondition(metric, endpointId));
 
         JSONObject json = QueryHelper.query(statement);
