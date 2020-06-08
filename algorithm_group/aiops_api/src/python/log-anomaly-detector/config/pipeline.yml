@@ -1,0 +1,35 @@
+train:
+  id: hdfs-train-pipeline
+  feature_extractor:
+    class_name: TrainingFeatureExtractor
+    id: hdfs-train-pipeline-feature-extractor
+  dataset:
+    class_name: HdfsLogRobustPredictDataset
+    id: hdfs-train-pipeline-dataset
+  detector:
+    class_name: DefaultDetector
+    id: hdfs-train-pipeline-detector
+  after:
+    class_name: DefaultAfterTraining
+    id: hdfs-train-pipeline-after
+
+predict:
+  id: hdfs-predict-pipeline
+  parser:
+    class_name: DefaultParser
+    id: hdfs-predict-pipeline-parser
+  feature_extractor:
+    class_name: HdfsLogRobustFeatureExtractor
+    id: hdfs-predict-pipeline-feature-extractor
+  dataset:
+    class_name: HdfsLogRobustPredictDataset
+    id: hdfs-predict-pipeline-dataset
+  detector:
+    class_name: DefaultDetector
+    id: hdfs-predict-pipeline-detector
+  alarm:
+    class_name: AlarmStub
+    id: hdfs-predict-pipeline-alarm
+  after:
+    class_name: DefaultAfterDetecting
+    id: hdfs-predict-pipeline-after

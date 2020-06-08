@@ -1,0 +1,9 @@
+host: "127.0.0.1"
+port: "3306"
+username: "rhanqtl"
+password: "0000"
+db_name: "log_anomaly_detector"
+table_name: "raw_log_data"
+seq_no_column: "_id"
+cron:
+  second: "*/10"

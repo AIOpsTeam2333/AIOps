@@ -1,0 +1,7 @@
+# 指定服务器的配置，只有在 run_mode 为 "api" 的情况下才会使用
+server_port: 9527
+upload_folder: "data/logs/raw"
+allowed_extensions:
+  - "txt"
+  - "raw_log_data"
+  - "dat"

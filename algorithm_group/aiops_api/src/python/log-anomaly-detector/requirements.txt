@@ -1,0 +1,17 @@
+apscheduler
+elasticsearch~=7.6.0
+flask
+json
+mysql-connector-python~=8.0.18
+nltk
+numpy
+pandas
+pymongo
+regex
+requests
+scipy
+scikit-learn
+torch
+torchtext
+tqdm
+pyyaml~=5.3

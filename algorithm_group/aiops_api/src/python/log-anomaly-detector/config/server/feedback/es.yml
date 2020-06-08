@@ -1,0 +1,6 @@
+host: "127.0.0.1"
+port: "9200"
+index_name: "idx_demo"
+seq_no_column: "_id"
+cron:
+  second: "*/10"

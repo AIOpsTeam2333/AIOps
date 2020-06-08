@@ -1,0 +1,11 @@
+# 指定模块的运行方式
+#   * api: 以 Web API 的形式运行
+#   * pull/es: 周期性地从 ElasticSearch 中读取数据
+#   * pull/mongo: 周期性地从 MongoDB 中读取数据
+#   * pull/mysql: 周期性地从 MySQL 中读取数据
+
+raw_log_data:
+  run_mode: "pull/mongo"
+
+feedback:
+  run_mode: "api"

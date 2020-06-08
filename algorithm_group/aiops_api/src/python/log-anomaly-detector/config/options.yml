@@ -1,0 +1,68 @@
+log_format: "<Date> <Time> <Pid> <Level> <Component>: <Content>"
+regex:
+  - "blk_(|-)[0-9]+"
+  - "(/|)([0-9]+\\.){3}[0-9]+(:[0-9]+|)(:|)"
+  - "(?<=[^A-Za-z0-9])(\\-?\\+?\\d+)(?=[^A-Za-z0-9])|[0-9]+$"
+sim_thresh: 0.5
+depth: 4
+
+structured_log_store:
+  class_name: ElasticsearchLogStorage
+  constructor_args:
+    host: localhost
+    port: 9200
+    index_name: idx_demo_structured
+event_template_store:
+  class_name: ElasticsearchLogStorage
+  constructor_args:
+    host: localhost
+    port: 9200
+    index_name: idx_demo_template
+
+data_dir: "data/logs"
+device: "cuda"
+
+# Sampling
+sample: "session_window"
+window_size: 10
+
+# Features
+sequential_features: false
+quantitative_features: false
+semantic_features: true
+# don't forget to change this if you change above 3 values
+num_features: 1
+
+# Model
+input_size: 1
+hidden_size: 128
+num_layers: 2
+num_workers: 8
+
+batch_size: 128
+accumulation_step: 1
+
+optimizer: 'adam'
+lr: 0.01
+max_epoch: 370
+lr_step:
+  - 300
+  - 350
+lr_decay_ratio: 0.1
+
+resume_path: null
+model_name: "raw_log_data-robust"
+save_dir: "data/models/log-robust"
+
+# Predict
+model_path: "data/models/log-robust/default.pth"
+
+train_ratio: 0.9
+
+embed_dim: 300
+dropout: 0.35
+label_filepath: "data/anomaly_label.csv"
+
+# DeepLog
+# num_candidates: 9
+# num_classes: 29

@@ -1,0 +1,14 @@
+host: "127.0.0.1"
+port: "27017"
+username: "user"
+password: "user"
+db_name: "log_anomaly_detector"
+coll_name: "feedback"
+seq_no_column: "_id"
+
+# APScheduler 的 cron trigger
+# year=None, month=None, day=None, week=None, day_of_week=None,
+# hour=None, minute=None, second=None, start_date=None, end_date=None,
+# timezone=None
+cron:
+  second: "*/30"

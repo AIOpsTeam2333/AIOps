@@ -1,0 +1,7 @@
+feature_store:
+  class_name: MongoFeatureStore
+  constructor_args:
+    host: localhost
+    port: 27017
+    db_name: "log_anomaly_detector"
+    coll_name: "features"
